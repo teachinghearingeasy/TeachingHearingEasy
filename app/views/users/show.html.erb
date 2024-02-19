@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RailsApp - Profile</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
+  <%= csrf_meta_tags %>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <style>
+      .profile-header {
+          background-color: #f8f9fa;
+          padding: 20px;
+          border-radius: 5px;
+          margin-bottom: 20px;
+      }
+      .profile-info {
+          margin-bottom: 10px;
+      }
+      .custom-lightgrey-btn {
+          background-color: lightgrey;
+          color: black;
+          border: none;
+      }
+      .custom-lightgrey-btn:hover {
+          background-color: grey;
+          color: white;
+      }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="profile-header">
+    <h1>Profile for: <%= @current_user.name %></h1>
+    <%= link_to "Show Quiz History", quiz_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+    <p class="profile-info"><strong>Name:</strong> <%= @current_user.name %></p>
+    <p class="profile-info"><strong>Email:</strong> <%= @current_user.email %></p>
+    <p class="profile-info"><strong>Music Experience:</strong> <%= @current_user.music_experience %> years</p>
+    <p class="profile-info"><strong>Clinical Experience:</strong> <%= @current_user.clinical_experience %> years</p>
+    <p class="profile-info"><strong>General Education:</strong> <%= @current_user.general_education %> years</p>
+  </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

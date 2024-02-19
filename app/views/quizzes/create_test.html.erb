@@ -1,0 +1,73 @@
+<!-- app/views/quizzes/create_test.html.erb -->
+<h1 class="mb-4">New Test</h1>
+
+<%= form_for @quiz, url: create_test_quizzes_path do |f| %>
+  <div class="form-group">
+    <%= f.label :difficulty, 'Select Difficulty (0-3)', class: 'form-label' %>
+    <div class="difficulty-buttons">
+      <% (0..3).each do |difficulty| %>
+        <button type="button" class="btn btn-secondary difficulty-btn" data-difficulty="<%= difficulty %>"><%= difficulty %></button>
+      <% end %>
+      <%= f.hidden_field :difficulty, class: 'difficulty-field' %>
+    </div>
+    <% if @quiz.errors[:difficulty].any? %>
+      <div class="error"><%= @quiz.errors[:difficulty].join(", ") %></div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :num_questions, 'Number of Questions (Limit 50)', class: 'form-label' %>
+    <%= f.number_field :num_questions, in: 1..50, class: 'form-control custom-input' %>
+    <% if @quiz.errors[:num_questions].any? %>
+      <div class="error"><%= @quiz.errors[:num_questions].join(", ") %></div>
+    <% end %>
+  </div>
+
+  <div class="text-center">
+    <%= f.submit "Create Quiz", class: 'btn btn-grey' %>
+  </div>
+<% end %>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+        difficultyButtons.forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const difficulty = this.getAttribute('data-difficulty');
+                const difficultyField = this.parentElement.querySelector('.difficulty-field');
+                difficultyField.value = difficulty;
+
+                // Remove active class from all buttons in this group
+                this.parentElement.querySelectorAll('.difficulty-btn').forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+
+                // Add active class to clicked button
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
+
+<style>
+    .difficulty-buttons {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .difficulty-btn {
+        background-color: lightgrey;
+        margin-right: 5px;
+        color: black; /* Ensure text color is black when not active */
+    }
+    .difficulty-btn.active {
+        background-color: #007bff; /* Change this to your preferred active color */
+        color: white;
+    }
+    .error {
+        color: #dc3545; /* Bootstrap danger color */
+        font-size: 0.875em;
+        margin-top: 5px;
+    }
+</style>

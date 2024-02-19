@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RailsApp</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
+  <%= csrf_meta_tags %>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<% if flash[:notice].present? %>
+  <div class="flash notice">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+<% if flash[:alert].present? %>
+  <div class="flash alert">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<nav class="d-flex justify-content-between">
+  <h1>Teaching Hearing Easy</h1>
+  <div class="d-flex">
+    <%= link_to 'About', about_path %>
+    <%= link_to 'Sounds', sounds_path %>
+    <%= link_to 'Create New User', new_user_path unless @current_user %>
+    <%= link_to 'Your Quizzes', quiz_history_user_path(@current_user.id) if @current_user %>
+    <%= link_to 'Profile', user_path(@current_user.id) if @current_user %>
+    <%= link_to 'New Quiz', new_quiz_path if @current_user %>
+    <% unless @current_user.nil? %>
+      <% if @current_user.access_level.eql?("Professor") %>
+        <%= link_to 'Add A Group', new_group_path %>
+        <%= link_to 'Groups Owned', groups_path %>
+        <% end %>
+      <% if @current_user.access_level.eql?("Student") %>
+        <%= link_to 'Join A Group', open_join_group_user_path(@current_user.id) %>
+        <%= link_to 'Joined Groups', groups_path %>
+  <% end %>
+      <%= link_to 'Log Out', logout_path, method: :delete, class: 'mr-2' %>
+    <% end %>
+    <%= link_to 'Login', login_path unless @current_user %>
+  </div>
+</nav>
+
+<div class="container">
+  <%= yield %>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

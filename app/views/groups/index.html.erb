@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RailsApp - Profile</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
+<%= csrf_meta_tags %>
+
+</head>
+<body>
+<div class="container">
+  <div class="profile-header">
+    <% if @groups.empty? %>
+      <p>You have not joined any groups yet.</p>
+    <% else %>
+      <ul>
+        <% @groups.each do |group| %>
+          <li>
+            <h2><%= group.name %></h2>
+            <p>Description: <%= group.description %></p>
+            <% if @current_user.access_level.eql?("Professor") %>
+              <p>Join Token: <%= group.join_token %></p>
+              <% if group.users.nil? || group.users.empty? %>
+                <p>Group has no members yet</p>
+              <%else %>
+                <p>Users:</p>
+                <ul>
+                  <% group.users.each do |user| %>
+                    <li> <% user %> </li>
+                  <% end %>
+                </ul>
+              <% end %>
+          <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</div>
+</body>
+</html>

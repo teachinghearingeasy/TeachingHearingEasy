@@ -1,0 +1,17 @@
+<h1 class="mb-4">Sign-in</h1>
+<%= form_tag sessions_path, method: :post, class: 'needs-validation', novalidate: true do %>
+  <%= fields_for :session do |form| %>
+
+    <div class="form-group">
+      <%= form.label :email, "Email", class: 'form-label' %>
+      <%= form.text_field :email, class: 'form-control', required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :password, "Password", class: 'form-label' %>
+      <%= form.password_field :password, class: 'form-control', required: true %>
+    </div>
+
+    <%= submit_tag "Login", class: 'btn btn-grey' %>
+  <% end %>
+<% end %>

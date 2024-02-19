@@ -1,0 +1,19 @@
+<%= form_tag join_group_user_path(@current_user.id), method: :post, class: 'needs-validation', novalidate: true do %>
+  <%= fields_for :user do |form| %>
+
+    <div class="form-group">
+      <p> Please enter the code associated to the group you're assigned by a professor.
+      Understand that by entering the code and joining the group, you're giving permission to the group owner
+      to have access to your statistics regarding quizzes, feedback, notes, etc. </p>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :join_token, "Group Code:", class: 'form-label' %>
+      <%= form.text_field :join_token, class: 'form-control' %>
+    </div>
+
+    <div class="text-center">
+      <%= submit_tag "Join", class: 'btn btn' %>
+    </div>
+  <% end %>
+<% end %>

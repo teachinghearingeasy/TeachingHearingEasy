@@ -1,0 +1,96 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Sounds</h1>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .sound-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .play-sound {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+    .audio-player {
+        margin-left: 10px;
+    }
+</style>
+
+<table>
+  <thead>
+  <tr>
+    <th>File Name</th>
+    <th>Score Explanation</th>
+    <th>GRBAS Scores</th>
+    <th>Audio Path</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @sounds.each do |sound| %>
+    <tr>
+      <td><%= sound.db_file_name %></td>
+      <td><%= sound.score_explanation %></td>
+      <td>
+        G: <%= sound.g_rating %> |
+        R: <%= sound.r_rating %> |
+        B: <%= sound.b_rating %> |
+        A: <%= sound.a_rating %> |
+        S: <%= sound.s_rating %>
+      </td>
+      <td><%= sound.audio_file_path %></td>
+      <td class="sound-actions">
+        <%= link_to 'Show', sound %>
+        <%= link_to 'Edit', edit_sound_path(sound) %>
+        <%= link_to 'Destroy', sound, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <span class="play-sound" data-audio-path="<%= sound.audio_file_path %>">Play</span>
+        <audio class="audio-player" controls>
+          <source src="<%= sound.audio_file_path %>" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const playButtons = document.querySelectorAll('.play-sound');
+        const audioPlayers = document.querySelectorAll('.audio-player');
+
+        playButtons.forEach(function (button, index) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const audioPath = button.getAttribute('data-audio-path');
+                audioPlayers[index].src = audioPath;
+                audioPlayers[index].play();
+            });
+        });
+    });
+</script>
+
+
+<br>
+
+<%= link_to 'New Sound', new_sound_path %>

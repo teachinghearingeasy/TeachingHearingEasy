@@ -1,0 +1,37 @@
+body {
+  padding-top: 20px;
+}
+.flash {
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.flash.notice {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.flash.alert {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+nav {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+nav h1 {
+  margin-bottom: 0;
+}
+nav a {
+  color: grey;
+  margin-right: 10px;
+}
+nav a:hover {
+  color: black; /* Keep or change text color on hover */
+  background-color: white; /* Change background color to light grey on hover */
+  text-decoration: none; /* Optional: remove underline effect */
+}

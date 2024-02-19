@@ -1,0 +1,63 @@
+<h1 class="mb-4">Create A New User</h1>
+
+<%= form_tag users_path, method: :post, class: 'needs-validation', novalidate: true do %>
+  <%= fields_for :user do |form| %>
+    <div class="form-group">
+      <%= form.label :access_level, "Professor or Student?", class: 'form-label' %>
+      <%= form.select :access_level, ['Professor', 'Student'], {}, { class: 'form-control custom-input' } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :name, "Username:", class: 'form-label' %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :email, "Email:", class: 'form-label' %>
+      <%= form.text_field :email, class: 'form-control' %>
+    </div>
+
+    <p class="form-label"> Password must include 8 min chars, a number, a symbol, at least 1 uppercase letter, and 1 lowercase letter</p>
+
+    <div class="form-group">
+      <%= form.label :password, "Password:", class: 'form-label' %>
+      <%= form.password_field :password, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :password_confirmation, "Confirm Password:", class: 'form-label' %>
+      <%= form.password_field :password_confirmation, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :music_experience, "Years of Music Experience", class: 'form-label' %>
+      <%= form.select :music_experience, ['0','1-2','3-4', '5+'], {}, { class: 'form-control custom-input' } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :clinical_experience, "Years of Clinical Experience", class: 'form-label' %>
+      <%= form.select :clinical_experience, ['0','1-2','3-4', '5+'], {}, { class: 'form-control custom-input' } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :general_education, "Years of General Education (related to speech language pathology only)", class: 'form-label' %>
+      <%= form.select :general_education, ['0','1-2','3-4', '5+'], {}, { class: 'form-control custom-input' } %>
+    </div>
+
+    <div class="text-center">
+      <%= submit_tag "Create User", class: 'btn btn' %>
+    </div>
+  <% end %>
+<% end %>
+
+<style>
+    .form-label {
+        font-weight: bold;
+    }
+    .form-control {
+        margin-bottom: 10px;
+    }
+    .text-center {
+        margin-top: 20px;
+    }
+</style>
