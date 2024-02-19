@@ -63,7 +63,7 @@ class SoundsController < ApplicationController
   end
 
   def audio
-    path = Rails.root.join('public', 'data', 'audio', params[:filename])
+    path = Rails.root.join('app', 'assets', 'data', 'audio', params[:filename] + '.wav')
     send_file path, type: 'audio/wav', disposition: 'inline'
   end
 

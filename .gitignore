@@ -11,11 +11,14 @@
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
+/db/*.sqlite3-wal
+/db/*.sqlite3-shm
+
+/storage
 
 # Ignore all logfiles and tempfiles.
 /log/.keep
 /log/*.log
 !/log/.keep
 /tmp
-/tmp/*
 .byebug_history

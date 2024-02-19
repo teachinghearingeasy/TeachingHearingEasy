@@ -23,11 +23,11 @@ def extract_ratings(line)
 end
 
 # Folder path containing .wav files
-audio_folder = 'public/data/audio/'
+audio_folder = 'app/assets/data/audio/'
 
 # Get a list of .wav files in the folder
 wav_files = Dir.glob("#{audio_folder}*.wav")
-rating_file = File.new('public/data/ratings/combinedRatingData.csv', "r")
+rating_file = File.new('app/assets/data/ratings/combinedRatingData.csv', "r")
 rating_file_lines = rating_file.readlines
 
 # Seed the database with sounds
@@ -45,8 +45,8 @@ wav_files.each do |wav_file|
     next
   end
   ratings = extract_ratings(match_data)
-  # Remove public/ from wav_file path
-  wav_file = wav_file[7..-1]
+  # Remove / from wav_file path
+  wav_file = wav_file[11..-1]
   Sound.create(
     db_file_name: filename,
     audio_file_path: wav_file,

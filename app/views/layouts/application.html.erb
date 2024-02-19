@@ -31,6 +31,7 @@
     <%= link_to 'Your Quizzes', quiz_history_user_path(@current_user.id) if @current_user %>
     <%= link_to 'Profile', user_path(@current_user.id) if @current_user %>
     <%= link_to 'New Quiz', new_quiz_path if @current_user %>
+    <%= link_to 'New Test', create_test_quizzes_path if @current_user %>
     <% unless @current_user.nil? %>
       <% if @current_user.access_level.eql?("Professor") %>
         <%= link_to 'Add A Group', new_group_path %>
