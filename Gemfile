@@ -26,7 +26,7 @@ gem "bootsnap", require: false
 
 # gem "image_processing", "~> 1.2"
 
-group :development, :test do
+group :development, :quiz do
   gem "debug", platforms: %i[ mri windows ]
   gem 'byebug'
 end
@@ -37,7 +37,7 @@ group :development do
   gem "spring"
 end
 
-group :test do
+group :quiz do
   gem "capybara"
   gem "selenium-webdriver"
 end

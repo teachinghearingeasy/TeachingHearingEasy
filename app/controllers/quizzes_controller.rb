@@ -50,8 +50,8 @@ class QuizzesController < ApplicationController
   def create_test
     if request.post?
       @quiz, error = Quiz.build_test params[:quiz][:difficulty].to_i,
-                              params[:quiz][:num_questions].to_i,
-                              @current_user.id
+                                     params[:quiz][:num_questions].to_i,
+                                     @current_user.id
       if not @quiz.nil? and @quiz.save
         flash[:notice] = "Test created successfully!"
         unless @current_user.nil?
