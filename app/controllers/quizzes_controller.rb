@@ -76,13 +76,14 @@ def update
   @quiz = Quiz.find(params[:id])
   quiz_params[:responses].each do |response|
     @response = Response.find_by_id(response[0])
+    feedback = ""
     ['g', 'r', 'b', 'a', 's'].each do |letter|
       letter_sym = "#{letter}_rating".to_sym
       unless response[1][letter_sym].nil?
         @response.update({ letter_sym => response[1][letter_sym], :reasoning => response[1][:reasoning], :quiz_id => @quiz.id })
-        feedback = @response.create_feedback(letter)
-        @response.update({ :feedback => feedback })
+        feedback = feedback + "\n#{letter.upcase}: " + @response.create_feedback(letter)
       end
+      @response.update({ :feedback => feedback })
     end
   end
   if @quiz.save

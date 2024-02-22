@@ -36,6 +36,7 @@
   <div class="profile-header">
     <h1>Profile for: <%= @current_user.name %></h1>
     <%= link_to "Show Quiz History", quiz_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+    <%= link_to "Show Test History", test_history_user_path(@current_user.id), class: 'btn custom-lightgray-btn'%>
     <p class="profile-info"><strong>Name:</strong> <%= @current_user.name %></p>
     <p class="profile-info"><strong>Email:</strong> <%= @current_user.email %></p>
     <p class="profile-info"><strong>Music Experience:</strong> <%= @current_user.music_experience %> years</p>
