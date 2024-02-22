@@ -76,9 +76,14 @@ def update
   @quiz = Quiz.find(params[:id])
   quiz_params[:responses].each do |response|
     @response = Response.find_by_id(response[0])
-    @response.update({:rating => response[1][:rating], :reasoning => response[1][:reasoning], :quiz_id => @quiz.id})
-    feedback = @response.create_feedback
-    @response.update({:feedback => feedback})
+    ['g', 'r', 'b', 'a', 's'].each do |letter|
+      letter_sym = "#{letter}_rating".to_sym
+      unless response[1][letter_sym].nil?
+        @response.update({ letter_sym => response[1][letter_sym], :reasoning => response[1][:reasoning], :quiz_id => @quiz.id })
+        feedback = @response.create_feedback(letter)
+        @response.update({ :feedback => feedback })
+      end
+    end
   end
   if @quiz.save
     redirect_to about_path
@@ -86,6 +91,7 @@ def update
     render :edit
   end
 end
+
 
   # DELETE /quizzes/1
   # DELETE /quizzes/1.json
@@ -105,7 +111,8 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def quiz_params
-      params.require(:quiz).permit(:which_grbas_letter, :difficulty, :num_questions, responses: [:rating, :reasoning])
+      params.require(:quiz).permit(:which_grbas_letter, :difficulty, :num_questions,
+                                   responses: [:g_rating, :r_rating, :b_rating, :a_rating, :s_rating, :reasoning])
     end
 
     def test_params

@@ -110,6 +110,8 @@ class Quiz < ActiveRecord::Base
     end
   end
 
+
+
   private
 
   def self.generate_random_number(mean, std)

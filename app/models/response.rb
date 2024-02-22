@@ -3,11 +3,12 @@ class Response < ActiveRecord::Base
   has_and_belongs_to_many :quizzes, :join_table => "quizzes_responses"
   belongs_to :user
 
-  def create_feedback
-    quiz_letter = Quiz.find_by_id(self.quiz_id).which_grbas_letter
+  def create_feedback(grbas_letter)
+    quiz_letter = grbas_letter.downcase
+    rating_sym = "#{quiz_letter}_rating".to_sym
     expert_score = Sound.find_by_id(self.sound_id).find_score(quiz_letter)
-    if expert_score.eql? self.rating.to_f
-      correct_answers = ["That’s it! #{self.rating}!", "Good listening!", "You got it!", "Spectacular!", "Golden!", "The ears have it!","That's speechy!","Super Duper!","Super Laryngeal Perceptor!"]
+    if expert_score.eql? self[rating_sym].to_f
+      correct_answers = ["That’s it! #{self[rating_sym]}!", "Good listening!", "You got it!", "Spectacular!", "Golden!", "The ears have it!","That's speechy!","Super Duper!","Super Laryngeal Perceptor!"]
       ran_ind = Random.rand(correct_answers.length)
       correct_answers[ran_ind]
     elsif expert_score.eql? 0.0

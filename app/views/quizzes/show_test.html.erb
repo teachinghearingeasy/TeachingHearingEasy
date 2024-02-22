@@ -19,7 +19,7 @@
                 <% (0..3).each do |rating| %>
                   <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
                 <% end %>
-                <%= response_fields.hidden_field "#{letter.downcase}_rating", id: "#{index}-#{letter}-rating", class: 'rating-field' %>
+                <%= response_fields.hidden_field "#{letter.downcase}_rating".to_sym, id: "#{index}-#{letter}-rating", class: 'rating-field' %>
               </div>
             </div>
           <% end %>

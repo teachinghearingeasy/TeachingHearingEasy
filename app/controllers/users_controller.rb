@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_current_user, only: [:show, :edit, :update, :destroy, :quiz_history, :open_join_group, :join_group]
+  before_action :set_current_user, only: [:show, :edit, :update, :destroy, :quiz_history, :test_history, :open_join_group, :join_group]
 
   def user_params
     params.require(:user).permit(:id, :name, :email, :address,:password,:password_confirmation, :music_experience, :clinical_experience, :general_education, :access_level, :join_token)
@@ -42,7 +42,11 @@ class UsersController < ApplicationController
   end
 
   def quiz_history
-    @quiz_history = @current_user.quizzes
+    @quiz_history = @current_user.quizzes.where.not(which_grbas_letter: "").order(created_at: :desc)
+  end
+
+  def test_history
+    @test_history = @current_user.quizzes.where(which_grbas_letter: "").order(created_at: :desc)
   end
 
   def open_join_group

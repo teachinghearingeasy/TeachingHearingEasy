@@ -8,7 +8,7 @@
         <div class="card-body">
           <h2 class="card-title">Question <%= index + 1 %></h2>
           <audio controls class="mb-3">
-            <source src="<%= asset_path(response.sound.audio_file_path) %>" type="audio/wav">
+            <source src="<%= response.sound.audio_file_path %>" type="audio/wav">
             Your browser does not support the audio element.
           </audio>
 
@@ -18,7 +18,7 @@
               <% (0..3).each do |rating| %>
                 <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
               <% end %>
-              <%= response_fields.hidden_field :rating, class: 'rating-field' %>
+              <%= response_fields.hidden_field "#{@quiz.which_grbas_letter}_rating".to_sym, class: 'rating-field' %>
             </div>
           </div>
 

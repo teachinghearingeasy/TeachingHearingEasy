@@ -1,10 +1,10 @@
-<h1>Your Quiz History</h1>
+<h1>Your Test History</h1>
 
-<% if @quiz_history.empty? %>
+<% if @test_history.empty? %>
   <p>You have not taken any quizzes yet.</p>
 <% else %>
   <ul>
-    <% @quiz_history.each do |quiz| %>
+    <% @test_history.each do |quiz| %>
       <li>
         <h2><%= quiz.which_grbas_letter.upcase %></h2>
         <p>Difficulty: <%= quiz.difficulty %></p>
@@ -13,7 +13,9 @@
         <% quiz.responses.each do |response| %>
           <div class="response-box">
             <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
-            <p><strong><% letter %> Rating:</strong> <%= response["#{quiz.which_grbas_letter}".to_sym] %></p>
+            <%["g", "r", "b", "a", "s"].each do |letter| %>
+              <p><strong><% letter %> Rating:</strong> <%= response["#{letter}_rating".to_sym] %></p>
+            <% end %>
             <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
             <p><strong>Expert Feedback:</strong> <%= response.feedback %></p>
           </div>
