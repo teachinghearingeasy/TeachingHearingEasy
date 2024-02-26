@@ -1,4 +1,4 @@
-class CreateQuizSounds < ActiveRecord::Migration
+class CreateQuizSounds < ActiveRecord::Migration[7.1]
   def change
     create_table :quiz_sounds do |t|
       t.integer :quiz_id

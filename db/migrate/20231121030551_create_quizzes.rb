@@ -1,4 +1,4 @@
-class CreateQuizzes < ActiveRecord::Migration
+class CreateQuizzes < ActiveRecord::Migration[7.1]
   def change
     create_table :quizzes do |t|
       t.timestamp "created_at", null: false

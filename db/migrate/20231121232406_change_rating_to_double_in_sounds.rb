@@ -1,4 +1,4 @@
-class ChangeRatingToDoubleInSounds < ActiveRecord::Migration
+class ChangeRatingToDoubleInSounds < ActiveRecord::Migration[7.1]
   def change
     change_column :sounds, :g_rating, :float
     change_column :sounds, :r_rating, :float

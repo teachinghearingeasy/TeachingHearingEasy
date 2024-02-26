@@ -1,4 +1,4 @@
-class CreateSounds < ActiveRecord::Migration
+class CreateSounds < ActiveRecord::Migration[7.1]
   def change
     create_table :sounds do |t|
       t.integer "sound_id"

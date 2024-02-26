@@ -94,4 +94,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_22_134743) do
     t.string "access_level"
   end
 
+  add_foreign_key "responses", "quizzes"
+  add_foreign_key "responses", "sounds"
+  add_foreign_key "responses", "users"
 end
