@@ -28,6 +28,38 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
+  require 'simplecov'
+  SimpleCov.start 'rails' do
+    add_filter %w[
+      app/assets
+      app/channels
+      app/helpers
+      app/javascript
+      app/jobs
+      app/mailers
+      app/views
+      bin
+      config
+      coverage
+      db
+      lib
+      log
+      public
+      storage
+      vendor
+      tmp
+      test
+      .gitignore
+      .rspec
+      config.ru
+      Dockerfile
+      Gemfile
+      Gemfile.lock
+      Rakefile
+      README.rdoc
+  ]
+  end
+
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|
