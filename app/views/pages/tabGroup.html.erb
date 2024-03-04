@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <title>RailsApp - Learn</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
+  <%= csrf_meta_tags %>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <style>
+      .profile-header {
+          background-color: #f8f9fa;
+          padding: 20px;
+          border-radius: 5px;
+          margin-bottom: 20px;
+      }
+      .profile-info {
+          margin-bottom: 10px;
+      }
+      .custom-lightgrey-btn {
+          background-color: lightgrey;
+          color: black;
+          border: none;
+      }
+      .custom-lightgrey-btn:hover {
+          background-color: grey;
+          color: white;
+      }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="profile-header">
+    <h1>Groups: </h1>
+    <% if @current_user.access_level.eql?("Professor") %>
+      <%= link_to "Add a Group", new_group_path, class: 'btn custom-lightgrey-btn' %>
+      <%= link_to "Groups Owned", groups_path, class: 'btn custom-lightgrey-btn' %>
+      <% end %>
+    <% if @current_user.access_level.eql?("Student") %>
+      <%= link_to 'Join A Group', open_join_group_user_path(@current_user.id) %>
+      <%= link_to 'Joined Groups', groups_path %>
+    <% end %>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
