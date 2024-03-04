@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
       flash[:notice] = "New group created!"
       redirect_to about_path
     else
-      errors = @user.errors.full_messages
+      errors = @group.errors.full_messages
       flash[:notice] = "Validation failed with errors: #{errors.join(', ')}"
       render 'new'
     end

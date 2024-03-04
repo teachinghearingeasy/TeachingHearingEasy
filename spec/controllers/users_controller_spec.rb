@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rails_helper'
 
-class UserControllerTest
+class UsersControllerSpec
   describe UsersController do
     describe "The users#new and users#create methods" do
       it "creates a new user object in the new method" do

@@ -37,6 +37,7 @@ RSpec.configure do |config|
       app/javascript
       app/jobs
       app/mailers
+      app/models/application_record
       app/views
       bin
       config
