@@ -2,6 +2,9 @@ source "https://rubygems.org"
 
 ruby "3.2.2"
 
+gem "simplecov"
+gem "rspec-rails"
+
 gem "rails", "~> 7.1.3"
 gem "sprockets-rails"
 gem "sqlite3", "~> 1.4"
