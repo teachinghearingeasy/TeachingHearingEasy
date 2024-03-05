@@ -30,8 +30,30 @@ nav a {
   color: grey;
   margin-right: 10px;
 }
-nav a:hover {
-  color: black; /* Keep or change text color on hover */
-  background-color: white; /* Change background color to light grey on hover */
-  text-decoration: none; /* Optional: remove underline effect */
+.navbar {
+  margin-bottom: 20px;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.navbar-nav .nav-item {
+  margin-right: 10px;
+}
+
+.navbar-nav .btn {
+  color: #f39c12; /* Light orange text color */
+  border-color: #f39c12; /* Light orange border color */
+}
+
+.navbar-nav .btn:hover {
+  color: #fff; /* White text color on hover */
+  background-color: #f39c12; /* Light orange background color on hover */
+  border-color: #f39c12; /* Light orange border color on hover */
+}
+
+
+.navbar-nav .nav-item:last-child {
+  margin-right: 0;
 }
