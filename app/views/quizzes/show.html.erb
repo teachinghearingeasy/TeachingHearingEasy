@@ -9,7 +9,7 @@
 
 <%= form_for @quiz, url: {action: "update"}, html: { class: 'needs-validation', novalidate: true } do |f| %>
   <div class="progress mb-3">
-    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="progress-bar" role="progressbar" style="width: 0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
   <% @quiz.responses.each_with_index do |response, index| %>
     <div class="question-container<%= index == 0 ? '' : ' d-none' %>">
@@ -42,32 +42,53 @@
     <% end %>
   <% end %>
 
-  <button type="button" class="btn btn-primary next-question-btn mt-3">Next Question</button>
+  <button type="button" class="btn prev-question-btn mt-3">Previous Question</button>
+  <button type="button" class="btn next-question-btn mt-3">Next Question</button>
   <%= f.submit "Submit Quiz", class: 'btn btn-grey btn-lg btn-block mt-3' %>
-  <%= link_to 'Back', new_quiz_path %>
+  <%= link_to 'Back', new_quiz_path, class: 'btn btn-danger mt-3' %>
+
 <% end %>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const questionContainers = document.querySelectorAll('.question-container');
         const nextBtn = document.querySelector('.next-question-btn');
+        const prevBtn = document.querySelector('.prev-question-btn');
         const progressBar = document.querySelector('.progress-bar');
         let currentQuestionIndex = 0;
 
+        // Function to update progress bar
+        function updateProgressBar() {
+            const totalQuestionsCount = questionContainers.length;
+            const progressPercentage = (currentQuestionIndex * 100 / (totalQuestionsCount - 1));
+            progressBar.style.width = progressPercentage + '%';
+            progressBar.setAttribute('aria-valuenow', progressPercentage);
+        }
+
+        // Initial progress bar update
+        updateProgressBar();
+
+        // Next button click event
         nextBtn.addEventListener('click', function() {
             if (currentQuestionIndex < questionContainers.length - 1) {
                 questionContainers[currentQuestionIndex].classList.add('d-none');
                 currentQuestionIndex++;
                 questionContainers[currentQuestionIndex].classList.remove('d-none');
+                updateProgressBar();
             }
-
-            if (currentQuestionIndex === questionContainers.length - 1) {
-                nextBtn.classList.add('d-none');
-                document.querySelector('input[type="submit"]').classList.remove('d-none');
-            }
-            updateProgressBar();
         });
 
+        // Previous button click event
+        prevBtn.addEventListener('click', function() {
+            if (currentQuestionIndex > 0) {
+                questionContainers[currentQuestionIndex].classList.add('d-none');
+                currentQuestionIndex--;
+                questionContainers[currentQuestionIndex].classList.remove('d-none');
+                updateProgressBar();
+            }
+        });
+
+        // Rating button click event (if needed)
         const ratingButtons = document.querySelectorAll('.rating-btn');
         ratingButtons.forEach(function(button) {
             button.addEventListener('click', function(e) {
@@ -85,13 +106,6 @@
                 this.classList.add('active');
             });
         });
-
-        function updateProgressBar() {
-            const totalQuestionsCount = <%= @quiz.responses.count %>;
-            const progressPercentage = (currentQuestionIndex * 100 / totalQuestionsCount);
-
-            progressBar.style.width = progressPercentage + '%';
-            progressBar.setAttribute('aria-valuenow', progressPercentage);
-        }
     });
 </script>
+
