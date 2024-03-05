@@ -5,7 +5,7 @@
   <%= stylesheet_link_tag 'quiz', media: 'all', 'data-turbolinks-track': true %>
   <%= csrf_meta_tags %>
 </head>
-<h1 class="mb-4">"<%= Quiz.translate_letter(@quiz.which_grbas_letter) %>" Quiz</h1>
+<h1 class="mb-4">Quiz for : "<%= Quiz.translate_letter(@quiz.which_grbas_letter) %>" </h1>
 
 <%= form_for @quiz, url: {action: "update"}, html: { class: 'needs-validation', novalidate: true } do |f| %>
   <div class="progress mb-3">
