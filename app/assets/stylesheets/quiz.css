@@ -1,0 +1,27 @@
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.card-body {
+    padding: 20px;
+}
+.form-label {
+    font-weight: bold;
+}
+.rating-buttons {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.rating-btn {
+    background-color: lightgrey;
+    margin-right: 5px;
+}
+.rating-btn.active {
+    color: white;
+    background-color: #007bff;
+}
+.audio-container {
+    width: 100%;
+}
