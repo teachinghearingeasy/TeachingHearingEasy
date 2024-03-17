@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
-  <title>RailsApp - Profile</title>
+  <title>RailsApp - Learn</title>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
   <%= csrf_meta_tags %>
@@ -33,18 +33,13 @@
 
 <div class="container">
   <div class="profile-header">
-    <h1>Profile for: <%= @current_user.name %></h1>
-    <%= link_to "Quiz History", quiz_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
-    <%= link_to "Test History", test_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
-    <p class="profile-info"><strong>Name:</strong> <%= @current_user.name %></p>
-    <p class="profile-info"><strong>Email:</strong> <%= @current_user.email %></p>
-    <p class="profile-info"><strong>Music Experience:</strong> <%= @current_user.music_experience %> years</p>
-    <p class="profile-info"><strong>Clinical Experience:</strong> <%= @current_user.clinical_experience %> years</p>
-    <p class="profile-info"><strong>General Education:</strong> <%= @current_user.general_education %> years</p>
+    <h1>Learn GRBAS </h1>
+    <%= link_to "Create New Quiz", new_quiz_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+    <%= link_to "Create New Test", create_test_quizzes_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+    <%= link_to "Listen to Sounds", sounds_path, class: 'btn custom-lightgrey-btn' %>
   </div>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

@@ -1,0 +1,48 @@
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.card-body {
+    padding: 20px;
+}
+.form-label {
+    font-weight: bold;
+}
+.rating-buttons {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.rating-btn {
+    background-color: lightgrey;
+    margin-right: 5px;
+}
+.rating-btn.active {
+    color: white;
+    background-color: #007bff;
+}
+.prev-question-btn{
+    color: #f39c12; /* Light orange text color */
+    border-color: #f39c12; /* Light orange border color */
+}
+.prev-question-btn:hover {
+    color: #fff; /* White text color on hover */
+    background-color: #f39c12; /* Light orange background color on hover */
+    border-color: #f39c12; /* Light orange border color on hover */
+}
+.next-question-btn {
+    color: #f39c12; /* Light orange text color */
+    border-color: #f39c12; /* Light orange border color */
+}
+.next-question-btn:hover {
+    color: #fff; /* White text color on hover */
+    background-color: #f39c12; /* Light orange background color on hover */
+    border-color: #f39c12; /* Light orange border color on hover */
+}
+.progress-bar {
+    background-color: #f39c12;
+}
+.audio-container {
+    width: 100%;
+}

@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   match '/login/create', to: 'sessions#create', via: :post, :as => 'sessions'
   match '/about', to: 'pages#about', via: :get, :as => 'about'
   match '/logout', to: 'sessions#destroy', via: :delete, :as => 'logout'
+  match '/learn', to: 'pages#learn', via: :get, :as => 'learn'
+  match '/tab_groups', to: 'pages#tab_group', via: :get, :as => 'tabGroup'
   get 'data/audio/:filename', to: 'sounds#audio', as: 'audio', constraints: { filename: /[^\/]+/ }
   get '/quizzes/data/audio/:filename', to: 'sounds#audio', constraints: { filename: /[^\/]+/ }
 end
