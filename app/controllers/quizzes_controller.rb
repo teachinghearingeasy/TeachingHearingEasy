@@ -87,6 +87,7 @@ def update
     end
   end
   if @quiz.save
+    flash[:notice] = "Quiz/Test completed successfully! Find your results in Quiz/Test History!"
     redirect_to about_path
   else
     render :edit
