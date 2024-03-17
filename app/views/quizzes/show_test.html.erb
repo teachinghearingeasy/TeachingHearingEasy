@@ -1,4 +1,13 @@
 <!-- app/views/tests/show.html.erb -->
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <title>Quiz</title>
+  <%= stylesheet_link_tag 'quiz', media: 'all', 'data-turbolinks-track': true %>
+  <%= csrf_meta_tags %>
+  <%= javascript_include_tag 'quiz_buttons' %>
+</head>
+
 <h1 class="mb-4">GRBAS Scale Test</h1>
 
 <%= form_for @quiz, url: { action: "update"} do |f| %>
@@ -36,30 +45,6 @@
   <%= f.submit "Submit Test", class: 'btn btn-grey btn-lg btn-block mt-3' %>
   <%= link_to 'Back', create_test_quizzes_path %>
 <% end %>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const ratingButtons = document.querySelectorAll('.rating-btn');
-        ratingButtons.forEach(function(button) {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const rating = this.getAttribute('data-rating');
-                const ratingFieldId = this.parentElement.id.replace('rating-buttons-', '') + '-rating';
-                const ratingField = document.getElementById(ratingFieldId);
-                ratingField.value = rating;
-
-                // Remove active class from all buttons in this group
-                const buttonGroup = this.parentElement;
-                buttonGroup.querySelectorAll('.rating-btn').forEach(function(btn) {
-                    btn.classList.remove('active');
-                });
-
-                // Add active class to clicked button
-                this.classList.add('active');
-            });
-        });
-    });
-</script>
 
 <style>
     .card {

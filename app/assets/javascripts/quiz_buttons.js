@@ -36,10 +36,8 @@ if (nextBtn != null && prevBtn !=null) {
 }
 
 
-console.log("hello")
 
 const ratingButtons = document.querySelectorAll('.rating-btn');
-console.log("#" + ratingButtons.length);
 ratingButtons.forEach(function(button) {
         button.addEventListener('click', function(e) {
                 e.preventDefault();
