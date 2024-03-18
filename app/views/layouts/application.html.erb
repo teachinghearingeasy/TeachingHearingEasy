@@ -28,7 +28,8 @@
   <div class="navbar-nav">
     <% if @current_user.nil? %>
       <%= link_to 'Login', login_path, class: 'nav-item nav-link btn btn-outline-warning' %>
-    <% else %>
+      <%= link_to 'New User', new_user_path, class: 'nav-item nav-link btn btn-outline-warning' %>
+  <% else %>
       <%= link_to 'Learn', learn_path, class: 'nav-item nav-link btn btn-outline-warning' %>
       <%= link_to 'Profile', user_path(@current_user.id), class: 'nav-item nav-link btn btn-outline-warning' %>
       <%= link_to 'Groups', tabGroup_path, class: 'nav-item nav-link btn btn-outline-warning' %>

@@ -39,8 +39,8 @@
       <%= link_to "Groups Owned", groups_path, class: 'btn custom-lightgrey-btn' %>
     <% end %>
     <% if @current_user.access_level.eql?("Student") %>
-      <%= link_to 'Join A Group', open_join_group_user_path(@current_user.id) %>
-      <%= link_to 'Joined Groups', groups_path %>
+      <%= link_to 'Join A Group', open_join_group_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+      <%= link_to 'Joined Groups', groups_path, class: 'btn custom-lightgrey-btn' %>
     <% end %>
   </div>
 </div>
