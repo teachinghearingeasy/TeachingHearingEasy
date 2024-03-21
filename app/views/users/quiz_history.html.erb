@@ -3,33 +3,74 @@
 <% if @quiz_history.empty? %>
   <p>You have not taken any quizzes yet.</p>
 <% else %>
-  <ul>
-    <% @quiz_history.each do |quiz| %>
-      <li>
-        <h2><%= quiz.which_grbas_letter.upcase %></h2>
-        <p>Difficulty: <%= quiz.difficulty %></p>
-        <p>Number of Questions: <%= quiz.num_questions %></p>
-        <p>Taken On: <%= quiz.created_at.in_time_zone("Central Time (US & Canada)").strftime("%B %d, %Y at %I:%M%p") %></p>
-        <% quiz.responses.each do |response| %>
-          <div class="response-box">
-            <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
-            <p><strong>Rating:</strong> <%= response["#{quiz.which_grbas_letter}_rating".to_sym] %></p>
-            <%=puts "#{quiz.which_grbas_letter}_rating" %>
-            <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
-            <p><strong>Expert Feedback:</strong> <%= response.feedback %></p>
-          </div>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+  <% @quiz_history.group_by { |quiz| quiz.which_grbas_letter }.each do |grbas_letter, quizzes| %>
+    <details>
+      <summary><%= grbas_letter.upcase %></summary>
+      <% total_quizzes = quizzes.size %>
+      <% quizzes.each_with_index do |quiz, index| %>
+        <% reversed_index = total_quizzes - index %>
+        <% grade_percent = quiz.num_questions.zero? ? (quiz.num_right.to_f / quiz.num_questions) * 100 : 100 %>
+        <style>
+            .quiz-<%= reversed_index %> {
+                background: linear-gradient(to right, lightcoral <%= grade_percent %>%, lightgreen <%= grade_percent %>%);
+                border-radius: 10px;
+                padding: 0px;
+            }
+        </style>
+        <details class="quiz-<%= reversed_index %>">
+          <summary>
+            Quiz <%= reversed_index %> --> Difficulty: <%= quiz.difficulty %> |
+            Number of Questions: <%= quiz.num_questions %> |
+            Created: <%= quiz.created_at.in_time_zone("Central Time (US & Canada)").strftime("%B %d, %Y at %I:%M%p") %> |
+            <% if !quiz.completed %>
+              (Incomplete)
+            <% else %>
+              Grade: <%= quiz.num_right.to_s %> / <%= quiz.num_questions.to_s %>
+            <% end %>
+          </summary>
+          <% if !quiz.completed %>
+            <%= link_to 'Resume', quiz_path(quiz), class: 'btn btn-primary', style: 'margin-left: 20px;' %>
+          <% else %>
+            <% quiz.responses.each do |response| %>
+              <div class="response-box">
+                <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
+                <p><strong>Rating:</strong> <%= response["#{quiz.which_grbas_letter}_rating".to_sym] %></p>
+                <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
+                <p><strong>Expert Feedback:</strong> <%= response.feedback %></p>
+              </div>
+            <% end %>
+          <% end %>
+        </details>
+      <% end %>
+    </details>
+  <% end %>
 <% end %>
 
 <style>
-    .response-box {
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-    }
+  .response-box {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    margin-left: 20px; /* Indent the response for each question the same as the quiz dropdown */
+  }
+
+  details > summary {
+    font-size: 1.5em; /* Make the letters significantly bigger */
+    border: 1px solid #aaa; /* Make the border lighter */
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: transparent; /* Fill the box with a slight gray color */
+    border-radius: 10px; /* Add rounded corners */
+  }
+
+  details > details > summary {
+    font-size: 1.2em; /* Make the quiz details slightly smaller than the GRBAS letters */
+    border: 1px solid #aaa; /* Make the border lighter */
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-left: 20px; /* Indent the quizzes from the main letter dropdown */
+    border-radius: 10px; /* Add rounded corners */
+  }
 </style>
