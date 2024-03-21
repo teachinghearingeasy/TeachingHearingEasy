@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
   # validates presence of a digit, lower case letter, upper case letter, and a symbol
-  VALID_PASSWORD_REGEX = /\A(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[[:^alnum:]])/x
+  VALID_PASSWORD_REGEX = /\A(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[[:^alnum:]])\z/x
   validates :email, presence: true,
             format: {with: VALID_EMAIL_REGEX},
             uniqueness: {case_sensitive: false}
