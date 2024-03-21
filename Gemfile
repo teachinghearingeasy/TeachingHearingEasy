@@ -38,6 +38,7 @@ group :development do
   gem "web-console"
   gem "rack-mini-profiler", require: false
   gem "spring"
+  gem "brakeman"
 end
 
 group :quiz do
