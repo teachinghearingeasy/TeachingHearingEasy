@@ -2,7 +2,7 @@
 <html lang="">
 <head>
   <title>Quiz</title>
-  <%= stylesheet_link_tag 'quiz', media: 'all', 'data-turbolinks-track': true %>
+  <%= stylesheet_link_tag 'quiz', media: 'all'%>
   <%= csrf_meta_tags %>
 </head>
 <h1 class="mb-4">Quiz for : "<%= Quiz.translate_letter(@quiz.which_grbas_letter) %>" </h1>
@@ -26,7 +26,7 @@
               <label class="form-label">Rate the sound (0-3):</label>
               <div id="rating-buttons-<%= index %>" class="rating-buttons">
                 <% (0..3).each do |rating| %>
-                  <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
+                  <button type="button" onclick ="getData()" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
                 <% end %>
                 <%= response_fields.hidden_field "#{@quiz.which_grbas_letter}_rating".to_sym, class: 'rating-field' %>
               </div>
@@ -64,10 +64,8 @@
             progressBar.setAttribute('aria-valuenow', progressPercentage);
         }
 
-        // Initial progress bar update
         updateProgressBar();
 
-        // Next button click event
         nextBtn.addEventListener('click', function() {
             if (currentQuestionIndex < questionContainers.length - 1) {
                 questionContainers[currentQuestionIndex].classList.add('d-none');
@@ -94,13 +92,22 @@
                 const rating = this.getAttribute('data-rating');
                 const ratingField = this.parentElement.querySelector('.rating-field');
                 ratingField.value = rating;
+
                 // Remove active class from all buttons in this group
                 this.parentElement.querySelectorAll('.rating-btn').forEach(function(btn) {
                     btn.classList.remove('active');
                 });
+
                 // Add active class to clicked button
                 this.classList.add('active');
             });
+
+            // Check if the button should be initially active
+            if (button.getAttribute('data-rating') === button.parentElement.querySelector('.rating-field').value) {
+                button.classList.add('active');
+            }
         });
+
+
     });
 </script>

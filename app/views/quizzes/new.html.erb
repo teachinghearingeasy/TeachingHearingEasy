@@ -1,7 +1,7 @@
 <!-- app/views/quizzes/new.html.erb -->
 <h1 class="mb-4">New Quiz</h1>
 
-<%= form_for @quiz do |f| %>
+<%= form_for @quiz, url: { action: "create" }, html: { class: 'needs-validation', novalidate: true, id: 'quiz-form' } do |f| %>
   <div class="form-group">
     <%= f.label :which_grbas_letter, 'Which G (Grade), R (Roughness), B (Breathiness), A (Asthenia), S (Strain) Letter?', class: 'form-label' %>
     <%= f.select :which_grbas_letter, ['G', 'R', 'B', 'A', 'S'], {}, { class: 'form-control custom-input' } %>
@@ -32,7 +32,7 @@
   </div>
 
   <div class="text-center">
-    <%= f.submit "Create Quiz", class: 'btn btn-grey' %>
+    <%= f.submit "Create Quiz", class: 'btn btn-grey'%>
   </div>
 <% end %>
 
