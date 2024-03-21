@@ -13,7 +13,7 @@ function updateProgressBar() {
 }
 
 
-if (nextBtn != null && prevBtn !=null) {
+if (nextBtn != null && prevBtn != null) {
         // Next button click event
         nextBtn.addEventListener('click', function() {
                 if (currentQuestionIndex < questionContainers.length - 1) {
@@ -59,9 +59,51 @@ document.addEventListener("DOMContentLoaded", function() {
         const prevBtn = document.querySelector('.prev-question-btn');
         const progressBar = document.querySelector('.progress-bar');
         let currentQuestionIndex = 0;
-
         const ratingButtons = document.querySelectorAll('.rating-btn');
 
+        // Logic for save button
+        const submitQuizButton = document.querySelector('.submit-quiz-button');
+        const completeField = document.querySelector('.complete-tag');
+        submitQuizButton.addEventListener('click', function() {
+                completeField.value = 'true';
+        });
+
+        // Fill in saved responses (this should work for tests as well)
+        questionContainers.forEach((container, index) => {
+                // Get the rating and reasoning fields
+                const gRatingField = document.querySelector(`.response-${index}-g-rating`);
+                const rRatingField = document.querySelector(`.response-${index}-r-rating`);
+                const bRatingField = document.querySelector(`.response-${index}-b-rating`);
+                const aRatingField = document.querySelector(`.response-${index}-a-rating`);
+                const sRatingField = document.querySelector(`.response-${index}-s-rating`);
+                const reasoningField = document.querySelector(`.response-${index}-reasoning`);
+
+                // Get the rating buttons
+                const ratingButtons = container.querySelectorAll('.rating-btn');
+                // Highlight the button that corresponds to the saved rating
+                ratingButtons.forEach(button => {
+                    if (gRatingField.value && button.getAttribute('data-rating') == gRatingField.value) {
+                        button.classList.add('active');
+                    }
+                    if (rRatingField.value && button.getAttribute('data-rating') == rRatingField.value) {
+                        button.classList.add('active');
+                    }
+                    if (bRatingField.value && button.getAttribute('data-rating') == bRatingField.value) {
+                        button.classList.add('active');
+                    }
+                    if (aRatingField.value && button.getAttribute('data-rating') == aRatingField.value) {
+                        button.classList.add('active');
+                    }
+                    if (sRatingField.value && button.getAttribute('data-rating') == sRatingField.value) {
+                        button.classList.add('active');
+                    }
+                });
+
+                // Fill in the reasoning
+                if (reasoningField.value) {
+                    container.querySelector('.reasoning-field').value = reasoningField.value;
+                }
+        });
 
         function updateProgressBar() {
                 let totalQuestionsCount = questionContainers.length;
@@ -106,5 +148,4 @@ document.addEventListener("DOMContentLoaded", function() {
                         this.classList.add('active');
                 });
         });
-
 });
