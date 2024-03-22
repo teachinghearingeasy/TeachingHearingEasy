@@ -141,7 +141,6 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("b"))
-        puts @response.feedback
         expect(@response.feedback.include?(("Our expert panel put the severity at B"))).to be true
       end
       it "student got the rating wrong (expected non-zero A), received feedback for incorrect rating" do
@@ -170,7 +169,6 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("s"))
-        puts @response.feedback
         expect(@response.feedback.include?((" The gold standard level was S"))).to be true
       end
     end
