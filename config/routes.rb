@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     member do
       get 'quiz_history'
       get 'test_history'
+      get 'user_statistics', to: 'statistics#user_statistics', as: 'user_statistics'
       get 'open_join_group'
       post 'join_group'
     end
