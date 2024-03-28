@@ -59,6 +59,33 @@ class User < ActiveRecord::Base
     grades
   end
 
+  def self.get_site_quiz_grades
+    users = User.all
+    total_quiz_hash = {}
+    for user in users
+      quiz_hash = user.get_individual_quiz_grades
+      quiz_hash.each do |key, value|
+        if total_quiz_hash[key]
+          total_quiz_hash[key] += value
+        else
+          total_quiz_hash[key] = value
+        end
+      end
+    end
+    total_quiz_hash
+  end
+
+  def self.get_site_test_grades
+    users = User.all
+    total_test_scores = []
+    for user in users
+      test = user.get_test_grades
+      total_test_scores[0] += test[0]
+      total_test_scores[1] += test[1]
+    end
+    total_test_scores
+  end
+
   private
   def create_session_token
     self.session_token = SecureRandom.urlsafe_base64

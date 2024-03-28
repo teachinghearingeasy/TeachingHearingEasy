@@ -26,4 +26,6 @@ Rails.application.routes.draw do
   match '/tab_groups', to: 'pages#tab_group', via: :get, :as => 'tabGroup'
   get 'data/audio/:filename', to: 'sounds#audio', as: 'audio', constraints: { filename: /[^\/]+/ }
   get '/quizzes/data/audio/:filename', to: 'sounds#audio', constraints: { filename: /[^\/]+/ }
+  get 'statistics/group/:join_token', to: 'statistics#group_statistics', as: 'group_statistics'
+  get 'statistics/site', to: 'statistics#site_statistics', as: 'site_statistics'
 end
