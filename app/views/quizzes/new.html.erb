@@ -1,6 +1,11 @@
 <!-- app/views/quizzes/new.html.erb -->
 <h1 class="mb-4">New Quiz</h1>
 
+<div>
+  <strong>Select the difficulty level (0 is the easiest), letter of the scale you’d like to practice,
+    and the number of questions you’d like to practice with. Then Create Quiz!</strong>
+</div>
+<p></p>
 <%= form_for @quiz do |f| %>
   <div class="form-group">
     <%= f.label :which_grbas_letter, 'Which G (Grade), R (Roughness), B (Breathiness), A (Asthenia), S (Strain) Letter?', class: 'form-label' %>
