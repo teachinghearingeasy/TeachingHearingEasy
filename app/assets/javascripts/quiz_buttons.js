@@ -10,12 +10,28 @@ function updateProgressBar() {
         const progressPercentage = (currentQuestionIndex * 100 / (totalQuestionsCount - 1));
         progressBar.style.width = progressPercentage + '%';
         progressBar.setAttribute('aria-valuenow', progressPercentage);
+
+        if (currentQuestionIndex === (totalQuestionsCount - 1)) {
+                nextBtn.style.display = "none";
+        }
+        else
+        {
+                nextBtn.style.display = "inline";
+        }
+
+        if (currentQuestionIndex === 0) {
+                prevBtn.style.display = "none";
+        }
+        else
+        {
+                prevBtn.style.display = "inline";
+        }
 }
 
 
-if (nextBtn != null && prevBtn != null) {
+if (nextBtn != null) {
         // Next button click event
-        nextBtn.addEventListener('click', function() {
+        nextBtn.addEventListener('click', function () {
                 if (currentQuestionIndex < questionContainers.length - 1) {
                         questionContainers[currentQuestionIndex].classList.add('d-none');
                         currentQuestionIndex++;
@@ -24,6 +40,9 @@ if (nextBtn != null && prevBtn != null) {
                 }
         });
 
+}
+
+if (prevBtn != null) {
         // Previous button click event
         prevBtn.addEventListener('click', function() {
                 if (currentQuestionIndex > 0) {
@@ -110,11 +129,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 let progressPercentage = (currentQuestionIndex * 100 / (totalQuestionsCount - 1));
                 progressBar.style.width = progressPercentage + '%';
                 progressBar.setAttribute('aria-valuenow', progressPercentage);
+
+                if (currentQuestionIndex === (totalQuestionsCount - 1)) {
+                        nextBtn.style.display = "none";
+                }
+                else
+                {
+                        nextBtn.style.display = "inline";
+                }
+
+                if (currentQuestionIndex === 0) {
+                        prevBtn.style.display = "none";
+                }
+                else
+                {
+                        prevBtn.style.display = "inline";
+                }
         }
 
-        if (nextBtn != null && prevBtn !=null) {
+        if (nextBtn != null) {
                 // Next button click event
-                nextBtn.addEventListener('click', function() {
+                nextBtn.addEventListener('click', function () {
                         if (currentQuestionIndex < questionContainers.length - 1) {
                                 questionContainers[currentQuestionIndex].classList.add('d-none');
                                 currentQuestionIndex++;
@@ -123,6 +158,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         }
                 });
 
+        }
+
+        if (prevBtn != null) {
                 // Previous button click event
                 prevBtn.addEventListener('click', function() {
                         if (currentQuestionIndex > 0) {
