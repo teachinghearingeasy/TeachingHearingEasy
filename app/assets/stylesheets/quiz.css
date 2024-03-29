@@ -25,6 +25,7 @@
 .prev-question-btn{
     color: #f39c12; /* Light orange text color */
     border-color: #f39c12; /* Light orange border color */
+    display: none;
 }
 .prev-question-btn:hover {
     color: #fff; /* White text color on hover */
@@ -46,3 +47,11 @@
 .audio-container {
     width: 100%;
 }
+
+.submit-quiz-button {
+}
+.complete-tag {
+}
+.reasoning-field{
+}
+.response

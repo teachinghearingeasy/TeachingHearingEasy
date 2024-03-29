@@ -31,16 +31,33 @@
 </head>
 <body>
 
+
+
 <div class="container">
   <div class="profile-header">
     <h1>Profile for: <%= @current_user.name %></h1>
-    <%= link_to "Quiz History", quiz_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
-    <%= link_to "Test History", test_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+
+    <div>
+      <p>
+        The user profile allows you to access all personal history regarding quizzes and tests. For accessing quiz history select “Quiz History.
+        This will describe all your previous results, their associated sounds, and all the notes you left for that quiz.
+        “Test History” will do the same thing, but for all your testing practice history. If you are unsure what Quiz vs Test means,
+        please check out the “Learn” tab (on the top bar) which will tell you more about what these are for during your practice).
+      </p>
+    </div>
+
     <p class="profile-info"><strong>Name:</strong> <%= @current_user.name %></p>
     <p class="profile-info"><strong>Email:</strong> <%= @current_user.email %></p>
     <p class="profile-info"><strong>Music Experience:</strong> <%= @current_user.music_experience %> years</p>
     <p class="profile-info"><strong>Clinical Experience:</strong> <%= @current_user.clinical_experience %> years</p>
     <p class="profile-info"><strong>General Education:</strong> <%= @current_user.general_education %> years</p>
+
+    <%= link_to "Quiz History", quiz_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+    <%= link_to "Test History", test_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+    <%= link_to "User Statistics", user_statistics_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+    <% if @current_user.access_level.eql?("Admin") %>
+      <%= link_to "Site Statistics", site_statistics_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+    <% end %>
   </div>
 </div>
 

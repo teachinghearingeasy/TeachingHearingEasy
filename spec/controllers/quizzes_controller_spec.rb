@@ -28,7 +28,7 @@ class QuizzesControllerSpec
       it "should create and save a new quiz with multiple sounds when the create method is called correctly" do
         @user = User.where(email: "testuser@gmail.com").first
         controller.instance_variable_set(:@current_user, @user)
-        post :create, params: {quiz: { which_grbas_letter: "g", difficulty: 2, num_questions: 101}}
+        post :create, params: {quiz: { which_grbas_letter: "g", difficulty: 2, num_questions: 1000}}
         expect(flash[:alert].include?("Could not find enough unique sounds for the quiz. Try another difficulty setting.")).to be true
       end
       it "should create and not save a quiz when the create method is called without all necessary parameters" do
@@ -49,7 +49,7 @@ class QuizzesControllerSpec
       it "should create and save a new quiz with multiple sounds when the create method is called correctly" do
         @user = User.where(email: "testuser@gmail.com").first
         controller.instance_variable_set(:@current_user, @user)
-        post :create_test, params: {quiz: {difficulty: 2, num_questions: 101}}
+        post :create_test, params: {quiz: {difficulty: 2, num_questions: 1000}}
         expect(flash[:alert].include?("Could not find enough unique sounds for the test. Try another difficulty setting or less sounds")).to be true
       end
       it "should create and not save a quiz when the create method is called without all necessary parameters" do

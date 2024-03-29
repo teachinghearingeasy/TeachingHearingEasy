@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>Total Statistics for T.H.E. Site:</h1>
+
+  <h2>Quiz Results</h2>
+  <% ['g', 'r', 'b', 'a', 's'].each do |letter| %>
+    <% if @quiz_results[letter] == [0, 0] %>
+      <p>No quizzes have been taken for letter <%= letter %> yet.</p>
+    <% else %>
+      <p><strong>Letter <%= letter %>:</strong> <%= @quiz_results[letter][0] %> out of <%= @quiz_results[letter][1] %></p>
+    <% end %>
+  <% end %>
+
+  <h2>Test Results</h2>
+  <% if @test_results == [0, 0] %>
+    <p>No tests have been taken yet.</p>
+  <% else %>
+    <p><strong>Total Correct:</strong> <%= @test_results[0] %></p>
+    <p><strong>Total Questions:</strong> <%= @test_results[1] %></p>
+  <% end %>
+</div>

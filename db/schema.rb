@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_22_134743) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_20_231623) do
   create_table "groups", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -37,6 +37,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_22_134743) do
     t.text "quiz_answers"
     t.integer "difficulty"
     t.integer "num_questions"
+    t.boolean "completed"
+    t.integer "num_right"
     t.index ["user_id"], name: "index_quizzes_on_user_id"
   end
 

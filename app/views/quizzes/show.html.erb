@@ -8,7 +8,33 @@
 </head>
 <h1 class="mb-4">Quiz for : "<%= Quiz.translate_letter(@quiz.which_grbas_letter) %>" </h1>
 
+<div>
+  <p>
+  Now, for each sound sample, consider select the number on the letter’s scale that you feel best represents the level of disorder. You can also
+  you can also add a note/description in the question box about why you feel this is the best answer. (These notes are only for your reference when reviewing your quiz history later).
+  You can listen to a sound any number of times and there are no time limits for quizzes.
+  </p><p>
+  Once you’ve answered all the questions, you can submit the quiz by selecting “Submit Quiz”.
+  This will complete the quiz and take you to your user profile to see your results.
+  If for some reason you need to quit the quiz and come back to it, hit the “Save Quiz” button.
+  </p>
+</div>
+
+
 <%= form_for @quiz, url: {action: "update"}, html: { class: 'needs-validation', novalidate: true } do |f| %>
+  <!-- Jank works to autofill values -->
+  <% @responses.each_with_index do |response, index| %>
+    <%= f.fields_for :responses do |response_fields| %>
+      <!-- Set the value of each response field to the corresponding value from the saved response -->
+      <%= response_fields.text_field :g_rating, value: response.g_rating, class: "response-#{index}-g-rating", style: "display: none;" %>
+      <%= response_fields.text_field :r_rating, value: response.r_rating, class: "response-#{index}-r-rating", style: "display: none;" %>
+      <%= response_fields.text_field :b_rating, value: response.b_rating, class: "response-#{index}-b-rating", style: "display: none;" %>
+      <%= response_fields.text_field :a_rating, value: response.a_rating, class: "response-#{index}-a-rating", style: "display: none;" %>
+      <%= response_fields.text_field :s_rating, value: response.s_rating, class: "response-#{index}-s-rating", style: "display: none;" %>
+      <%= response_fields.text_field :reasoning, value: response.reasoning, class: "response-#{index}-reasoning", style: "display: none;" %>
+    <% end %>
+  <% end %>
+
   <div class="progress mb-3">
     <div class="progress-bar" role="progressbar" style="width: 0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
@@ -29,13 +55,13 @@
                 <% (0..3).each do |rating| %>
                   <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
                 <% end %>
-                <%= response_fields.hidden_field "#{@quiz.which_grbas_letter}_rating".to_sym, class: 'rating-field' %>
+                <%= response_fields.hidden_field "#{@quiz.which_grbas_letter}_rating".to_sym, class: "rating-field" %>
               </div>
             </div>
 
             <div class="form-group">
               <%= response_fields.label :reasoning, "Short explanation:", class: 'form-label' %>
-              <%= response_fields.text_field :reasoning, class: 'form-control' %>
+              <%= response_fields.text_field :reasoning, class: 'form-control reasoning-field' %>
             </div>
           </div>
         </div>
@@ -47,6 +73,8 @@
       <button type="button" class="btn prev-question-btn mt-3">Previous Question</button>
       <button type="button" class="btn next-question-btn mt-3">Next Question</button>
   <% end %>
-  <%= f.submit "Submit Quiz", class: 'btn btn-grey btn-lg btn-block mt-3' %>
+  <%= f.hidden_field :complete, value: false, class: 'complete-tag' %>
+  <%= f.submit "Submit Quiz", class: 'btn submit-quiz-button btn-grey btn-lg btn-block mt-3' %>
+  <%= f.submit "Save Quiz", name: "save", class: 'btn btn-primary mt-3' %>
   <%= link_to 'Back', new_quiz_path, class: 'btn btn-danger mt-3' %>
 <% end %>

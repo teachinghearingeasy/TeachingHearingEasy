@@ -33,7 +33,7 @@
       <%= link_to 'Learn', learn_path, class: 'nav-item nav-link btn btn-outline-warning' %>
       <%= link_to 'Profile', user_path(@current_user.id), class: 'nav-item nav-link btn btn-outline-warning' %>
       <%= link_to 'Groups', tabGroup_path, class: 'nav-item nav-link btn btn-outline-warning' %>
-      <%= link_to 'Log Out', logout_path,data: { turbo: true, turbo_method: :delete }, class: 'nav-item nav-link btn-outline-danger' %>
+      <%= button_to 'Log Out', logout_path, method: :delete, class: 'nav-item nav-link btn-outline-danger' %>
     <% end %>
   </div>
 </nav>

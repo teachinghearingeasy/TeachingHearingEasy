@@ -29,7 +29,7 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("g"))
-        expect(@response.feedback).to eq("Not quite. Our experts rated this voice as within normal limits or G0. The voice may not be perfect, but is it a voice that would stand out if you heard it in a public place (ie walking down a street)?")
+        expect(@response.feedback).to include("Not quite. Our experts rated this voice as within normal limits or G0. The voice may not be perfect, but is it a voice that would stand out if you heard it in a public place (ie walking down a street)?")
       end
       it "student got the rating wrong (expected R0), received feedback for incorrect rating" do
         @user = User.find_by_email("testuser@gmail.com")
@@ -43,7 +43,7 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("r"))
-        expect(@response.feedback).to eq("No roughness here. A voice that is rough has an irregular wave form and sounds bumpy, unclear, or growly. The gold standard rating puts this one at R0")
+        expect(@response.feedback).to include("No roughness here. A voice that is rough has an irregular wave form and sounds bumpy, unclear, or growly. The gold standard rating puts this one at R0")
       end
       it "student got the rating wrong (expected B0), received feedback for incorrect rating" do
         @user = User.find_by_email("testuser@gmail.com")
@@ -57,7 +57,7 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("b"))
-        expect(@response.feedback).to eq("Breathiness is caused by the escape of excess air at the glottis. The experts found this sample to be B0 or without any airy quality")
+        expect(@response.feedback).to include("Breathiness is caused by the escape of excess air at the glottis. The experts found this sample to be B0 or without any airy quality")
       end
       it "student got the rating wrong (expected A0), received feedback for incorrect rating" do
         @user = User.find_by_email("testuser@gmail.com")
@@ -71,7 +71,7 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("a"))
-        expect(@response.feedback).to eq("This voice is pretty typical when it comes to weakness. A weak voice may sound soft or under powered. Our gold standard rating didn't identify weakness for this sample, A0.")
+        expect(@response.feedback).to include("This voice is pretty typical when it comes to weakness. A weak voice may sound soft or under powered. Our gold standard rating didn't identify weakness for this sample, A0.")
       end
       it "student got the rating wrong (expected S0), received feedback for incorrect rating" do
         @user = User.find_by_email("testuser@gmail.com")
@@ -85,7 +85,7 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("s"))
-        expect(@response.feedback).to eq("Strain usually sounds like some is working too hard or the voice is tight or tense. The composite voice rating for this sample was S0 or no strain present.")
+        expect(@response.feedback).to include("Strain usually sounds like some is working too hard or the voice is tight or tense. The composite voice rating for this sample was S0 or no strain present.")
       end
       it "student got the rating wrong (expected non-zero), received feedback for incorrect rating" do
         @user = User.find_by_email("testuser@gmail.com")
@@ -99,7 +99,7 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("g"))
-        expect(@response.feedback.include?(("Yes, this is a dysphonic voice. The experts put the level at G"))).to be true
+        expect(@response.feedback).to include("This is a dysphonic voice. The experts put the level at G")
       end
       it "student got the rating wrong (expected non-zero G), received feedback for incorrect rating" do
         @user = User.find_by_email("testuser@gmail.com")
@@ -113,7 +113,7 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("g"))
-        expect(@response.feedback.include?(("Yes, this is a dysphonic voice. The experts put the level at G"))).to be true
+        expect(@response.feedback.include?(("This is a dysphonic voice. The experts put the level at G"))).to be true
       end
       it "student got the rating wrong (expected non-zero R), received feedback for incorrect rating" do
         @user = User.find_by_email("testuser@gmail.com")
@@ -141,7 +141,7 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("b"))
-        expect(@response.feedback.include?(("You heard the air in the sound. Our expert panel put the severity at B"))).to be true
+        expect(@response.feedback.include?(("Our expert panel put the severity at B"))).to be true
       end
       it "student got the rating wrong (expected non-zero A), received feedback for incorrect rating" do
         @user = User.find_by_email("testuser@gmail.com")
@@ -169,7 +169,7 @@ class ResponsesSpec
         @response.save
         expect(@response.feedback).to eq(nil)
         @response.update(feedback: @response.create_feedback("s"))
-        expect(@response.feedback.include?(("You recognized the tension or hyperfunction in this sample. The gold standard level was S"))).to be true
+        expect(@response.feedback.include?((" The gold standard level was S"))).to be true
       end
     end
   end

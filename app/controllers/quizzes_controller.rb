@@ -1,6 +1,5 @@
 class QuizzesController < ApplicationController
   before_action :set_quiz, only: [:show, :edit, :update, :destroy]
-  before_action :set_current_user
 
   # GET /quizzes
   # GET /quizzes.json
@@ -74,21 +73,36 @@ class QuizzesController < ApplicationController
   # app/controllers/quizzes_controller.rb
 def update
   @quiz = Quiz.find(params[:id])
+  num_right = 0
+  complete = ActiveModel::Type::Boolean.new.cast(quiz_params[:complete])
   quiz_params[:responses].each do |response|
     @response = Response.find_by_id(response[0])
     feedback = ""
+    # Tests should have response for each question
     ['g', 'r', 'b', 'a', 's'].each do |letter|
       letter_sym = "#{letter}_rating".to_sym
-      unless response[1][letter_sym].nil?
-        @response.update({ letter_sym => response[1][letter_sym], :reasoning => response[1][:reasoning], :quiz_id => @quiz.id })
-        feedback = feedback + "\n#{letter.upcase}: " + @response.create_feedback(letter)
+      # Quiz will only pass this once
+      unless response[1][letter_sym].nil? || response[1][letter_sym].empty?
+        @response.update({ letter_sym => response[1][letter_sym], # letter_sym is g_rating, r_rating, etc.
+                           :reasoning => response [1][:reasoning], :quiz_id => @quiz.id })
+        # Test feedback is each letter and its feedback on their own lines
+        feedback_string, correct = @response.create_feedback(letter)
+        feedback = feedback + "\n#{letter.upcase}: " + feedback_string
+        num_right += 1 if correct
       end
       @response.update({ :feedback => feedback })
     end
   end
+  # This should pass true for completed if the user submits but not if they click save
+  @quiz.update({ :completed => complete, :num_right => num_right })
   if @quiz.save
-    flash[:notice] = "Quiz/Test completed successfully! Find your results in Quiz/Test History!"
-    redirect_to about_path
+    if complete
+      flash[:notice] = "Quiz/Test completed successfully! Find your results in Quiz or Test History!"
+    else
+      flash[:notice] = "Quiz/Test saved successfully! Return to it later through Quiz or Test History!"
+    end
+    # Redirect to page where their results are one click away
+    redirect_to user_path(@current_user.id)
   else
     render :edit
   end
@@ -109,11 +123,12 @@ end
     # Use callbacks to share common setup or constraints between actions.
     def set_quiz
       @quiz = Quiz.find(params[:id])
+      @responses = @quiz.responses
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def quiz_params
-      params.require(:quiz).permit(:which_grbas_letter, :difficulty, :num_questions,
+      params.require(:quiz).permit(:which_grbas_letter, :difficulty, :num_questions, :complete,
                                    responses: [:g_rating, :r_rating, :b_rating, :a_rating, :s_rating, :reasoning])
     end
 
