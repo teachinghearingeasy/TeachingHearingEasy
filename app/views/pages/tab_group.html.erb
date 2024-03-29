@@ -35,10 +35,34 @@
   <div class="profile-header">
     <h1>Groups: </h1>
     <% if @current_user.access_level.eql?("Professor") %>
+      <div>
+        <p>
+          Would you like to keep track of how your students are performing? You can make a group to check in on all
+          the students by selecting “Create Group”. Once you’ve created the group, simply have your
+          students join the group through their own accounts using the join code provided
+          (you’ll find this by locating your current groups page)!
+        </p>
+        <p>
+          You can see each group you’ve created under “Owned Groups”.
+          For each group you’ll also see where you can access
+          “Group Stats” which will provide basic statistical information
+          conveying how the group is currently performing during practice.
+          It will also display all the current students apart of that specific group.
+        </p>
+      </div>
+
       <%= link_to "Add a Group", new_group_path, class: 'btn custom-lightgrey-btn' %>
       <%= link_to "Groups Owned", groups_path, class: 'btn custom-lightgrey-btn' %>
     <% end %>
     <% if @current_user.access_level.eql?("Student") %>
+      <div>
+        <p>
+          Groups are mostly for Professors to check in on how their students are doing.
+          For you, you’ll need to join a group based by selecting “Join Group” and inputting the join code
+          that the Professor has provided to you. To see which groups you are currently apart of,
+          you can select “Joined Groups”.
+        </p>
+      </div>
       <%= link_to 'Join A Group', open_join_group_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
       <%= link_to 'Joined Groups', groups_path, class: 'btn custom-lightgrey-btn' %>
     <% end %>
