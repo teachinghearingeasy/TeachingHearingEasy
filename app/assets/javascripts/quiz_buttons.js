@@ -1,13 +1,13 @@
 const questionContainers = document.querySelectorAll('.question-container');
 const nextBtn = document.querySelector('.next-question-btn');
 const prevBtn = document.querySelector('.prev-question-btn');
-const progressBar = document.querySelector('.progress-bar');
+let progressBar = document.querySelector('.progress-bar');
 let currentQuestionIndex = 0;
 
 // Function to update progress bar
 function updateProgressBar() {
         const totalQuestionsCount = questionContainers.length;
-        const progressPercentage = (currentQuestionIndex * 100 / (totalQuestionsCount - 1));
+        const progressPercentage = ((currentQuestionIndex + 1) * 100 / (totalQuestionsCount));
         progressBar.style.width = progressPercentage + '%';
         progressBar.setAttribute('aria-valuenow', progressPercentage);
 
@@ -27,7 +27,6 @@ function updateProgressBar() {
                 prevBtn.style.display = "inline";
         }
 }
-
 
 if (nextBtn != null) {
         // Next button click event
@@ -126,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function updateProgressBar() {
                 let totalQuestionsCount = questionContainers.length;
-                let progressPercentage = (currentQuestionIndex * 100 / (totalQuestionsCount - 1));
+                let progressPercentage = ((currentQuestionIndex + 1) * 100 / (totalQuestionsCount));
                 progressBar.style.width = progressPercentage + '%';
                 progressBar.setAttribute('aria-valuenow', progressPercentage);
 
