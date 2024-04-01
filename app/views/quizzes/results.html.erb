@@ -1,8 +1,29 @@
-<% @quiz.responses.each do |response| %>
+<% if @quiz.which_grbas_letter.nil? || @quiz.which_grbas_letter.empty? %>
+  <ul>
+    <li>
+      <h2><%= @quiz.which_grbas_letter.upcase %></h2>
+      <p>Difficulty: <%= @quiz.difficulty %></p>
+      <p>Number of Questions: <%= @quiz.num_questions %></p>
+      <p>Taken On: <%= @quiz.created_at.in_time_zone("Central Time (US & Canada)").strftime("%B %d, %Y at %I:%M%p") %></p>
+      <% @quiz.responses.each do |response| %>
+        <div class="response-box">
+          <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
+          <%["g", "r", "b", "a", "s"].each do |letter| %>
+            <p><strong><%= letter.upcase  %> Rating:</strong> <%= response["#{letter}_rating".to_sym] %></p>
+          <% end %>
+          <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
+          <p><strong>Expert Feedback:</strong> <%= simple_format(response.feedback) %></p>
+        </div>
+      <% end %>
+    </li>
+  </ul>
+<%   else  %>
+  <%   @quiz.responses.each do |response| %>
   <div class="response-box">
-    <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
-    <p><strong>Rating:</strong> <%= response["#{@quiz.which_grbas_letter}_rating".to_sym] %></p>
-    <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
-    <p><strong>Expert Feedback:</strong> <%= response.feedback %></p>
+          <p><strong>Sound:</strong> <%=   Sound.find_by_id(response.sound_id).db_file_name   %></p>
+    <p><strong>Rating:</strong> <%=   response["#{@quiz.which_grbas_letter}_rating".to_sym]   %></p>
+    <p><strong>Your Reasoning:</strong> <%=   response.reasoning   %></p>
+    <p><strong>Expert Feedback:</strong> <%=   response.feedback   %></p>
   </div>
+  <%   end   %>
 <% end %>

@@ -82,9 +82,12 @@ document.addEventListener("DOMContentLoaded", function() {
         // Logic for save button
         const submitQuizButton = document.querySelector('.submit-quiz-button');
         const completeField = document.querySelector('.complete-tag');
-        submitQuizButton.addEventListener('click', function() {
-                completeField.value = 'true';
-        });
+        if (submitQuizButton != null) {
+                submitQuizButton.addEventListener('click', function() {
+                        completeField.value = 'true';
+                });
+
+        }
 
         // Fill in saved responses (this should work for tests as well)
         questionContainers.forEach((container, index) => {
