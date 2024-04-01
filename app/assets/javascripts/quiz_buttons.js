@@ -149,14 +149,28 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
         }
 
+        function checkForAudio() {
+                // let audio_elem = document.querySelector("[id^='audio_elem_']");
+                // console.log(audio_elem)
+                if (document.querySelectorAll("[id^='audio_elem_']") != null) {
+                        console.log("called pause")
+                        document.querySelectorAll("[id^='audio_elem_']").forEach(elem =>  {
+                                elem.pause();
+                            }
+                        )
+                }
+        }
+
         if (nextBtn != null) {
                 // Next button click event
+
                 nextBtn.addEventListener('click', function () {
                         if (currentQuestionIndex < questionContainers.length - 1) {
                                 questionContainers[currentQuestionIndex].classList.add('d-none');
                                 currentQuestionIndex++;
                                 questionContainers[currentQuestionIndex].classList.remove('d-none');
                                 updateProgressBar();
+                                checkForAudio();
                         }
                 });
 
@@ -170,6 +184,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 currentQuestionIndex--;
                                 questionContainers[currentQuestionIndex].classList.remove('d-none');
                                 updateProgressBar();
+                                checkForAudio();
                         }
                 });
         }
