@@ -1,0 +1,8 @@
+<% @quiz.responses.each do |response| %>
+  <div class="response-box">
+    <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
+    <p><strong>Rating:</strong> <%= response["#{@quiz.which_grbas_letter}_rating".to_sym] %></p>
+    <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
+    <p><strong>Expert Feedback:</strong> <%= response.feedback %></p>
+  </div>
+<% end %>

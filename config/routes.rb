@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       get 'create_test'
       post 'create_test'
     end
+    member do
+        get 'results'
+    end
   end
   resources :sounds
   resources :groups
