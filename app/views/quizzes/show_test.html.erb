@@ -1,63 +1,62 @@
 <!DOCTYPE html>
 <html lang="">
 <head>
-  <title>Quiz</title>
+  <title>Test</title>
   <%= stylesheet_link_tag 'quiz', media: 'all', 'data-turbolinks-track': true %>
   <%= csrf_meta_tags %>
   <%= javascript_include_tag 'quiz_buttons' %>
 </head>
 
-<body>
-<div id="question-pages">
-  <% @quiz.responses.each_with_index do |response, index| %>
-    <div class="question-container<%= index == 0 ? '' : ' d-none' %>">
-      <%= form_for @quiz, url: { action: "update"}, html: { class: 'needs-validation', novalidate: true } do |f| %>
-        <%= f.fields_for :responses, index: index do |response_fields| %>
-          <div class="progress mb-3">
-            <div class="progress-bar" role="progressbar" style="width: <%= ((index + 1) * 100 / @quiz.responses.count) %>%" aria-valuenow="<%= ((index + 1) * 100 / @quiz.responses.count) %>" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <div class="card mb-3">
-            <div class="card-body">
-              <h2 class="card-title">Question <%= index + 1 %></h2>
-              <audio id="audio_elem_<%= index %>" controls class="mb-3">
-                <source src="<%= response.sound.audio_file_path %>" type="audio/wav">
-                Your browser does not support the audio element.
-              </audio>
 
-              <% ['G', 'R', 'B', 'A', 'S'].each_with_index do |letter, rating| %>
-                <div class="form-group">
-                  <label class="form-label"><%= letter %>:</label>
-                  <div id="rating-buttons-<%= index %>-<%= letter %>" class="rating-buttons">
-                    <% (0..3).each do |rating| %>
-                      <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
-                    <% end %>
-                    <%= response_fields.hidden_field "#{letter.downcase}_rating".to_sym, id: "#{index}-#{letter}-rating", class: 'rating-field' %>
-                  </div>
-                </div>
+<%= form_for @quiz, url: { action: "update"}, html: { class: 'needs-validation', novalidate: true } do |f| %>
+  <% @responses.each_with_index do |response, index| %>
+    <%= f.fields_for :responses do |response_fields| %>
+      <!-- Set the value of each response field to the corresponding value from the saved response -->
+      <%= response_fields.text_field :g_rating, value: response.g_rating, class: "response-#{index}-g-rating", style: "display: none;" %>
+      <%= response_fields.text_field :r_rating, value: response.r_rating, class: "response-#{index}-r-rating", style: "display: none;" %>
+      <%= response_fields.text_field :b_rating, value: response.b_rating, class: "response-#{index}-b-rating", style: "display: none;" %>
+      <%= response_fields.text_field :a_rating, value: response.a_rating, class: "response-#{index}-a-rating", style: "display: none;" %>
+      <%= response_fields.text_field :s_rating, value: response.s_rating, class: "response-#{index}-s-rating", style: "display: none;" %>
+      <%= response_fields.text_field :reasoning, value: response.reasoning, class: "response-#{index}-reasoning", style: "display: none;" %>
+    <% end %>
+    <div class="progress mb-3">
+      <div class="progress-bar" role="progressbar" style="width: <%= ((index + 1) * 100 / @quiz.responses.count) %>%" aria-valuenow="<%= ((index + 1) * 100 / @quiz.responses.count) %>" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="card-title">Question <%= index + 1 %></h2>
+          <audio id="audio_elem_<%= index %>" controls class="mb-3">
+            <source src="<%= response.sound.audio_file_path %>" type="audio/wav">
+            Your browser does not support the audio element.
+          </audio>
+
+        <% ['G', 'R', 'B', 'A', 'S'].each_with_index do |letter| %>
+          <div class="form-group">
+            <label class="form-label"><%= letter %>:</label>
+            <div id="rating-buttons-<%= index %>-<%= letter %>" class="rating-buttons">
+              <% (0..3).each do |rating| %>
+                <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
               <% end %>
-
-              <div class="form-group">
-                <%= response_fields.label :reasoning, "Short explanation:", class: 'form-label' %>
-                <%= response_fields.text_field :reasoning, class: 'form-control reasoning-field' %>
-              </div>
+              <%= response_fields.hidden_field "#{letter.downcase}_rating".to_sym, id: "#{index}-#{letter}-rating", class: 'rating-field' %>
             </div>
           </div>
         <% end %>
 
-        <% if index > 0 %>
-          <%= button_tag "Previous Question", type: "button", class: "btn prev-question-btn mt-3" %>
-        <% end %>
-        <% if index < @quiz.responses.count - 1 %>
-          <%= button_tag "Next Question", type: "button", class: "btn next-question-btn mt-3" %>
+        <div class="form-group">
+          <%= response_fields.label :reasoning, "Short explanation:", class: 'form-label' %>
+          <%= response_fields.text_field :reasoning, class: 'form-control reasoning-field' %>
+        </div>
         <% end %>
 
+        <% if @quiz.num_questions > 1 %>
+          <button type="button" class="btn prev-question-btn mt-3">Previous Question</button>
+          <button type="button" class="btn next-question-btn mt-3">Next Question</button>
+        <% end %>
         <%= f.hidden_field :complete, value: false, class: 'complete-tag' %>
-        <%= f.submit "Submit Quiz", class: 'btn submit-quiz-button btn-grey btn-lg btn-block mt-3' %>
-        <%= f.submit "Save Quiz", name: "save", class: 'btn btn-primary mt-3' %>
-        <%= link_to 'Back', new_quiz_path, class: 'btn btn-danger mt-3' %>
+        <%= f.submit "Submit Test", class: 'btn submit-quiz-button btn-grey btn-lg btn-block mt-3' %>
+        <%= f.submit "Save Test", name: "save", class: 'btn btn-primary mt-3' %>
+        <%= link_to 'Back', create_test_quizzes_path, class: 'btn btn-danger mt-3' %>
       <% end %>
     </div>
-  <% end %>
 </div>
-</body>
 </html>
