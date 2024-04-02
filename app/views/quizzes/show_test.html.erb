@@ -1,4 +1,3 @@
-<!-- app/views/tests/show.html.erb -->
 <!DOCTYPE html>
 <html lang="">
 <head>
@@ -8,76 +7,57 @@
   <%= javascript_include_tag 'quiz_buttons' %>
 </head>
 
-<h1 class="mb-4">GRBAS Scale Test</h1>
-
-<div>
-  <p>
-  Now, for each sound sample, consider select the number on the letter’s scale that you feel best represents the level of disorder. You can also
-  you can also add a note/description in the question box about why you feel this is the best answer. (These notes are only for your reference when reviewing your quiz history later).
-  You can listen to a sound any number of times and there are no time limits for tests.
-  </p><p>
-  Once you’ve answered all the questions, you can submit the test by selecting “Submit Test”.
-  This will complete the quiz and take you to your user profile to see your results.
-  </p>
-</div>
-
-
-<%= form_for @quiz, url: { action: "update"} do |f| %>
+<body>
+<div id="question-pages">
   <% @quiz.responses.each_with_index do |response, index| %>
-    <%= f.fields_for :responses, index: response.id do |response_fields| %>
-      <div class="card mb-3">
-        <div class="card-body">
-          <h2 class="card-title">Question <%= index + 1 %></h2>
-          <audio controls class="mb-3">
-            <source src="<%= response.sound.audio_file_path %>" type="audio/wav">
-            Your browser does not support the audio element.
-          </audio>
+    <div class="question-container<%= index == 0 ? '' : ' d-none' %>">
+      <%= form_for @quiz, url: { action: "update"}, html: { class: 'needs-validation', novalidate: true } do |f| %>
+        <%= f.fields_for :responses, index: index do |response_fields| %>
+          <div class="progress mb-3">
+            <div class="progress-bar" role="progressbar" style="width: <%= ((index + 1) * 100 / @quiz.responses.count) %>%" aria-valuenow="<%= ((index + 1) * 100 / @quiz.responses.count) %>" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <div class="card mb-3">
+            <div class="card-body">
+              <h2 class="card-title">Question <%= index + 1 %></h2>
+              <audio id="audio_elem_<%= index %>" controls class="mb-3">
+                <source src="<%= response.sound.audio_file_path %>" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
 
-          <% ['G', 'R', 'B', 'A', 'S'].each_with_index do |letter, rating| %>
-            <div class="form-group">
-              <label class="form-label"><%= letter %>:</label>
-              <div id="rating-buttons-<%= index %>-<%= letter %>" class="rating-buttons">
-                <% (0..3).each do |rating| %>
-                  <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
-                <% end %>
-                <%= response_fields.hidden_field "#{letter.downcase}_rating".to_sym, id: "#{index}-#{letter}-rating", class: 'rating-field' %>
+              <% ['G', 'R', 'B', 'A', 'S'].each_with_index do |letter, rating| %>
+                <div class="form-group">
+                  <label class="form-label"><%= letter %>:</label>
+                  <div id="rating-buttons-<%= index %>-<%= letter %>" class="rating-buttons">
+                    <% (0..3).each do |rating| %>
+                      <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
+                    <% end %>
+                    <%= response_fields.hidden_field "#{letter.downcase}_rating".to_sym, id: "#{index}-#{letter}-rating", class: 'rating-field' %>
+                  </div>
+                </div>
+              <% end %>
+
+              <div class="form-group">
+                <%= response_fields.label :reasoning, "Short explanation:", class: 'form-label' %>
+                <%= response_fields.text_field :reasoning, class: 'form-control reasoning-field' %>
               </div>
             </div>
-          <% end %>
-
-          <div class="form-group">
-            <%= response_fields.label :reasoning, "Short explanation:", class: 'form-label' %>
-            <%= response_fields.text_field :reasoning, class: 'form-control' %>
           </div>
-        </div>
-      </div>
-    <% end %>
+        <% end %>
+
+        <% if index > 0 %>
+          <%= button_tag "Previous Question", type: "button", class: "btn prev-question-btn mt-3" %>
+        <% end %>
+        <% if index < @quiz.responses.count - 1 %>
+          <%= button_tag "Next Question", type: "button", class: "btn next-question-btn mt-3" %>
+        <% end %>
+
+        <%= f.hidden_field :complete, value: false, class: 'complete-tag' %>
+        <%= f.submit "Submit Quiz", class: 'btn submit-quiz-button btn-grey btn-lg btn-block mt-3' %>
+        <%= f.submit "Save Quiz", name: "save", class: 'btn btn-primary mt-3' %>
+        <%= link_to 'Back', new_quiz_path, class: 'btn btn-danger mt-3' %>
+      <% end %>
+    </div>
   <% end %>
-
-  <%= f.submit "Submit Test", class: 'btn btn-grey btn-lg btn-block mt-3' %>
-  <%= link_to 'Back', create_test_quizzes_path %>
-<% end %>
-
-<style>
-    .card {
-        border-radius: 10px;
-    }
-    .card-body {
-        padding: 20px;
-    }
-    .form-label {
-        font-weight: bold;
-    }
-    .rating-buttons {
-        display: flex;
-        margin-bottom: 15px;
-    }
-    .rating-btn {
-        background-color: lightgrey;
-        margin-right: 5px;
-    }
-    .rating-btn.active {
-        color: white;
-        background-color: blue;
-    }
-</style>
+</div>
+</body>
+</html>
