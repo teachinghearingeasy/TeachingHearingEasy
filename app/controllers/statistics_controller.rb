@@ -6,7 +6,7 @@ class StatisticsController < ApplicationController
     @user = User.find(params[:id])
     @quiz_results = @user.get_individual_quiz_grades
     @test_results = @user.get_test_grades
-    byebug
+    # byebug
   end
 
   def group_statistics
