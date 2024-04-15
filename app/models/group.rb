@@ -49,7 +49,6 @@ class Group  < ActiveRecord::Base
 
   def get_group_test_grades
     users = self.users
-    puts users.length
     total_test_scores = [0,0]
     for user_id in users
       user = User.find_by_id(user_id)
@@ -58,5 +57,32 @@ class Group  < ActiveRecord::Base
       total_test_scores[1] += test[1]
     end
     total_test_scores
+  end
+
+  def get_demographic_stats
+    users = self.users
+    average_experience = [0,0,0]
+    for user_id in users
+      user = User.find_by_id(user_id)
+      user_demograph = ["none","none","none"]
+      user_demograph[0] = user.music_experience
+      user_demograph[1] = user.clinical_experience
+      user_demograph[2] = user.general_education
+
+      average_experience.each_index do |index|
+        if user_demograph[index].eql?("0")
+          average_experience[index] = 0
+        elsif user_demograph[index].eql?("1-2")
+          average_experience[index] = 1.5
+        elsif user_demograph[index].eql?("3-4")
+          average_experience[index] = 3.5
+        else
+          average_experience[index] = 5
+        end
+      end
+    end
+
+    average_experience.each{ |item| item = (item / self.users.count).round(2)}
+    average_experience
   end
 end

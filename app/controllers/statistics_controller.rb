@@ -18,6 +18,7 @@ class StatisticsController < ApplicationController
     end
     @quiz_results = @group.get_group_quiz_grades
     @test_results = @group.get_group_test_grades
+    @demographic_results = @group.get_demographic_stats
   end
 
   def site_statistics
