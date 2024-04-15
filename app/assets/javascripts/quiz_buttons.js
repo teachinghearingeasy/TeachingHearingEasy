@@ -103,20 +103,30 @@ document.addEventListener("DOMContentLoaded", function() {
                 const ratingButtons = container.querySelectorAll('.rating-btn');
                 // Highlight the button that corresponds to the saved rating
                 ratingButtons.forEach(button => {
-                    if (gRatingField.value && button.getAttribute('data-rating') == gRatingField.value) {
+                    if (gRatingField.value && button.getAttribute('data-rating') === gRatingField.value) {
                         button.classList.add('active');
+                        const ratingField = button.parentElement.querySelector('.rating-field');
+                        ratingField.value = gRatingField.value;
                     }
-                    if (rRatingField.value && button.getAttribute('data-rating') == rRatingField.value) {
+                    if (rRatingField.value && button.getAttribute('data-rating') === rRatingField.value) {
                         button.classList.add('active');
+                        const ratingField = button.parentElement.querySelector('.rating-field');
+                        ratingField.value = rRatingField.value;
                     }
-                    if (bRatingField.value && button.getAttribute('data-rating') == bRatingField.value) {
+                    if (bRatingField.value && button.getAttribute('data-rating') === bRatingField.value) {
                         button.classList.add('active');
+                        const ratingField = button.parentElement.querySelector('.rating-field');
+                        ratingField.value = bRatingField.value;
                     }
-                    if (aRatingField.value && button.getAttribute('data-rating') == aRatingField.value) {
+                    if (aRatingField.value && button.getAttribute('data-rating') === aRatingField.value) {
                         button.classList.add('active');
+                        const ratingField = button.parentElement.querySelector('.rating-field');
+                        ratingField.value = aRatingField.value;
                     }
-                    if (sRatingField.value && button.getAttribute('data-rating') == sRatingField.value) {
+                    if (sRatingField.value && button.getAttribute('data-rating') === sRatingField.value) {
                         button.classList.add('active');
+                        const ratingField = button.parentElement.querySelector('.rating-field');
+                        ratingField.value = sRatingField.value;
                     }
                 });
 
