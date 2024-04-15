@@ -8,7 +8,7 @@
 
 <%= form_for @quiz, url: create_test_quizzes_path do |f| %>
   <div class="form-group">
-    <%= f.label :difficulty, 'Select Difficulty (0-3)', class: 'form-label' %>
+    <%= f.label :difficulty, 'Select GRBAS Scale Level (0-3)', class: 'form-label' %>
     <div class="difficulty-buttons">
       <% (0..3).each do |difficulty| %>
         <button type="button" class="btn btn-secondary difficulty-btn" data-difficulty="<%= difficulty %>"><%= difficulty %></button>

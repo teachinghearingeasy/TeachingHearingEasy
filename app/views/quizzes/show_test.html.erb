@@ -67,7 +67,7 @@
               <% end %>
 
               <div class="form-group">
-                <%= response_fields.label :reasoning, "Short explanation:", class: 'form-label' %>
+                <%= response_fields.label :reasoning, "Notes:", class: 'form-label' %>
                 <%= response_fields.text_field :reasoning, class: 'form-control' %>
               </div>
             </div>
@@ -82,7 +82,7 @@
       <button type="button" class="btn next-question-btn mt-3">Next Question</button>
     <% end %>
   <%= f.hidden_field :complete, value: false, class: 'complete-tag' %>
-  <%= f.submit "Submit Test", class: 'btn submit-quiz-button btn-grey btn-lg btn-block mt-3' %>
+  <%= f.submit "Complete Test", class: 'btn submit-quiz-button btn-grey btn-lg btn-block mt-3' %>
   <%#= f.submit "Save Test", name: "save", class: 'btn btn-primary mt-3' %>
   <%= link_to 'Back', create_test_quizzes_path, class: 'btn btn-danger mt-3' %>
 <% end %>
