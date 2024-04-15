@@ -1,14 +1,29 @@
+<!-- app/views/tests/show.html.erb -->
 <!DOCTYPE html>
 <html lang="">
 <head>
-  <title>Test</title>
+  <title>Quiz</title>
   <%= stylesheet_link_tag 'quiz', media: 'all', 'data-turbolinks-track': true %>
   <%= csrf_meta_tags %>
   <%= javascript_include_tag 'quiz_buttons' %>
+
 </head>
 
+<h1 class="mb-4">GRBAS Scale Test</h1>
 
-<%= form_for @quiz, url: { action: "update"}, html: { class: 'needs-validation', novalidate: true } do |f| %>
+<div>
+  <p>
+    Now, for each sound sample, consider select the number on the letter’s scale that you feel best represents the level of disorder. You can also
+    you can also add a note/description in the question box about why you feel this is the best answer. (These notes are only for your reference when reviewing your quiz history later).
+    You can listen to a sound any number of times and there are no time limits for tests.
+  </p>
+  <p>
+    Once you’ve answered all the questions, you can submit the test by selecting “Submit Test”.
+    This will complete the quiz and take you to your user profile to see your results.
+  </p>
+</div>
+<%= form_for @quiz, url: {action: "update"}, html: { class: 'needs-validation', novalidate: true } do |f| %>
+  <!-- Jank works to autofill values -->
   <% @responses.each_with_index do |response, index| %>
     <%= f.fields_for :responses do |response_fields| %>
       <!-- Set the value of each response field to the corresponding value from the saved response -->
@@ -19,44 +34,56 @@
       <%= response_fields.text_field :s_rating, value: response.s_rating, class: "response-#{index}-s-rating", style: "display: none;" %>
       <%= response_fields.text_field :reasoning, value: response.reasoning, class: "response-#{index}-reasoning", style: "display: none;" %>
     <% end %>
-    <div class="progress mb-3">
-      <div class="progress-bar" role="progressbar" style="width: <%= ((index + 1) * 100 / @quiz.responses.count) %>%" aria-valuenow="<%= ((index + 1) * 100 / @quiz.responses.count) %>" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
-    <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="card-title">Question <%= index + 1 %></h2>
-          <audio id="audio_elem_<%= index %>" controls class="mb-3">
-            <source src="<%= response.sound.audio_file_path %>" type="audio/wav">
-            Your browser does not support the audio element.
-          </audio>
+  <% end %>
 
-        <% ['G', 'R', 'B', 'A', 'S'].each_with_index do |letter| %>
-          <div class="form-group">
-            <label class="form-label"><%= letter %>:</label>
-            <div id="rating-buttons-<%= index %>-<%= letter %>" class="rating-buttons">
-              <% (0..3).each do |rating| %>
-                <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
+<div class="progress mb-3">
+  <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+<%= form_for @quiz, url: { action: "update"} do |f| %>
+  <div id="questions-container">
+    <% @quiz.responses.each_with_index do |response, index| %>
+      <%= f.fields_for :responses, index: response.id do |response_fields| %>
+        <div id="question-<%= index + 1 %>" class="question-container<%= index == 0 ? '' : ' d-none' %>">
+          <div class="card mb-3">
+            <div class="card-body">
+              <h2 class="card-title">Question <%= index + 1 %></h2>
+              <audio controls class="mb-3">
+                <source src="<%= response.sound.audio_file_path %>" type="audio/wav">
+                Your browser does not support the audio element.
+              </audio>
+
+              <% ['G', 'R', 'B', 'A', 'S'].each_with_index do |letter, rating| %>
+                <div class="form-group">
+                  <label class="form-label"><%= letter %>:</label>
+                  <div id="rating-buttons-<%= index %>-<%= letter %>" class="rating-buttons">
+                    <% (0..3).each do |rating| %>
+                      <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
+                    <% end %>
+                    <%= response_fields.hidden_field "#{letter.downcase}_rating".to_sym, id: "#{index}-#{letter}-rating", class: 'rating-field' %>
+                  </div>
+                </div>
               <% end %>
-              <%= response_fields.hidden_field "#{letter.downcase}_rating".to_sym, id: "#{index}-#{letter}-rating", class: 'rating-field' %>
+
+              <div class="form-group">
+                <%= response_fields.label :reasoning, "Short explanation:", class: 'form-label' %>
+                <%= response_fields.text_field :reasoning, class: 'form-control' %>
+              </div>
             </div>
           </div>
-        <% end %>
-
-        <div class="form-group">
-          <%= response_fields.label :reasoning, "Short explanation:", class: 'form-label' %>
-          <%= response_fields.text_field :reasoning, class: 'form-control reasoning-field' %>
         </div>
-        <% end %>
-
-        <% if @quiz.num_questions > 1 %>
-          <button type="button" class="btn prev-question-btn mt-3">Previous Question</button>
-          <button type="button" class="btn next-question-btn mt-3">Next Question</button>
-        <% end %>
-        <%= f.hidden_field :complete, value: false, class: 'complete-tag' %>
-        <%= f.submit "Submit Test", class: 'btn submit-quiz-button btn-grey btn-lg btn-block mt-3' %>
-        <%= f.submit "Save Test", name: "save", class: 'btn btn-primary mt-3' %>
-        <%= link_to 'Back', create_test_quizzes_path, class: 'btn btn-danger mt-3' %>
       <% end %>
-    </div>
-</div>
-</html>
+    <% end %>
+  </div>
+
+    <% if @quiz.num_questions > 1 %>
+      <button type="button" class="btn prev-question-btn mt-3">Previous Question</button>
+      <button type="button" class="btn next-question-btn mt-3">Next Question</button>
+    <% end %>
+  <%= f.hidden_field :complete, value: false, class: 'complete-tag' %>
+  <%= f.submit "Submit Test", class: 'btn submit-quiz-button btn-grey btn-lg btn-block mt-3' %>
+  <%= f.submit "Save Test", name: "save", class: 'btn btn-primary mt-3' %>
+  <%= link_to 'Back', create_test_quizzes_path, class: 'btn btn-danger mt-3' %>
+<% end %>
+<% end %>
+
