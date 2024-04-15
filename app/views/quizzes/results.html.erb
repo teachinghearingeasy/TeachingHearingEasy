@@ -14,7 +14,7 @@
             <p><strong><%= letter.upcase %> Rating:</strong> <%= response["#{letter}_rating".to_sym] %></p>
           <% end %>
           <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
-          <p><strong>Expert Feedback:</strong> <%= response.feedback %></p>
+          <p><strong>Expert Feedback:</strong> <%= simple_format(response.feedback) %></p>
         </div>
       <% end %>
     </li>
