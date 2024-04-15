@@ -6,31 +6,31 @@
   <% @quiz_history.group_by { |quiz| quiz.which_grbas_letter }.each do |grbas_letter, quizzes| %>
     <details>
       <summary><%= grbas_letter.upcase %></summary>
-      <% total_quizzes = quizzes.size %>
-      <% quizzes.each_with_index do |quiz, index| %>
-        <% reversed_index = total_quizzes - index %>
-        <% grade_percent = quiz.num_questions.zero? ? (quiz.num_right.to_f / quiz.num_questions) * 100 : 100 %>
+      <% quizzes.each do |quiz| %>
+        <% grade_percent = quiz.num_questions.zero? ? 0 : (quiz.num_right.to_f / quiz.num_questions) * 100 %>
+        <% completion_class = quiz.completed ? 'quiz-completed' : 'quiz-incomplete' %>
         <style>
-            .quiz-<%= reversed_index %> {
-                background: linear-gradient(to right, lightcoral <%= grade_percent %>%, lightgreen <%= grade_percent %>%);
+            .<%= completion_class %> {
+                background-color: <%= quiz.completed ? 'lightgreen' : 'lightcoral' %>;
                 border-radius: 10px;
-                padding: 0px;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ddd;
+                margin-left: 20px; /* Indent each quiz box */
             }
         </style>
-        <details class="quiz-<%= reversed_index %>">
-          <summary>
-            Quiz <%= reversed_index %> --> Difficulty: <%= quiz.difficulty %> |
+        <div class="<%= completion_class %>">
+          <p>Quiz --> Difficulty: <%= quiz.difficulty %> |
             Number of Questions: <%= quiz.num_questions %> |
-            Created: <%= quiz.created_at.in_time_zone("Central Time (US & Canada)").strftime("%B %d, %Y at %I:%M%p") %> |
+            Created: <%= quiz.created_at.in_time_zone("Central Time (US & Canada)").strftime("%I:%M%p") %> |
             <% if !quiz.completed %>
               (Incomplete)
+              <%= link_to 'Resume', quiz_path(quiz), class: 'btn btn-primary', style: 'margin-left: 20px;' %>
             <% else %>
               Grade: <%= quiz.num_right.to_s %> / <%= quiz.num_questions.to_s %>
             <% end %>
-          </summary>
-          <% if !quiz.completed %>
-            <%= link_to 'Resume', quiz_path(quiz), class: 'btn btn-primary', style: 'margin-left: 20px;' %>
-          <% else %>
+          </p>
+          <% if quiz.completed %>
             <% quiz.responses.each do |response| %>
               <div class="response-box">
                 <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
@@ -40,37 +40,28 @@
               </div>
             <% end %>
           <% end %>
-        </details>
+        </div>
       <% end %>
     </details>
   <% end %>
 <% end %>
 
 <style>
-  .response-box {
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    margin-left: 20px; /* Indent the response for each question the same as the quiz dropdown */
-  }
+    .response-box {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        margin-left: 20px;
+    }
 
-  details > summary {
-    font-size: 1.5em; /* Make the letters significantly bigger */
-    border: 1px solid #aaa; /* Make the border lighter */
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: transparent; /* Fill the box with a slight gray color */
-    border-radius: 10px; /* Add rounded corners */
-  }
-
-  details > details > summary {
-    font-size: 1.2em; /* Make the quiz details slightly smaller than the GRBAS letters */
-    border: 1px solid #aaa; /* Make the border lighter */
-    padding: 5px;
-    margin-bottom: 5px;
-    margin-left: 20px; /* Indent the quizzes from the main letter dropdown */
-    border-radius: 10px; /* Add rounded corners */
-  }
+    details > summary {
+        font-size: 1.5em;
+        border: 1px solid #aaa;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: transparent;
+        border-radius: 10px;
+    }
 </style>
