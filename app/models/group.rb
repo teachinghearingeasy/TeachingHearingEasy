@@ -71,18 +71,20 @@ class Group  < ActiveRecord::Base
 
       average_experience.each_index do |index|
         if user_demograph[index].eql?("0")
-          average_experience[index] = 0
+          average_experience[index] += 0
         elsif user_demograph[index].eql?("1-2")
-          average_experience[index] = 1.5
+          average_experience[index] += 1.5
         elsif user_demograph[index].eql?("3-4")
-          average_experience[index] = 3.5
+          average_experience[index] += 3.5
         else
-          average_experience[index] = 5
+          average_experience[index] += 5
         end
       end
     end
 
-    average_experience.each{ |item| item = (item / self.users.count).round(2)}
+    average_experience.each_index do |index|
+      average_experience[index] = (average_experience[index] / self.users.count).round(2)
+    end
     average_experience
   end
 end

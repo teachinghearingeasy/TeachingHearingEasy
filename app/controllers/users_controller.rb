@@ -58,6 +58,7 @@ class UsersController < ApplicationController
     @group = Group.find_group(join_token)
     if !@current_user.groups.include?(@group) && !@group.eql?(false)
       @current_user.groups << @group
+      flash[:notice] ="You have just joined " + @group.name + "."
       redirect_to groups_path
     elsif @group.eql?(false)
       flash[:notice] = "Please try again, group code was either incorrect or group does not exist"
