@@ -38,13 +38,26 @@ class Group  < ActiveRecord::Base
       quiz_hash = user.get_individual_quiz_grades
       quiz_hash.each do |key, value|
         if total_quiz_hash[key]
-          total_quiz_hash[key] += value
+          total_quiz_hash[key] +=  value
         else
           total_quiz_hash[key] = value
         end
       end
     end
-    total_quiz_hash
+
+    final_hash = {}
+    total_quiz_hash.each_key do |key|
+      final_hash[key] = [0,0]
+      total_quiz_hash[key].each_index do |index|
+        if (index % 2).eql?(0)
+          final_hash[key][0] += total_quiz_hash[key][index]
+        else
+          final_hash[key][1] += total_quiz_hash[key][index]
+        end
+      end
+    end
+
+    final_hash
   end
 
   def get_group_test_grades
