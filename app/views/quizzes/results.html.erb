@@ -9,12 +9,12 @@
       <% @quiz.responses.each_with_index do |response, index| %>
         <div class="response-box">
           <h3>Question <%= index + 1 %>:</h3>
-          <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
           <% ["g", "r", "b", "a", "s"].each do |letter| %>
             <p><strong><%= letter.upcase %> Rating:</strong> <%= response["#{letter}_rating".to_sym] %></p>
           <% end %>
-          <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
           <p><strong>Expert Feedback:</strong> <%= simple_format(response.feedback) %></p>
+          <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
+          <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
         </div>
       <% end %>
     </li>
@@ -23,10 +23,10 @@
   <% @quiz.responses.each_with_index do |response, index| %>
     <div class="response-box">
       <h3>Question <%= index + 1 %>:</h3>
-      <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
       <p><strong>Rating:</strong> <%= response["#{@quiz.which_grbas_letter}_rating".to_sym] %></p>
-      <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
       <p><strong>Expert Feedback:</strong> <%= response.feedback %></p>
+      <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
+      <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
     </div>
   <% end %>
 <% end %>
