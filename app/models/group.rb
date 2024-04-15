@@ -33,7 +33,8 @@ class Group  < ActiveRecord::Base
     # Use the user methods get individual quiz grades and add them up
     users = self.users
     total_quiz_hash = {}
-    for user in users
+    for user_id in users
+      user = User.find_by_id(user_id)
       quiz_hash = user.get_individual_quiz_grades
       quiz_hash.each do |key, value|
         if total_quiz_hash[key]
@@ -48,8 +49,10 @@ class Group  < ActiveRecord::Base
 
   def get_group_test_grades
     users = self.users
-    total_test_scores = []
-    for user in users
+    puts users.length
+    total_test_scores = [0,0]
+    for user_id in users
+      user = User.find_by_id(user_id)
       test = user.get_test_grades
       total_test_scores[0] += test[0]
       total_test_scores[1] += test[1]
