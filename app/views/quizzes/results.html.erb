@@ -1,7 +1,5 @@
 <h1>Quiz Results</h1>
 <% if @quiz.which_grbas_letter.nil? || @quiz.which_grbas_letter.empty? %>
-  <ul>
-    <li>
       <h3> You got: <%= (@quiz.num_right.to_f / (@quiz.num_questions*5) * 100).round(2) %>% (<%= @quiz.num_right %> out of <%= (@quiz.num_questions*5)%>) </h3>
       <h2><%= @quiz.which_grbas_letter.upcase %></h2>
       <p>Difficulty: <%= @quiz.difficulty %></p>
@@ -10,16 +8,15 @@
       <% @quiz.responses.each_with_index do |response, index| %>
         <div class="response-box">
           <h3>Question <%= index + 1 %>:</h3>
-          <% ["g", "r", "b", "a", "s"].each do |letter| %>
-            <p><strong><%= letter.upcase %> Rating:</strong> <%= response["#{letter}_rating".to_sym] %></p>
-          <% end %>
-          <p><strong>Expert Feedback:</strong> <%= simple_format(response.feedback) %></p>
+          <% split_response = response.feedback.split("\n") %>
+          <% ["g", "r", "b", "a", "s"].each_with_index do |letter, index| %>
+            <p><strong>Your Rating:</strong> <%= letter.upcase %><%= response["#{letter}_rating".to_sym] %></p>
+            <p><strong>Expert Feedback:</strong> <%= split_response[index+1] %></p>
+        <% end %>
           <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
           <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
         </div>
       <% end %>
-    </li>
-  </ul>
 <% else %>
   <h3> You got: <%= (@quiz.num_right.to_f / @quiz.num_questions * 100).round(2) %>% (<%= @quiz.num_right %> out of <%= @quiz.num_questions %>) </h3>
 
