@@ -2,6 +2,7 @@
 <% if @quiz.which_grbas_letter.nil? || @quiz.which_grbas_letter.empty? %>
   <ul>
     <li>
+      <h3> You got: <%= (@quiz.num_right.to_f / (@quiz.num_questions*5) * 100).round(2) %>% (<%= @quiz.num_right %> out of <%= (@quiz.num_questions*5)%>) </h3>
       <h2><%= @quiz.which_grbas_letter.upcase %></h2>
       <p>Difficulty: <%= @quiz.difficulty %></p>
       <p>Number of Questions: <%= @quiz.num_questions %></p>
@@ -20,6 +21,8 @@
     </li>
   </ul>
 <% else %>
+  <h3> You got: <%= (@quiz.num_right.to_f / @quiz.num_questions * 100).round(2) %>% (<%= @quiz.num_right %> out of <%= @quiz.num_questions %>) </h3>
+
   <% @quiz.responses.each_with_index do |response, index| %>
     <div class="response-box">
       <h3>Question <%= index + 1 %>:</h3>
