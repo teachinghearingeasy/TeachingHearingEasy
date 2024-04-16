@@ -72,9 +72,6 @@ class QuizzesController < ApplicationController
   # PATCH/PUT /quizzes/1.json
   # app/controllers/quizzes_controller.rb
 def update
-  # If the quiz needs to be saved and continued later, we have to figure out a way
-  # to append the .active class to the buttons that have been selected on page
-  # reload
   @quiz = Quiz.find(params[:id])
   num_right = 0
   complete = ActiveModel::Type::Boolean.new.cast(quiz_params[:complete])
@@ -114,6 +111,7 @@ end
 
   def results
     @quiz = Quiz.find(params[:id])
+    @hostname = (request.url).to_s.split("/")[2]
   end
 
 

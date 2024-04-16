@@ -11,7 +11,7 @@ class Response < ActiveRecord::Base
       correct_answers = ["That’s it! #{self[rating_sym]}!", "Good listening!", "You got it!", "Spectacular!",
                          "Golden!", "The ears have it!","That's speechy!","Super Duper!", "Super Laryngeal Perceptor!"]
       ran_ind = Random.rand(correct_answers.length)
-      response = correct_answers[ran_ind]
+      response = correct_answers[ran_ind] + " The experts scored this sample at " + quiz_letter.upcase + expert_score.to_i.to_s
     elsif expert_score.eql? 0.0
       case quiz_letter
       when "g"
@@ -30,15 +30,15 @@ class Response < ActiveRecord::Base
     else
       case quiz_letter
       when "g"
-        response = "This is a dysphonic voice. The experts put the level at G#{expert_score}."
+        response = "This is a dysphonic voice. The experts put the level at G#{expert_score.to_i}."
       when "r"
-        response = "This voice definitely has roughness present. The gold standard level was R#{expert_score}."
+        response = "This voice definitely has roughness present. The gold standard level was R#{expert_score.to_i}."
       when "b"
-        response = "You might have heard the air in the sound. Our expert panel put the severity at B#{expert_score}."
+        response = "You might have heard the air in the sound. Our expert panel put the severity at B#{expert_score.to_i}."
       when "a"
-        response = "This voice does sound weaker than a typical voice. The severity level is A#{expert_score}."
+        response = "This voice does sound weaker than a typical voice. The severity level is A#{expert_score.to_i}."
       when "s"
-        response = "There tension or hyperfunction in this sample. The gold standard level was S#{expert_score}."
+        response = "There tension or hyperfunction in this sample. The gold standard level was S#{expert_score.to_i}."
       else
         response = "Oops! Something went wrong on our end... Contact the developers for help."
       end
