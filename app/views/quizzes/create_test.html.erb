@@ -2,8 +2,12 @@
 <h1 class="mb-4">New Test</h1>
 
 <div>
-  <p><strong>Select the difficulty level (0 is the easiest), and the number of questions
-    you’d like to practice with. Then Create Quiz!</strong></p>
+  <p><strong>Select the disorder score* you'd like to practice the most,
+    and the number of questions you’d like to practice with. Then Create Test!
+
+    *this is used to determine the amount of disorder you'll most likely hear. For example, if
+    you select a 0, then the sounds selected for the quiz have the most likely chance of being a 0.
+    Please keep in mind that does not mean that other levels of disorder will not show up.</strong></p>
 </div>
 
 <%= form_for @quiz, url: create_test_quizzes_path do |f| %>
