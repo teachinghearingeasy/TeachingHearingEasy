@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // let audio_elem = document.querySelector("[id^='audio_elem_']");
                 // console.log(audio_elem)
                 if (document.querySelectorAll("[id^='audio_elem_']") != null) {
-                        console.log("called pause")
+                        //console.log("called pause")
                         document.querySelectorAll("[id^='audio_elem_']").forEach(elem =>  {
                                 elem.pause();
                             }
