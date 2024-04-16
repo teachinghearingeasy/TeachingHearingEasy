@@ -8,6 +8,13 @@
       <% @quiz.responses.each_with_index do |response, index| %>
         <div class="response-box">
           <h3>Question <%= index + 1 %>:</h3>
+
+          <audio controls class="mb-3">
+            <%=filepath = Sound.find_by_id(response.sound_id).audio_file_path%>
+            <source src=<%="http://#{@hostname}/#{filepath}"%> type="audio/wav">
+            Your browser does not support the audio element.
+          </audio>
+
           <% split_response = response.feedback.split("\n") %>
           <% ["g", "r", "b", "a", "s"].each_with_index do |letter, index| %>
             <p><strong>Your Rating:</strong> <%= letter.upcase %><%= response["#{letter}_rating".to_sym] %></p>

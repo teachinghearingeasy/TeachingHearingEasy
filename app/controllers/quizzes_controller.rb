@@ -111,6 +111,7 @@ end
 
   def results
     @quiz = Quiz.find(params[:id])
+    @hostname = (request.url).to_s.split("/")[2]
   end
 
 
