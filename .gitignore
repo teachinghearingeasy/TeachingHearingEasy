@@ -13,7 +13,7 @@
 /db/*.sqlite3-journal
 /db/*.sqlite3-wal
 /db/*.sqlite3-shm
-
+config/master.key
 /storage
 
 # Ignore all logfiles and tempfiles.
