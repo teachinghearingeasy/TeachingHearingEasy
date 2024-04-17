@@ -33,27 +33,71 @@ class Group  < ActiveRecord::Base
     # Use the user methods get individual quiz grades and add them up
     users = self.users
     total_quiz_hash = {}
-    for user in users
+    for user_id in users
+      user = User.find_by_id(user_id)
       quiz_hash = user.get_individual_quiz_grades
       quiz_hash.each do |key, value|
         if total_quiz_hash[key]
-          total_quiz_hash[key] += value
+          total_quiz_hash[key] +=  value
         else
           total_quiz_hash[key] = value
         end
       end
     end
-    total_quiz_hash
+
+    final_hash = {}
+    total_quiz_hash.each_key do |key|
+      final_hash[key] = [0,0]
+      total_quiz_hash[key].each_index do |index|
+        if (index % 2).eql?(0)
+          final_hash[key][0] += total_quiz_hash[key][index]
+        else
+          final_hash[key][1] += total_quiz_hash[key][index]
+        end
+      end
+    end
+
+    final_hash
   end
 
   def get_group_test_grades
     users = self.users
-    total_test_scores = []
-    for user in users
+    total_test_scores = [0,0]
+    for user_id in users
+      user = User.find_by_id(user_id)
       test = user.get_test_grades
       total_test_scores[0] += test[0]
       total_test_scores[1] += test[1]
     end
     total_test_scores
+  end
+
+  def get_demographic_stats
+    users = self.users
+    average_experience = [0,0,0]
+    for user_id in users
+      user = User.find_by_id(user_id)
+      user_demograph = ["none","none","none"]
+      user_demograph[0] = user.music_experience
+      user_demograph[1] = user.clinical_experience
+      user_demograph[2] = user.general_education
+
+      average_experience.each_index do |index|
+        if user_demograph[index].eql?("0")
+          average_experience[index] += 0
+        elsif user_demograph[index].eql?("1-2")
+          average_experience[index] += 1.5
+        elsif user_demograph[index].eql?("3-4")
+          average_experience[index] += 3.5
+        else
+          average_experience[index] += 5
+        end
+      end
+    end
+
+    average_experience.each_index do |index|
+      average_experience[index] = (average_experience[index] / self.users.count).round(2)
+    end
+    average_experience
   end
 end

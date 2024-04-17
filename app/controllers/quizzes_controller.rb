@@ -98,15 +98,21 @@ def update
   if @quiz.save
     if complete
       flash[:notice] = "Quiz/Test completed successfully! Find your results in Quiz or Test History!"
+      redirect_to results_quiz_path(@quiz.id)
     else
       flash[:notice] = "Quiz/Test saved successfully! Return to it later through Quiz or Test History!"
+      redirect_to user_path(@current_user.id)
     end
     # Redirect to page where their results are one click away
-    redirect_to user_path(@current_user.id)
   else
     render :edit
   end
 end
+
+  def results
+    @quiz = Quiz.find(params[:id])
+    @hostname = (request.url).to_s.split("/")[2]
+  end
 
 
   # DELETE /quizzes/1

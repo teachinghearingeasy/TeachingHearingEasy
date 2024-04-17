@@ -20,14 +20,14 @@
             <p>Description: <%= group.description %></p>
             <% if @current_user.access_level.eql?("Professor") %>
               <p>Join Token: <%= group.join_token %></p>
-              <%= link_to 'Group Statistics', group_statistics_path(group.join_token), class: 'btn btn-primary' %>
               <% if group.users.nil? || group.users.empty? %>
                 <p>Group has no members yet</p>
               <%else %>
+                <%= link_to 'Group Statistics', group_statistics_path(group.join_token), class: 'btn btn-primary' %>
                 <p>Users:</p>
                 <ul>
                   <% group.users.each do |user| %>
-                    <li> <% user %> </li>
+                    <li> <%= User.find_by_id(user).name %> </li>
                   <% end %>
                 </ul>
               <% end %>

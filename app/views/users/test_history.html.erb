@@ -3,26 +3,28 @@
 <% if @test_history.empty? %>
   <p>You have not taken any tests yet.</p>
 <% else %>
-  <ul>
-    <% @test_history.each do |quiz| %>
-      <li>
-        <h2><%= quiz.which_grbas_letter.upcase %></h2>
-        <p>Difficulty: <%= quiz.difficulty %></p>
-        <p>Number of Questions: <%= quiz.num_questions %></p>
-        <p>Taken On: <%= quiz.created_at.in_time_zone("Central Time (US & Canada)").strftime("%B %d, %Y at %I:%M%p") %></p>
-        <% quiz.responses.each do |response| %>
-          <div class="response-box">
-            <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
-            <%["g", "r", "b", "a", "s"].each do |letter| %>
-              <p><strong><%= letter.upcase  %> Rating:</strong> <%= response["#{letter}_rating".to_sym] %></p>
-            <% end %>
-            <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
-            <p><strong>Expert Feedback:</strong> <%= simple_format(response.feedback) %></p>
-          </div>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+  <% @test_history.group_by { |test| test.created_at.to_date }.each do |date, tests| %>
+    <details>
+      <summary><%= date.strftime("%B %d, %Y") %></summary>
+      <% tests.each do |test| %>
+        <div>
+          <p>Difficulty: <%= test.difficulty %></p>
+          <p>Number of Questions: <%= test.num_questions %></p>
+          <p>Taken On: <%= test.created_at.in_time_zone("Central Time (US & Canada)").strftime("%I:%M%p") %></p>
+          <% test.responses.each do |response| %>
+            <div class="response-box">
+              <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
+              <% ["g", "r", "b", "a", "s"].each do |letter| %>
+                <p><strong><%= letter.upcase %> Rating:</strong> <%= response["#{letter}_rating".to_sym] %></p>
+              <% end %>
+              <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
+              <p><strong>Expert Feedback:</strong> <%= simple_format(response.feedback) %></p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </details>
+  <% end %>
 <% end %>
 
 <style>
@@ -32,5 +34,15 @@
         padding: 10px;
         margin-bottom: 10px;
         border: 1px solid #ddd;
+        margin-left: 20px;
+    }
+
+    details > summary {
+        font-size: 1.5em;
+        border: 1px solid #aaa;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: transparent;
+        border-radius: 10px;
     }
 </style>

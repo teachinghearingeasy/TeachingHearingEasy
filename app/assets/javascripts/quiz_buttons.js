@@ -82,9 +82,12 @@ document.addEventListener("DOMContentLoaded", function() {
         // Logic for save button
         const submitQuizButton = document.querySelector('.submit-quiz-button');
         const completeField = document.querySelector('.complete-tag');
-        submitQuizButton.addEventListener('click', function() {
-                completeField.value = 'true';
-        });
+        if (submitQuizButton != null) {
+                submitQuizButton.addEventListener('click', function() {
+                        completeField.value = 'true';
+                });
+
+        }
 
         // Fill in saved responses (this should work for tests as well)
         questionContainers.forEach((container, index) => {
@@ -156,14 +159,28 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
         }
 
+        function checkForAudio() {
+                // let audio_elem = document.querySelector("[id^='audio_elem_']");
+                // console.log(audio_elem)
+                if (document.querySelectorAll("[id^='audio_elem_']") != null) {
+                        //console.log("called pause")
+                        document.querySelectorAll("[id^='audio_elem_']").forEach(elem =>  {
+                                elem.pause();
+                            }
+                        )
+                }
+        }
+
         if (nextBtn != null) {
                 // Next button click event
+
                 nextBtn.addEventListener('click', function () {
                         if (currentQuestionIndex < questionContainers.length - 1) {
                                 questionContainers[currentQuestionIndex].classList.add('d-none');
                                 currentQuestionIndex++;
                                 questionContainers[currentQuestionIndex].classList.remove('d-none');
                                 updateProgressBar();
+                                checkForAudio();
                         }
                 });
 
@@ -177,6 +194,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 currentQuestionIndex--;
                                 questionContainers[currentQuestionIndex].classList.remove('d-none');
                                 updateProgressBar();
+                                checkForAudio();
                         }
                 });
         }

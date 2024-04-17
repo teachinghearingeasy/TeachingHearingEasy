@@ -2,8 +2,12 @@
 <h1 class="mb-4">New Quiz</h1>
 
 <div>
-  <p><strong>Select the difficulty level (0 is the easiest), letter of the scale you’d like to practice,
-    and the number of questions you’d like to practice with. Then Create Quiz!</strong></p>
+  <p><strong>Select the disorder score* you'd like to practice the most, letter of the scale you’d like to practice,
+    and the number of questions you’d like to practice with. Then Create Quiz!
+
+  *this is used to determine the amount of disorder you'll most likely hear. For example, if
+  you select a 0, then the sounds selected for the quiz have the most likely chance of being a 0.
+  Please keep in mind that does not mean that other levels of disorder will not show up.</strong></p>
 </div>
 <%= form_for @quiz do |f| %>
   <div class="form-group">
@@ -15,7 +19,7 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :difficulty, 'Select Difficulty (0-3)', class: 'form-label' %>
+    <%= f.label :difficulty, 'Select Disorder Level (0-3)', class: 'form-label' %>
     <div class="difficulty-buttons">
       <% (0..3).each do |difficulty| %>
         <button type="button" class="btn btn-secondary difficulty-btn" data-difficulty="<%= difficulty %>"><%= difficulty %></button>
