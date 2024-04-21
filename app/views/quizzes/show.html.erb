@@ -58,6 +58,14 @@
                   <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
                 <% end %>
                 <%= response_fields.hidden_field "#{@quiz.which_grbas_letter}_rating".to_sym, class: "rating-field" %>
+
+                <% if "RBAS".include?(@quiz.which_grbas_letter.upcase) %>
+                  <button id="button_anchor_<%= index %>" type="button" class="btn custom-lightgrey-btn">Anchor Sample? </button>
+                  <audio id="audio_elem_anchor_<%= index %>" controls class="mb-3" style="display: none">
+                    <source src="<%= Sound.get_anchor(@quiz.which_grbas_letter) %>" type="audio/wav">
+                    Your browser does not support the audio element.
+                  </audio>
+                <% end %>
               </div>
             </div>
 

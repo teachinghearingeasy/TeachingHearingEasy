@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let currentQuestionIndex = 0;
         const ratingButtons = document.querySelectorAll('.rating-btn');
 
-        // Logic for save button
+                // Logic for save button
         const submitQuizButton = document.querySelector('.submit-quiz-button');
         const completeField = document.querySelector('.complete-tag');
         if (submitQuizButton != null) {
@@ -87,6 +87,18 @@ document.addEventListener("DOMContentLoaded", function() {
                         completeField.value = 'true';
                 });
 
+        }
+        const anchorSampleButtons = document.querySelectorAll("[id^='button_anchor_']");
+        if (anchorSampleButtons != null) {
+                anchorSampleButtons.forEach( function (button) {
+                        button.addEventListener('click', function() {
+                                let id_contents = button.id.split("_");
+                                let anchor_id = "#audio_elem_anchor_" + id_contents.at(id_contents.length - 1)
+                                document.querySelector(anchor_id).style.display = "inline";
+                                // anchor_audio.style.display = "inline";
+                                button.style.display = "none";
+                        })
+                });
         }
 
         // Fill in saved responses (this should work for tests as well)
