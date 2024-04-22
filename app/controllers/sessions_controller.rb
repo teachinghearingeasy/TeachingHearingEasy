@@ -9,7 +9,11 @@ class SessionsController < ApplicationController
       session["session_token"]= user.session_token
       @current_user = user
       flash[:notice] = "Log in successful!"
-      redirect_to about_path
+      if @current_user.new_user.eql?(true)
+        redirect_to user_path(@current_user.id)
+      else
+        redirect_to about_path
+      end
     else
       flash[:alert] = 'Invalid email/password combination'
       redirect_to login_path

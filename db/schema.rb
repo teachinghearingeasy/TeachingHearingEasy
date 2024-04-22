@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_20_231623) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_22_001332) do
   create_table "groups", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -94,6 +94,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_20_231623) do
     t.string "general_education"
     t.string "session_token"
     t.string "access_level"
+    t.boolean "new_user", default: false
   end
 
   add_foreign_key "responses", "quizzes"

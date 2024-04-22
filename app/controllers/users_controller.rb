@@ -19,6 +19,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
+    @user.update({:new_user => true})
     if @user.save
       flash[:notice] = "Sign up successful! Welcome to THE!"
       redirect_to groups_path
