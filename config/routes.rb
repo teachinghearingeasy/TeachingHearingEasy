@@ -10,7 +10,11 @@ Rails.application.routes.draw do
         get 'results'
     end
   end
-  resources :sounds
+  resources :sounds do
+    collection do
+      get 'search'
+    end
+  end
   resources :groups
   resources :users do
     member do
@@ -29,6 +33,8 @@ Rails.application.routes.draw do
   match '/tab_groups', to: 'pages#tab_group', via: :get, :as => 'tabGroup'
   get 'data/audio/:filename', to: 'sounds#audio', as: 'audio', constraints: { filename: /[^\/]+/ }
   get '/quizzes/data/audio/:filename', to: 'sounds#audio', constraints: { filename: /[^\/]+/ }
+  get '/sounds/data/audio/:filename', to: 'sounds#audio', constraints: { filename: /[^\/]+/ }
+  get 'sounds/:sound_id/responses', to: 'responses#show_responses', as: 'responses_sound'
   get 'statistics/group/:join_token', to: 'statistics#group_statistics', as: 'group_statistics'
   get 'statistics/site', to: 'statistics#site_statistics', as: 'site_statistics'
 end

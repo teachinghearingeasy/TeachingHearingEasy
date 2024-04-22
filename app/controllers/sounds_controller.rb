@@ -8,6 +8,35 @@ class SoundsController < ApplicationController
     @sounds = Sound.all
   end
 
+  def search
+    filter = search_params
+    if filter[:search].empty? && filter[:letter].nil? && filter[:rating].nil?
+      flash[:alert] = "Search terms included all sounds!"
+      redirect_to sounds_path
+    else
+      # Check for proper search parameters
+      if filter[:letter].nil? && !filter[:rating].nil?
+        flash[:alert] = "You must select a letter to search by rating!"
+        redirect_to sounds_path
+        return
+      end
+      if !filter[:letter].nil? && filter[:rating].nil?
+        flash[:alert] = "You must select a rating to search by letter!"
+        redirect_to sounds_path
+        return
+      end
+      @sounds =  Sound.search filter[:search], filter[:letter], filter[:rating]
+      @responses = Response.get_sound_responses(@sounds, @current_user.id)
+      if @sounds.empty?
+        flash[:alert] = "No sounds found!"
+        redirect_to sounds_path
+      else
+        flash[:notice] = "Found " + @sounds.length.to_s + " sounds!"
+        render search_sounds_path
+      end
+    end
+  end
+
   # GET /sounds/1
   # GET /sounds/1.json
   def show
@@ -25,7 +54,7 @@ class SoundsController < ApplicationController
   # POST /sounds
   # POST /sounds.json
   def create
-    @sound = Sound.new(sound_params)
+    @sound = Sound.new()
 
     respond_to do |format|
       if @sound.save
@@ -76,5 +105,9 @@ class SoundsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def sound_params
       params.fetch(:sound, {})
+    end
+
+    def search_params
+      params.permit(:search, :letter, :rating)
     end
 end

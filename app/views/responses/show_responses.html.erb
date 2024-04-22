@@ -1,0 +1,79 @@
+<!-- app/views/responses/show_responses.html.erb -->
+<h1>Responses for: <%= @sound.db_file_name %></h1>
+
+<!-- Display the true score ratings -->
+<div class="true-score-ratings">
+  <h2>True Score Ratings</h2>
+  <p>
+    G: <%= @sound.g_rating %> |
+    R: <%= @sound.r_rating %> |
+    B: <%= @sound.b_rating %> |
+    A: <%= @sound.a_rating %> |
+    S: <%= @sound.s_rating %>
+  </p>
+</div>
+
+<% if @quiz_responses.empty? && @test_responses.empty? %>
+  <p>You have not given any responses yet.</p>
+<% else %>
+  <% unless @quiz_responses.empty? %>
+    <details>
+      <summary>Past Quiz Responses</summary>
+      <% @quiz_responses.each_with_index do |response, index| %>
+        <div class="response-box">
+          <p><strong>Quiz Rating:</strong> <%= @quiz_rating[index] %></p>
+          <p><strong>Quiz Letter:</strong> <%= @quiz_letter[index] %></p>
+          <p><strong>Comment:</strong> <%= response.reasoning %></p>
+          <p><strong>Feedback:</strong> <%= simple_format(response.feedback) %></p>
+        </div>
+      <% end %>
+    </details>
+  <% end %>
+
+  <% unless @test_responses.empty? %>
+    <details>
+      <summary>Past Test Responses</summary>
+      <% @test_responses.each do |response| %>
+        <div class="response-box">
+          <p>
+            <strong>G:</strong> <%= response.g_rating %> |
+            <strong>R:</strong> <%= response.r_rating %> |
+            <strong>B:</strong> <%= response.b_rating %> |
+            <strong>A:</strong> <%= response.a_rating %> |
+            <strong>S:</strong> <%= response.s_rating %><br>
+            <strong>Comment:</strong> <%= response.reasoning %><br>
+            <strong>Created at:</strong> <%= response.created_at %>
+          </p>
+        </div>
+      <% end %>
+    </details>
+  <% end %>
+<% end %>
+
+<style>
+    .response-box {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        margin-left: 20px;
+    }
+
+    .true-score-ratings {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+    }
+
+    details > summary {
+        font-size: 1.5em;
+        border: 1px solid #aaa;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: transparent;
+        border-radius: 10px;
+    }
+</style>
