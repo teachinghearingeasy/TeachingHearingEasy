@@ -296,9 +296,12 @@ Sj30005,Female,20,N
 Sj30006,Female,18,N
 Sj30007,Female,19,N
 Sj30008,Female,18,N
+anchor_A,F,0,N
+anchor_B,F,0,N
+anchor_R,F,0,N
+anchor_S,F,0,N
 ,MEAN,46.72727273,
 ,MEDIAN,48,
 ,MIN,14,
 ,MAX,93,
 ,RANGE,79,
-,,,

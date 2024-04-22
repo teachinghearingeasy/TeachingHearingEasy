@@ -23,4 +23,8 @@ class Sound < ActiveRecord::Base
       nil
     end
   end
+
+  def self.get_anchor(which_grbas_letter)
+    Sound.find_by_db_file_name("anchor_#{which_grbas_letter}").audio_file_path
+  end
 end
