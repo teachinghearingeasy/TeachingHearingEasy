@@ -74,6 +74,7 @@ class QuizzesController < ApplicationController
 def update
   @quiz = Quiz.find(params[:id])
   num_right = 0
+  total_qs = 0
   complete = ActiveModel::Type::Boolean.new.cast(quiz_params[:complete])
   quiz_params[:responses].each do |response|
     @response = Response.find_by_id(response[0])
@@ -89,6 +90,7 @@ def update
         feedback_string, correct = @response.create_feedback(letter)
         feedback = feedback + "\n#{letter.upcase}: " + feedback_string
         num_right += 1 if correct
+        total_qs += 1
       end
       @response.update({ :feedback => feedback })
     end
@@ -97,6 +99,8 @@ def update
   @quiz.update({ :completed => complete, :num_right => num_right })
   if @quiz.save
     if complete
+      @stat = Stat.find_by_user_id(@current_user.id)
+      @stat.update_experience([num_right, total_qs])
       flash[:notice] = "Quiz/Test completed successfully! Find your results in Quiz or Test History!"
       redirect_to results_quiz_path(@quiz.id)
     else

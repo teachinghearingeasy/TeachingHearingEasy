@@ -22,6 +22,9 @@ class UsersController < ApplicationController
     @user.update({:new_user => true})
     if @user.save
       flash[:notice] = "Sign up successful! Welcome to THE!"
+      @stat = Stat.create({:user_id => @user.id})
+      @stat.save
+      @stat.set_progress_level
       redirect_to groups_path
     else
       errors = @user.errors.full_messages
