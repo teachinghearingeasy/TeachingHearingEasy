@@ -46,12 +46,12 @@ class Response < ActiveRecord::Base
     [response, expert_score.eql?(self[rating_sym].to_f)]
   end
 
-  def self.get_sound_responses(sounds, uid)
+  def self.get_num_responses(sounds, uid)
     responses = []
     sounds.each do |sound|
-      temp = sound.responses.where(user_id: uid).where.not(feedback: nil)
-      responses.push(temp)
-    end
+      temp = Response.where(user_id: uid, sound_id: sound.id).where.not(feedback: nil)
+      responses.push(temp.length)
+      end
     responses
   end
 

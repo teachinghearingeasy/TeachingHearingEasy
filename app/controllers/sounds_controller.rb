@@ -26,7 +26,7 @@ class SoundsController < ApplicationController
         return
       end
       @sounds =  Sound.search filter[:search], filter[:letter], filter[:rating]
-      @responses = Response.get_sound_responses(@sounds, @current_user.id)
+      @num_responses = Response.get_num_responses(@sounds, @current_user.id)
       if @sounds.empty?
         flash[:alert] = "No sounds found!"
         redirect_to sounds_path

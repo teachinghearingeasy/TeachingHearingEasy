@@ -73,7 +73,7 @@
   </thead>
 
   <tbody>
-  <% @sounds.each do |sound| %>
+  <% @sounds.each_with_index do |sound, index| %>
     <tr>
       <td><%= sound.db_file_name %></td>
       <td>
@@ -84,7 +84,7 @@
         S: <%= sound.s_rating %>
       </td>
       <td>
-        <% if @responses.size == 0 %>
+        <% if @num_responses[index] == 0 %>
           You've not rated this sound yet.
         <% else %>
           <%= link_to 'View Responses', responses_sound_path(sound) %>
