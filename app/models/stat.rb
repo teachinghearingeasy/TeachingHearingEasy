@@ -28,10 +28,10 @@ class Stat < ActiveRecord::Base
   end
 
   def update_experience(new_scores)
-    current_score = self.total_answers.split?("/")
-    correct_scores = current_score[0] + new_scores[0]
-    total_num = current_score[1] + new_scores[1]
-    if (correct_scores.to_f * 100 / total_num).round(2) > 70
+    current_score = self.total_answers.split("/")
+    correct_scores = current_score[0].to_i + new_scores[0]
+    total_num = current_score[1].to_i + new_scores[1]
+    if (correct_scores.to_f * 100 / total_num).round(2) > 60
       self.progress_level = "intermediate"
     else
       self.progress_level = "beginner"
