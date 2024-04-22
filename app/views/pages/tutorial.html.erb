@@ -1,0 +1,41 @@
+<div class="container">
+<div class="box">
+  <h2>Welcome!</h2>
+  <p class="profile-header">
+    Hello! So glad to hear you’ve decided to test your GRBAS skills!<br>
+    We are excited to see you get started with learning about GRBAS!<br>
+    <br>
+    First and foremost, we'd like you to start by taking a quick diagnostic test!<br>
+    This will help us determine where you might be in terms of expertise!<br>
+    <br>
+    Please click the below button to get started!<br>
+    <br>
+    <%= link_to "New Test", create_test_quizzes_path(@current_user.id), class: 'btn custom-lightgrey-btn' %><br>
+    <br>
+    (If you don't want to take the diagnostic test, your account will be set<br>
+    according to the experience levels you entered during the user creation<br>
+    process.)
+    </p>
+</div>
+</div>
+
+<style>
+    .profile-header {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .profile-info {
+        margin-bottom: 10px;
+    }
+    .custom-lightgrey-btn {
+        background-color: lightgrey;
+        color: black;
+        border: none;
+    }
+    .custom-lightgrey-btn:hover {
+        background-color: grey;
+        color: white;
+    }
+</style>

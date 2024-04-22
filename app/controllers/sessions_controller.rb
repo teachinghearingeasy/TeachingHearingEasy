@@ -8,10 +8,11 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params["session"]["password"])
       session["session_token"]= user.session_token
       @current_user = user
-      flash[:notice] = "Log in successful!"
       if @current_user.new_user.eql?(true)
-        redirect_to user_path(@current_user.id)
+        flash[:notice] = "Welcome new user! Please take our quick tutorial!"
+        redirect_to tutorial_path
       else
+        flash[:notice] = "Log in successful!"
         redirect_to about_path
       end
     else
