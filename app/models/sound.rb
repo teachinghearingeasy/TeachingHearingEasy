@@ -7,6 +7,13 @@ class Sound < ActiveRecord::Base
     Sound.where("#{str} = ?", difficulty).sample
   end
 
+  def self.get_sound2(grbas_letter1, grbas_letter2, difficulty)
+    str = (grbas_letter1 + "_rating").to_sym
+    str2 = (grbas_letter2 + "_rating").to_sym
+    Sound.where({ str => difficulty }).where({ str2 => difficulty }).sample
+
+  end
+
   def find_score (grbas_letter)
     case grbas_letter
     when "g"
