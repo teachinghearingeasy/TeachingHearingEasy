@@ -48,7 +48,14 @@ class QuizzesController < ApplicationController
 
   def create_test
     if request.post?
-      @quiz, error = Quiz.build_test params[:quiz][:difficulty].to_i,
+      stat = Stat.find_by_user_id(@current_user.id)
+      if stat.progress_level.eql?("beginner")
+        difficulty = 3
+      else
+        difficulty = 1
+      end
+
+      @quiz, error = Quiz.build_test difficulty,
                                      params[:quiz][:num_questions].to_i,
                                      @current_user.id
       if not @quiz.nil? and @quiz.save
