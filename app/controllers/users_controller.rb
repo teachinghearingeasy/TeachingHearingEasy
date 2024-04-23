@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_current_user
+  before_action :set_current_user, except: [:new, :create]
   before_action :verify_admin_or_dev, only: [:search_users, :change_access]
 
   def show
