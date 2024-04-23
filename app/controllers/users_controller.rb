@@ -53,6 +53,18 @@ end
     end
   end
 
+  def edit
+    # render 'edit'
+  end
+
+  def update
+    # update product
+  end
+
+  def destroy
+    # destroy user
+  end
+
   def quiz_history
     @quiz_history = @current_user.quizzes.where.not(which_grbas_letter: "").order(created_at: :desc)
   end
