@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function() {
                                 let id_contents = button.id.split("_");
                                 let anchor_id = "#audio_elem_anchor_" + id_contents.at(id_contents.length - 1)
                                 document.querySelector(anchor_id).style.display = "inline";
-                                // anchor_audio.style.display = "inline";
                                 button.style.display = "none";
                         })
                 });
