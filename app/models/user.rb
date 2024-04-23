@@ -53,8 +53,8 @@ class User < ActiveRecord::Base
     tests = self.quizzes.where('which_grbas_letter = ? AND completed IS true', '')
     grades = [0,0]
     tests.each do |test|
-      grades[0] += test.num_right
-      grades[1] += test.num_questions
+      grades[0] += test.num_right unless test.num_right.nil?
+      grades[1] += test.num_questions unless test.num_questions.nil?
     end
     grades
   end
@@ -77,11 +77,13 @@ class User < ActiveRecord::Base
 
   def self.get_site_test_grades
     users = User.all
-    total_test_scores = []
+    total_test_scores = [0,0]
     for user in users
       test = user.get_test_grades
-      total_test_scores[0] += test[0]
-      total_test_scores[1] += test[1]
+      unless test[0].nil? || test[1].nil?
+        total_test_scores[0] += test[0]
+        total_test_scores[1] += test[1]
+      end
     end
     total_test_scores
   end

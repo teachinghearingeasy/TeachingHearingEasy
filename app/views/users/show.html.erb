@@ -58,6 +58,9 @@
     <% if @current_user.access_level.eql?("Admin") %>
       <%= link_to "Site Statistics", site_statistics_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
     <% end %>
+    <% if @current_user.access_level.eql?("Admin") || @current_user.access_level.eql?("Developer")%>
+      <%= link_to 'Search Users', search_users_path(@current_user), class: 'btn custom-lightgrey-btn' %>
+    <% end %>
   </div>
 </div>
 

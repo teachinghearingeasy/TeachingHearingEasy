@@ -37,4 +37,6 @@ Rails.application.routes.draw do
   get 'sounds/:sound_id/responses', to: 'responses#show_responses', as: 'responses_sound'
   get 'statistics/group/:join_token', to: 'statistics#group_statistics', as: 'group_statistics'
   get 'statistics/site', to: 'statistics#site_statistics', as: 'site_statistics'
+  get 'search_users', to: 'users#search_users'
+  post 'change_access', to: 'users#change_access'
 end
