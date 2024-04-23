@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :set_current_user
+  skip_before_action :set_current_user, only: [:new, :create]
   def new
   end
 
@@ -8,8 +8,13 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params["session"]["password"])
       session["session_token"]= user.session_token
       @current_user = user
-      flash[:notice] = "Log in successful!"
-      redirect_to about_path
+      if @current_user.new_user.eql?(true)
+        flash[:notice] = "Welcome new user! Please take our quick tutorial!"
+        redirect_to tutorial_path
+      else
+        flash[:notice] = "Log in successful!"
+        redirect_to about_path
+      end
     else
       flash[:alert] = 'Invalid email/password combination'
       redirect_to login_path
@@ -18,6 +23,9 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:session_token]=nil
+    if @current_user.new_user.eql?(true)
+      @current_user.update_attribute(:new_user, false)
+    end
     @current_user=nil
     flash[:notice]= 'Successfully logged out'
     redirect_to about_path

@@ -1,0 +1,63 @@
+<div class="container">
+<div class="profile-header">
+  <h2>Welcome!</h2>
+  <p>Hello! So glad to hear you’ve decided to test your GRBAS skills! We are excited to see you get started with learning about GRBAS!</p>
+
+  <p>First and foremost, welcome! Now, what is Teaching Hearing Easy? </p>
+
+  <p>Teaching Hearing Easy lets users start refining their hearing skills
+    using a perceptual scale called GRBAS. Users will listen to a sound
+    and scale the sound to determine if there's any disorder in the voice.
+    This will be scaled on a 0-3 scale for each letter in the GRBAS acronym (0 being a normal voice, 3 being severely disordered).
+  </p>
+
+  <h2>The GRBAS Scale</h2>
+  <ul>
+    <li><strong>G</strong> - Grade of Hoarseness - relating to overall level of disorder</li>
+    <li><strong>R</strong> - Roughness - irregularity in vocal vibrations, specific listening</li>
+    <li><strong>B</strong> - Breathiness - air leakage thru vocal folds, tend to sound like white noise</li>
+    <li><strong>A</strong> - Asthenia - weakness or lack of power</li>
+    <li><strong>S</strong> - Strain - throat constriction / tone can have high pitch features</li>
+  </ul>
+
+  <p>Thus, if you hear what you believe is a normal voice, you'd scale the sound
+    at a G0. Teaching Hearing Easy uses different approaches of practice
+    geared towards users improving their own internal perceptual scale.
+  </p>
+
+
+  <p> Now that you know, we'd like you to start by taking a quick diagnostic test!
+  This will help us determine where you might be in terms of expertise!</p>
+
+
+  <p> Please click the below button to get started!</p>
+
+  <%= link_to "New Test", create_test_quizzes_path(@current_user.id), class: 'btn custom-lightgrey-btn' %><br>
+
+  <p>(If you don't want to take the diagnostic test, your account will be set
+    according to the experience levels you entered during the user creation
+    process.)
+    </p>
+</div>
+</div>
+
+<style>
+    .profile-header {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    .profile-info {
+        margin-bottom: 10px;
+    }
+    .custom-lightgrey-btn {
+        background-color: lightgrey;
+        color: black;
+        border: none;
+    }
+    .custom-lightgrey-btn:hover {
+        background-color: grey;
+        color: white;
+    }
+</style>

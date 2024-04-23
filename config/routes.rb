@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   match '/logout', to: 'sessions#destroy', via: :delete, :as => 'logout'
   match '/learn', to: 'pages#learn', via: :get, :as => 'learn'
   match '/tab_groups', to: 'pages#tab_group', via: :get, :as => 'tabGroup'
+  match '/tutorial', to: 'pages#tutorial', via: :get, :as => 'tutorial'
   get 'data/audio/:filename', to: 'sounds#audio', as: 'audio', constraints: { filename: /[^\/]+/ }
   get '/quizzes/data/audio/:filename', to: 'sounds#audio', constraints: { filename: /[^\/]+/ }
   get 'statistics/group/:join_token', to: 'statistics#group_statistics', as: 'group_statistics'

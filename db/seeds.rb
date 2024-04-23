@@ -62,7 +62,9 @@ users = [{:email => "testuser@gmail.com", :password => "Password!1", :password_c
 ]
 
 users.each do |user|
-  User.create!(user)
+  curr_user = User.create!(user)
+  stat = Stat.create({:user_id => curr_user.id})
+  stat.set_progress_level
 end
 
 groups = [{:name => "Group 1", :description => "A demo group", :owner => 1}]

@@ -61,6 +61,15 @@
                     <% (0..3).each do |rating| %>
                       <button type="button" class="btn btn-secondary rating-btn" data-rating="<%= rating %>"><%= rating %></button>
                     <% end %>
+
+                    <% if "RBAS".include?(letter) %>
+                      <button id="button_anchor_<%= letter %><%= index %>" type="button" class="btn custom-lightgrey-btn"><%= letter %> Anchor Sample </button>
+                      <audio id="audio_elem_anchor_<%= letter %><%= index %>" controls class="mb-3" style="display: none">
+                        <source src="<%= Sound.get_anchor(letter.downcase) %>" type="audio/wav">
+                        Your browser does not support the audio element.
+                      </audio>
+                    <% end %>
+
                     <%= response_fields.hidden_field "#{letter.downcase}_rating".to_sym, id: "#{index}-#{letter}-rating", class: 'rating-field' %>
                   </div>
                 </div>
