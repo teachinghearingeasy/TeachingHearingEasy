@@ -22,6 +22,12 @@ class Sound < ActiveRecord::Base
     return sounds
   end
 
+  def self.get_sound2(grbas_letter1, grbas_letter2, difficulty)
+    str = (grbas_letter1 + "_rating").to_sym
+    str2 = (grbas_letter2 + "_rating").to_sym
+    Sound.where({ str => difficulty }).where({ str2 => difficulty }).sample
+  end
+
   def find_score (grbas_letter)
     case grbas_letter
     when "g"
@@ -37,5 +43,9 @@ class Sound < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def self.get_anchor(which_grbas_letter)
+    Sound.find_by_db_file_name("anchor_#{which_grbas_letter}").audio_file_path
   end
 end
