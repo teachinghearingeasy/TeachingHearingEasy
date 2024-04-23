@@ -67,12 +67,13 @@
   <tr>
     <th>File Name</th>
     <th>GRBAS Scores</th>
-    <th>Actions</th>
+    <th>History</th>
+    <th>Audio</th>
   </tr>
   </thead>
 
   <tbody>
-  <% @sounds.each do |sound| %>
+  <% @sounds.each_with_index do |sound, index| %>
     <tr>
       <td><%= sound.db_file_name %></td>
       <td>
@@ -82,10 +83,18 @@
         A: <%= sound.a_rating %> |
         S: <%= sound.s_rating %>
       </td>
+      <td>
+        <% if @num_responses[index] == 0 %>
+          You've not rated this sound yet.
+        <% else %>
+          <%= link_to 'View Responses', responses_sound_path(sound) %>
+        <% end %>
+      </td>
       <td class="sound-actions">
         <audio class="audio-player" controls>
           <source src="<%= sound.audio_file_path %>" type="audio/wav">
           Your browser does not support the audio element.
+          <label for="slider"></label><input type="range" id="slider" min="0" max="1" step="0.005" disabled>
         </audio>
       </td>
     </tr>
@@ -95,23 +104,19 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const playButtons = document.querySelectorAll('.play-sound');
         const audioPlayers = document.querySelectorAll('.audio-player');
 
+        // Play the audio
+        const playButtons = document.querySelectorAll('.play-sound');
         if (playButtons != null) {
             playButtons.forEach(function (button, index) {
                 button.addEventListener('click', function (event) {
                     event.preventDefault();
-                    const audioPath = button.getAttribute('data-audio-path');
-                    audioPlayers[index].src = audioPath;
+                    audioPlayers[index].src = button.getAttribute('data-audio-path');
                     audioPlayers[index].play();
                 });
             });
         }
     });
 </script>
-
-
 <br>
-
-<%#= link_to 'New Sound', new_sound_path %>

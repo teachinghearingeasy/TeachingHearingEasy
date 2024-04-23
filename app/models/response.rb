@@ -45,4 +45,53 @@ class Response < ActiveRecord::Base
     end
     [response, expert_score.eql?(self[rating_sym].to_f)]
   end
+
+  def self.get_num_responses(sounds, uid)
+    responses = []
+    sounds.each do |sound|
+      temp = Response.where(user_id: uid, sound_id: sound.id).where.not(feedback: nil)
+      responses.push(temp.length)
+      end
+    responses
+  end
+
+  def self.find_and_split_responses(user, sound)
+    responses = where(user: user, sound: sound).where.not(feedback: nil)
+    quiz_responses = []
+    test_responses = []
+    responses.each do |response|
+      is_test = true
+      %w[g r b a s].each do |letter|
+        if response["#{letter}_rating".to_sym].nil?
+          is_test = false
+          break
+        end
+      end
+      if is_test
+        test_responses.push(response)
+      else
+        quiz_responses.push(response)
+      end
+    end
+    [quiz_responses, test_responses]
+  end
+
+  def self.get_quiz_info(quiz_responses)
+    # Return the score rating & letter for each quiz based on #letter_rating values
+    quiz_ratings = []
+    quiz_letters = []
+    quiz_responses.each do |response|
+      rating = 0
+      quiz_letter = ""
+      %w[g r b a s].each do |letter|
+        unless response["#{letter}_rating".to_sym].nil?
+          rating = response["#{letter}_rating".to_sym]
+          quiz_letter = letter
+        end
+      end
+      quiz_ratings.push(rating)
+      quiz_letters.push(quiz_letter)
+    end
+    [quiz_ratings, quiz_letters]
+  end
 end

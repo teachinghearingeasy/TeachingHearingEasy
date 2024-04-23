@@ -10,7 +10,11 @@ Rails.application.routes.draw do
         get 'results'
     end
   end
-  resources :sounds
+  resources :sounds do
+    collection do
+      get 'search'
+    end
+  end
   resources :groups
   resources :users do
     member do
@@ -30,6 +34,10 @@ Rails.application.routes.draw do
   match '/tutorial', to: 'pages#tutorial', via: :get, :as => 'tutorial'
   get 'data/audio/:filename', to: 'sounds#audio', as: 'audio', constraints: { filename: /[^\/]+/ }
   get '/quizzes/data/audio/:filename', to: 'sounds#audio', constraints: { filename: /[^\/]+/ }
+  get '/sounds/data/audio/:filename', to: 'sounds#audio', constraints: { filename: /[^\/]+/ }
+  get 'sounds/:sound_id/responses', to: 'responses#show_responses', as: 'responses_sound'
   get 'statistics/group/:join_token', to: 'statistics#group_statistics', as: 'group_statistics'
   get 'statistics/site', to: 'statistics#site_statistics', as: 'site_statistics'
+  get 'search_users', to: 'users#search_users'
+  post 'change_access', to: 'users#change_access'
 end

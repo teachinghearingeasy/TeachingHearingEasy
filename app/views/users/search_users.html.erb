@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>Search Users</h1>
+  <%= form_with(url: search_users_path, method: :get, local: true) do |form| %>
+    <div class="form-group">
+      <%= form.label :search, 'Search for a user:' %>
+      <%= form.text_field :search, class: 'form-control' %>
+    </div>
+    <%= form.submit 'Search', class: 'btn btn-primary' %>
+  <% end %>
+
+  <% if @users.present? %>
+    <div class="mt-4">
+      <h2>Search Results</h2>
+      <ul class="list-group">
+        <% @users.each do |user| %>
+          <li class="list-group-item">
+            <h3><%= user.name %></h3>
+            <p>Email: <%= user.email %></p>
+            <%= form_with(url: change_access_path, method: :post, local: true) do |form| %>
+              <div class="form-group">
+                <%= form.label :access, 'Access Level:' %>
+                <%= form.text_field :access, class: 'form-control', value: user.access_level %>
+                <%= form.hidden_field :id, value: user.id %>
+              </div>
+              <%= form.submit 'Change Access', class: 'btn btn-primary' %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
