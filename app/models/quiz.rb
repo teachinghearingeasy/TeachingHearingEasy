@@ -27,6 +27,7 @@ class Quiz < ActiveRecord::Base
         count = 0
         while sounds.include?(sound) && count < 100
           count += 1
+          question_answers << (generate_random_number(difficulty, 1)).round.to_i % 4
           sound = Sound.get_sound(grbas_letter, question_answers[i])
         end
         if count == 100 or sound.nil?
