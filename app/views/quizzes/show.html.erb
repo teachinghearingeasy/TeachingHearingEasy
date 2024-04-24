@@ -74,7 +74,7 @@
                 <%= response_fields.hidden_field "#{@quiz.which_grbas_letter}_rating".to_sym, class: "rating-field" %>
 
                 <% if "RBAS".include?(@quiz.which_grbas_letter.upcase) %>
-                  <button id="button_anchor_<%= index %>" type="button" class="btn custom-lightgrey-btn" style="background-color: lightgrey">Anchor Sample? </button>
+                  <button id="button_anchor_<%= index %>" type="button" class="btn custom-lightgrey-btn" style="text-align:center; background-color: lightgrey; border-color: #4e555b; color: #4e555b">Anchor Sample? </button>
                   <audio id="audio_elem_anchor_<%= index %>" controls class="mb-3" style="display: none">
                     <source src="<%= Sound.get_anchor(@quiz.which_grbas_letter) %>" type="audio/wav">
                     Your browser does not support the audio element.
@@ -88,7 +88,7 @@
               <%= response_fields.text_field :reasoning, class: 'form-control reasoning-field' %>
             </div>
 
-            <button type="button" id="check-question-btn-<%=index%>" class="btn mt-3" style="text-align:center; background-color: lightgrey">Check Your Answer?</button>
+            <button type="button" id="check-question-btn-<%=index%>" class="btn mt-3" style="text-align:center; background-color: lightgrey; border-color: #4e555b; color: #4e555b">Check Your Answer?</button>
           </div>
         </div>
       </div>

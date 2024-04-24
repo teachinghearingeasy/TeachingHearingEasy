@@ -69,7 +69,7 @@
                     <% end %>
 
                     <% if "RBAS".include?(letter) %>
-                      <button id="button_anchor_<%= letter %><%= index %>" type="button" class="btn custom-lightgrey-btn" style="background-color: lightgrey"><%= letter %> Anchor Sample </button>
+                      <button id="button_anchor_<%= letter %><%= index %>" type="button" class="btn custom-lightgrey-btn" style="text-align:center; background-color: lightgrey; border-color: #4e555b; color: #4e555b"><%= letter %> Anchor Sample </button>
                       <audio id="audio_elem_anchor_<%= letter %><%= index %>" controls class="mb-3" style="display: none">
                         <source src="<%= Sound.get_anchor(letter.downcase) %>" type="audio/wav">
                         Your browser does not support the audio element.
