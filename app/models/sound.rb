@@ -4,7 +4,8 @@ class Sound < ActiveRecord::Base
 
   def self.get_sound(grbas_letter, difficulty)
     str = grbas_letter + "_rating"
-    Sound.where("#{str} = ?", difficulty).sample
+    anchor_sounds = ["anchor_a", "anchor_b", "anchor_r", "anchor_s"]
+    Sound.where({ str.to_sym => difficulty }).where.not({:db_file_name => anchor_sounds}).sample
   end
 
   def self.search(sound_id, letter, rating)
