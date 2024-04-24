@@ -17,7 +17,9 @@ class StatisticsControllerSpec
         controller.instance_variable_set(:@current_user, @user)
         @group = Group.find_by_owner(@user.id)
         second_user = User.where(email: "testuser2@gmail.com").first
+        third_user = User.create({:email => "unittesters@gmail.com", :password => "Password!1", :password_confirmation => "Password!1", :name => "Student2", :music_experience => "1-2", :clinical_experience => "3-4", :general_education => "5+", :access_level => "Student"})
         @group.users << second_user
+        @group.users << third_user
         get :group_statistics, params: { :join_token => @group.join_token}
         expect(response).to be_successful
       end
