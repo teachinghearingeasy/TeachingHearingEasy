@@ -31,12 +31,14 @@ class Stat < ActiveRecord::Base
     current_score = self.total_answers.split("/")
     correct_scores = current_score[0].to_i + new_scores[0]
     total_num = current_score[1].to_i + new_scores[1]
-    if (correct_scores.to_f * 100 / total_num).round(2) > 60
-      self.progress_level = "intermediate"
-    else
-      self.progress_level = "beginner"
+    unless total_num.eql?(0)
+      if (correct_scores.to_f * 100 / total_num).round(2) > 60
+        self.progress_level = "intermediate"
+      else
+        self.progress_level = "beginner"
+      end
+      self.total_answers = "#{correct_scores}/#{total_num}"
+      self.save
     end
-    self.total_answers = "#{correct_scores}/#{total_num}"
-    self.save
   end
 end
