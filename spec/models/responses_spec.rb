@@ -171,6 +171,20 @@ class ResponsesSpec
         @response.update(feedback: @response.create_feedback("s"))
         expect(@response.feedback.include?((" The gold standard level was S"))).to be true
       end
+      it "should give an error message for the response if the response does not have the correct letter" do
+        @user = User.find_by_email("testuser@gmail.com")
+        @quiz = Quiz.new({:user_id => @user.id, :which_grbas_letter => "R", :difficulty => 1, :num_questions => 1})
+        @sound = Sound.find_by_db_file_name("bl01")
+        @response = Response.create({:r_rating => 3, :reasoning => "yuh", :sound_id => @sound.id, :user_id => @user.id})
+        @quiz.sounds << @sound
+        @quiz.users << @user
+        @quiz.responses << @response
+        @quiz.save
+        @response.save
+        expect(@response.feedback).to eq(nil)
+        @response.update(feedback: @response.create_feedback("q"))
+        expect(@response.feedback).to include("Oops! Something went wrong on our end... Contact the developers for help.")
+      end
     end
   end
 end
