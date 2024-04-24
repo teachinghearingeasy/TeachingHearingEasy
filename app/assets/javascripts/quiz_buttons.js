@@ -1,5 +1,6 @@
 const questionContainers = document.querySelectorAll('.question-container');
 const nextBtn = document.querySelector('.next-question-btn');
+const checkButton = document.querySelector('.check-question-btn');
 const prevBtn = document.querySelector('.prev-question-btn');
 let progressBar = document.querySelector('.progress-bar');
 let currentQuestionIndex = 0;
@@ -69,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const questionContainers = document.querySelectorAll('.question-container');
     const nextBtn = document.querySelector('.next-question-btn');
     const prevBtn = document.querySelector('.prev-question-btn');
+    const checkButton = document.querySelectorAll('[id^=\'check-question-btn-\']');
     const progressBar = document.querySelector('.progress-bar');
     let currentQuestionIndex = 0;
     const ratingButtons = document.querySelectorAll('.rating-btn');
@@ -176,22 +178,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Next button click event
         nextBtn.addEventListener('click', function () {
             if (currentQuestionIndex < questionContainers.length-1) {
-                // Show modal with answer check result
-                const userAnswer = document.querySelectorAll('.rating-btn.active')[currentQuestionIndex]
-                    .getAttribute('data-rating');
-                const correctAnswer = document.querySelector(`.answer-${currentQuestionIndex}`).value;
-                let answerCheckResult;
-                if (userAnswer === correctAnswer) {
-                    answerCheckResult = 'Your answer is correct!';
-                } else if (userAnswer < correctAnswer) {
-                    answerCheckResult = 'You put ' + userAnswer + '. The correct answer is rated higher.';
-                } else {
-                    answerCheckResult = 'You put ' + userAnswer + '. The correct answer is rated lower.';
-                }
-                document.getElementById('answerModalLabel').textContent = 'Question ' + (currentQuestionIndex
-                    + 1) + ' Check';
-                document.getElementById('answerModalBody').textContent = answerCheckResult;
-                $('#answerModal').modal('show');
                 // Move progress bar to next question
                 questionContainers[currentQuestionIndex].classList.add('d-none');
                 currentQuestionIndex++;
@@ -213,6 +199,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 checkForAudio();
             }
         });
+    }
+
+    console.log(checkButton);
+
+    if (checkButton != null) {
+        checkButton.forEach(function (button) {
+            button.addEventListener('click', function (e) {
+                // Show modal with answer check result
+                if (document.querySelector(`.answer-${currentQuestionIndex}`) != null) {
+                    const userAnswer = document.querySelectorAll('.rating-btn.active')[currentQuestionIndex].getAttribute('data-rating');
+                    const correctAnswer = document.querySelector(`.answer-${currentQuestionIndex}`).value;
+                    let answerCheckResult;
+                    if (userAnswer === correctAnswer) {
+                        answerCheckResult = 'Your answer is correct!';
+                    } else if (userAnswer < correctAnswer) {
+                        answerCheckResult = 'You put ' + userAnswer + '. The correct answer is rated higher.';
+                    } else {
+                        answerCheckResult = 'You put ' + userAnswer + '. The correct answer is rated lower.';
+                    }
+                    document.getElementById('answerModalLabel').textContent = 'Question ' + (currentQuestionIndex
+                        + 1) + ' Check';
+                    document.getElementById('answerModalBody').textContent = answerCheckResult;
+                    $('#answerModal').modal('show');
+                }
+            });
+        })
     }
 
     ratingButtons.forEach(function (button) {

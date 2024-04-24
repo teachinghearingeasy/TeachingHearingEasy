@@ -17,6 +17,7 @@
     you can also add a note/description in the question box about why you feel this is the best answer. (These notes are only for your reference when reviewing your quiz history later).
     You can listen to a sound any number of times and there are no time limits for tests. Feel free to
     adjust the volume as needed. You may need to use the the manual controls on your device.
+  </p>
   <p>
     Once you’ve answered all the questions, you can submit the test by selecting “Submit Test”.
     This will complete the quiz and take you to your user profile to see your results.
@@ -54,6 +55,11 @@
                 Your browser does not support the audio element.
               </audio>
 
+              <p>
+                Hint: If you're confused about what the letters on the scale, select the anchor sample button next to the letter
+                that you're listening for. This will display another audio player with a sound that is considered a level 3
+                score for that voice characteristic.
+              </p>
               <% ['G', 'R', 'B', 'A', 'S'].each_with_index do |letter, rating| %>
                 <div class="form-group">
                   <label class="form-label"><%= letter %>:</label>

@@ -14,7 +14,8 @@
   you can also add a note/description in the question box about why you feel this is the best answer. (These notes are only for your reference when reviewing your quiz history later).
   You can listen to a sound any number of times and there are no time limits for quizzes. Feel free to
   adjust the volume as needed. You may need to use the the manual controls on your device.
-  </p><p>
+  </p>
+  <p>
   Once you’ve answered all the questions, you can submit the quiz by selecting “Submit Quiz”.
   This will complete the quiz and take you to your user profile to see your results.
   If for some reason you need to quit the quiz and come back to it, hit the “Save Quiz” button.
@@ -58,6 +59,12 @@
               Your browser does not support the audio element.
             </audio>
 
+            <p>
+              Hint: If you're confused about what the letters on the scale, select the anchor sample button next to the letter
+              that you're listening for. This will display another audio player with a sound that is considered a level 3
+              score for that voice characteristic.
+            </p>
+
             <div class="form-group">
               <label class="form-label">Rate the sound (0-3):</label>
               <div id="rating-buttons-<%= index %>" class="rating-buttons">
@@ -80,6 +87,8 @@
               <%= response_fields.label :reasoning, "Notes:", class: 'form-label' %>
               <%= response_fields.text_field :reasoning, class: 'form-control reasoning-field' %>
             </div>
+
+            <button type="button" id="check-question-btn-<%=index%>" class="btn mt-3" style="text-align:center; background-color: lightgrey">Check Your Answer?</button>
           </div>
         </div>
       </div>
