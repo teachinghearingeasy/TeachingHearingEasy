@@ -61,9 +61,11 @@ class Quiz < ActiveRecord::Base
       responses = []
       0.upto(num_questions - 1) do |i|
         grbas_letter = ["g", "r", "b", "a", "s"].sample
-        grbas_letter2 = ["g", "r", "b", "a", "s"].sample
+        #Functionality for increasing test complexity, excluded due to limit in sounds
+        # grbas_letter2 = ["g", "r", "b", "a", "s"].sample
+        # sound = Sound.get_sound2(grbas_letter, grbas_letter2, question_answers[i])
         question_answers << (generate_random_number(difficulty, 1)).round.to_i % 4
-        sound = Sound.get_sound2(grbas_letter, grbas_letter2, question_answers[i])
+        sound = Sound.get_sound(grbas_letter, question_answers[i])
         count = 0
         while sounds.include?(sound) && count < 100
           count += 1
