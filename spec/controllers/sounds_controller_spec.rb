@@ -50,5 +50,38 @@ class SoundsControllerSpec
         expect(Sound.count).to eq(@sounds_count-1)
       end
     end
+    describe "#search" do
+      it "should return nothing if there are no search parameters" do
+        @user = User.where(email: "testuser@gmail.com").first
+        controller.instance_variable_set(:@current_user, @user)
+        get :search, params: { :search => ""}
+        expect(flash[:alert]).to eq("Search terms included all sounds!")
+      end
+      it "should return nothing if a grbas letter is not selected (even if ratings are selected)" do
+        @user = User.where(email: "testuser@gmail.com").first
+        controller.instance_variable_set(:@current_user, @user)
+        get :search, params: { :search => "", :rating => 0}
+        expect(flash[:alert]).to eq("You must select a letter to search by rating!")
+      end
+      it "should return nothing if a rating for the grbas letter is not selected (even if ratings are selected)" do
+        @user = User.where(email: "testuser@gmail.com").first
+        controller.instance_variable_set(:@current_user, @user)
+        get :search, params: { search: "", :letter => "g"}
+        expect(flash[:alert]).to eq("You must select a rating to search by letter!")
+      end
+      it "should return a list of sounds when a grbas letter and rating are selected" do
+        @user = User.where(email: "testuser@gmail.com").first
+        controller.instance_variable_set(:@current_user, @user)
+        get :search, params: { search: "", :rating => 0, :letter => "g"}
+        expect(flash[:notice]).to include("Found ")
+      end
+      it "should return an empty list of sounds when searching for a sound that doesn't exist" do
+        @user = User.where(email: "testuser@gmail.com").first
+        controller.instance_variable_set(:@current_user, @user)
+        get :search, params: { search: "TEST"}
+        @sound = controller.instance_variable_get(:@sounds)
+        expect(flash[:alert]).to include("No sounds found!")
+      end
+    end
   end
 end

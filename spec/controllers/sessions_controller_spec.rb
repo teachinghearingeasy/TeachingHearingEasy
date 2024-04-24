@@ -22,7 +22,6 @@ class SessionsControllerSpec
         @user.update(new_user: true)
         expect(@user.new_user).to be true
         post :create, params: {session: {email: @user.email, password: "Password!1"}}
-        puts flash[:notice]
       end
       it "should not create a session if the user does not exist" do
         @user = User.find_by_email("testuser@gmail.com")
