@@ -2,20 +2,13 @@
 
 class ResponsesControllerSpec
   describe ResponsesController do
-  #   describe "the reponses#new and responses#create methods" do
-  #     it "should create a new Response object" do
-  #       @user = User.where(email: "testuser@gmail.com").first
-  #       controller.instance_variable_set(:@current_user, @user)
-  #       expect(Response).to receive(:new)
-  #       get :new
-  #     end
-  #     it "should create and save a Response after its been created" do
-  #       @user = User.where(email: "testuser@gmail.com").first
-  #       controller.instance_variable_set(:@current_user, @user)
-  #       post :create
-  #       expect(flash[:notice]).to eq("Response was successfully created")
-  #     end
-  #   end
-  # end
+    describe "the responses#new and responses#create methods" do
+      it "should show the responses the User has already created" do
+        @user = User.where(email: "testuser@gmail.com").first
+        controller.instance_variable_set(:@current_user, @user)
+        get :show_responses, params: { :sound_id=>1 }
+        expect(response).to be_successful
+      end
+    end
   end
 end
