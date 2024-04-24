@@ -38,5 +38,13 @@ class StatisticsControllerSpec
         expect(flash[:alert]).to include("Access denied")
       end
     end
+    describe "@site_statistics" do
+      it "should provide site wide statistics for all users" do
+        @user = User.where(email: "matthew-speranza@uiowa.edu").first
+        controller.instance_variable_set(:@current_user, @user)
+        get :site_statistics
+        expect(response).to be_successful
+      end
+    end
   end
 end
