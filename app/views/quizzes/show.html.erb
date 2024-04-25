@@ -99,11 +99,9 @@
       <button type="button" class="btn prev-question-btn mt-3">Previous Question</button>
       <button type="button" class="btn next-question-btn mt-3">Next Question</button>
   <% end %>
-  <div class="button-container">
     <%= f.submit "Complete Quiz", class: 'btn submit-quiz-button btn-grey btn-lg btn-block mt-3' %>
     <%= f.submit "Save Quiz", name: "save", class: 'btn btn-primary mt-3' %>
     <%= link_to 'Back', new_quiz_path, class: 'btn btn-danger mt-3' %>
-  </div>
 <% end %>
 
 <!-- Bootstrap Modal -->
