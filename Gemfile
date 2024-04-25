@@ -7,7 +7,6 @@ gem "rspec-rails"
 
 gem "rails", "~> 7.1.3"
 gem "sprockets-rails"
-gem "sqlite3", "~> 1.4"
 gem "puma", ">= 5.0"
 gem "importmap-rails"
 gem "turbo-rails"
@@ -32,6 +31,7 @@ gem "bootsnap", require: false
 group :development, :quiz do
   gem "debug", platforms: %i[ mri windows ]
   gem 'byebug'
+  gem 'pg'
 end
 
 group :development do
@@ -39,9 +39,11 @@ group :development do
   gem "rack-mini-profiler", require: false
   gem "spring"
   gem "brakeman"
+  gem "sqlite3", "~> 1.4"
 end
 
 group :quiz do
   gem "capybara"
   gem "selenium-webdriver"
+  gem "sqlite3", "~> 1.4"
 end
