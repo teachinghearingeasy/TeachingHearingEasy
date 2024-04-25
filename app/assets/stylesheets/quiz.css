@@ -47,7 +47,21 @@
 .audio-container {
     width: 100%;
 }
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.btn {
+    margin: 0 5px;
+}
 .submit-quiz-button {
+    align-items: center;
+    color: #fff; /* White text color on hover */
+    background-color: green; /* Light orange background color on hover */
+    border-color: green;
 }
 
 .complete-tag {
