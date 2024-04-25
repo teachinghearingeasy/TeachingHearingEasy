@@ -52,6 +52,12 @@ class QuizzesControllerSpec
         post :create_test, params: {quiz: {difficulty: 2, num_questions: 1000}}
         expect(flash[:alert].include?("Could not find enough unique sounds for the test. Try another difficulty setting or less sounds")).to be true
       end
+      it "should create and save a new quiz with 1 sound when the create method is called correctly" do
+        @user = User.where(email: "testuser2@gmail.com").first
+        controller.instance_variable_set(:@current_user, @user)
+        post :create_test, params: {quiz: {difficulty: 0, num_questions: 1}}
+        expect(flash[:notice]).to eq("Test created successfully!")
+      end
       it "should create and not save a quiz when the create method is called without all necessary parameters" do
         @user = User.where(email: "testuser@gmail.com").first
         controller.instance_variable_set(:@current_user, @user)

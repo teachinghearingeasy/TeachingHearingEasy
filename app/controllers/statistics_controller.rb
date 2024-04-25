@@ -14,10 +14,11 @@ class StatisticsController < ApplicationController
       redirect_to root_path, alert: 'Group not found.'
     elsif !@group.owner?(@current_user)
       redirect_to root_path, alert: 'Access denied. You are not the owner of this group.'
-    end
+    else
     @quiz_results = @group.get_group_quiz_grades
     @test_results = @group.get_group_test_grades
     @demographic_results = @group.get_demographic_stats
+    end
   end
 
   def site_statistics

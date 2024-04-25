@@ -70,5 +70,48 @@ class UsersControllerSpec
         expect(flash[:notice]).to eq("You've already joined this group. Please check the existing groups tab.")
       end
     end
+    describe "users#search_users methods" do
+      it "should successfully send a list of users" do
+        @user = User.where(email: "matthew-speranza@uiowa.edu").first
+        controller.instance_variable_set(:@current_user, @user)
+        get :search_users
+      end
+      it "should successfully send an empty list of users when no search terms are given" do
+        @user = User.where(email: "matthew-speranza@uiowa.edu").first
+        controller.instance_variable_set(:@current_user, @user)
+        get :search_users, params: {:search => "testuser@gmail.com"}
+        @users = controller.instance_variable_get(:@users)
+        expect(@users.length).to eq(1)
+      end
+    end
+    describe "users#search_users methods" do
+      it "should change access of the appropriate user when called" do
+        @user = User.where(email: "matthew-speranza@uiowa.edu").first
+        controller.instance_variable_set(:@current_user, @user)
+        post :change_access, params: {:access => "Admin", :id => 1}
+        @user = controller.instance_variable_get(:@user)
+        expect(@user.access_level).to eq("Admin")
+      end
+      it "should not change access of a developer or admin" do
+        @user = User.where(email: "matthew-speranza@uiowa.edu").first
+        controller.instance_variable_set(:@current_user, @user)
+        post :change_access, params: {:access => "Admin", :id => @user.id}
+        @user = controller.instance_variable_get(:@user)
+        expect(flash[:alert]).to eq("You cannot change the access level of yourself or admins.")
+      end
+      it "should not change access if the acess level is not among the lit of pre-defined access levels" do
+        @user = User.where(email: "matthew-speranza@uiowa.edu").first
+        controller.instance_variable_set(:@current_user, @user)
+        post :change_access, params: {:access => "None", :id => 1}
+        @user = controller.instance_variable_get(:@user)
+        expect(flash[:alert]).to eq("Failed to change access level. This is case sensitive and must match 'Admin', 'Student', or 'Professor'")
+      end
+      it "should not change access of a user when the current user is not a developer or admin" do
+        @user = User.where(email: "testuser2@gmail.com").first
+        controller.instance_variable_set(:@current_user, @user)
+        post :change_access, params: {:access => "Professor", :id => 2}
+        expect(flash[:alert]).to eq("Access denied.")
+      end
+    end
   end
 end
