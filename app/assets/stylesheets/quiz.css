@@ -47,9 +47,21 @@
 .audio-container {
     width: 100%;
 }
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;/* Adjust margin as needed */
+}
+
+.btn {
+    margin: 0 5px; /* Adjust margin between buttons as needed */
+}
 
 .submit-quiz-button {
+    align-items: center;
 }
+
 .complete-tag {
 }
 .reasoning-field{
