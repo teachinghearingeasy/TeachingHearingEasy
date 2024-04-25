@@ -1,46 +1,64 @@
-<h1>Quiz Results</h1>
-<% if @quiz.which_grbas_letter.nil? || @quiz.which_grbas_letter.empty? %>
-      <h3> You got: <%= (@quiz.num_right.to_f / (@quiz.num_questions*5) * 100).round(2) %>% (<%= @quiz.num_right %> out of <%= (@quiz.num_questions*5)%>) </h3>
-      <h2><%= @quiz.which_grbas_letter.upcase %></h2>
-      <p>Difficulty: <%= @quiz.difficulty %></p>
-      <p>Number of Questions: <%= @quiz.num_questions %></p>
-      <p>Taken On: <%= @quiz.created_at.in_time_zone("Central Time (US & Canada)").strftime("%B %d, %Y at %I:%M%p") %></p>
-      <% @quiz.responses.each_with_index do |response, index| %>
-        <div class="response-box">
-          <h3>Question <%= index + 1 %>:</h3>
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': true %>
+<%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
+<%= csrf_meta_tags %>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<%= link_to "Take Another Quiz", new_quiz_path, class: 'btn custom-lightgrey-btn' %>
+<%= link_to "Quiz History", quiz_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
 
-          <audio controls class="mb-3">
-            <%=filepath = Sound.find_by_id(response.sound_id).audio_file_path%>
-            <source src=<%="http://#{@hostname}/#{filepath}"%> type="audio/wav">
-            Your browser does not support the audio element.
-          </audio>
+<div class="header-container">
+  <h1>Quiz Results</h1>
+</div>
+  <% if @quiz.which_grbas_letter.nil? || @quiz.which_grbas_letter.empty? %>
+    <h3>Score: <%= (@quiz.num_right.to_f / (@quiz.num_questions * 5) * 100).round(2) %>% (<%= @quiz.num_right %> out of <%= (@quiz.num_questions * 5) %>)</h3>
+    <h2><%= @quiz.which_grbas_letter.upcase %></h2>
+    <p>Difficulty: <%= @quiz.difficulty %></p>
+    <p>Number of Questions: <%= @quiz.num_questions %></p>
+    <p>Taken On: <%= @quiz.created_at.in_time_zone("Central Time (US & Canada)").strftime("%B %d, %Y at %I:%M%p") %></p>
+  <div class="btn-container">
+    <%= link_to "Take Another Quiz", new_quiz_path, class: 'btn custom-lightgrey-btn' %>
+    <%= link_to "Quiz History", quiz_history_user_path(@current_user.id), class: 'btn custom-lightgrey-btn' %>
+  </div>
+  <% @quiz.responses.each_with_index do |response, index| %>
+    <div class="response-box">
+      <h3>Question <%= index + 1 %>:</h3>
+      <audio controls class="mb-3">
+        <% filepath = Sound.find_by_id(response.sound_id).audio_file_path %>
+        <source src=<%="http://#{@hostname}/#{filepath}"%> type="audio/wav">
+        Your browser does not support the audio element.
+      </audio>
 
-          <% split_response = response.feedback.split("\n") %>
-          <div>
-          <table>
+      <% split_response = response.feedback.split("\n") %>
+      <div>
+        <table>
+          <thead>
+          <tr>
             <th>Your Rating</th>
             <th>Expert Feedback</th>
+          </tr>
+          </thead>
+          <tbody>
           <% ["g", "r", "b", "a", "s"].each_with_index do |letter, index| %>
-              <tr>
-                <td><%= letter.upcase %><%= response["#{letter}_rating".to_sym] %></td>
-                <td><%= split_response[index+1] %></td>
-              </tr>
-        <% end %>
-          </table>
-          </div>
-          <p><strong>Your Notes:</strong> <%= response.reasoning %></p>
-          <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
-        </div>
-      <% end %>
+            <tr>
+              <td><%= letter.upcase %><%= response["#{letter}_rating".to_sym] %></td>
+              <td><%= split_response[index + 1] %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Your Notes:</strong> <%= response.reasoning %></p>
+      <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
+    </div>
+  <% end %>
 <% else %>
-  <h3> You got: <%= (@quiz.num_right.to_f / @quiz.num_questions * 100).round(2) %>% (<%= @quiz.num_right %> out of <%= @quiz.num_questions %>) </h3>
+  <h3>Score: <%= (@quiz.num_right.to_f / @quiz.num_questions * 100).round(2) %>% (<%= @quiz.num_right %> out of <%= @quiz.num_questions %>)</h3>
 
   <% @quiz.responses.each_with_index do |response, index| %>
     <div class="response-box">
       <h3>Question <%= index + 1 %>:</h3>
-
       <audio controls class="mb-3">
-        <%=filepath = Sound.find_by_id(response.sound_id).audio_file_path%>
+        <% filepath = Sound.find_by_id(response.sound_id).audio_file_path %>
         <source src=<%="http://#{@hostname}/#{filepath}"%> type="audio/wav">
         Your browser does not support the audio element.
       </audio>
@@ -68,5 +86,14 @@
 
     th {
         background-color: #f2f2f2;
+    }
+     .custom-lightgrey-btn {
+         background-color: lightgrey;
+         color: black;
+         border: none;
+     }
+    .custom-lightgrey-btn:hover {
+        background-color: grey;
+        color: white;
     }
 </style>

@@ -57,3 +57,13 @@ nav a {
 .navbar-nav .nav-item:last-child {
   margin-right: 0;
 }
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-container {
+  display: flex;
+  gap: 10px;
+}
