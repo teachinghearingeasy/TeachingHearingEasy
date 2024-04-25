@@ -82,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
         submitQuizButton.addEventListener('click', function () {
             completeField.value = 'true';
         });
-
     }
     const anchorSampleButtons = document.querySelectorAll("[id^='button_anchor_']");
     if (anchorSampleButtons != null) {
@@ -109,33 +108,35 @@ document.addEventListener("DOMContentLoaded", function () {
         // Get the rating buttons
         const ratingButtons = container.querySelectorAll('.rating-btn');
         // Highlight the button that corresponds to the saved rating
-        ratingButtons.forEach(button => {
-            if (gRatingField.value && button.getAttribute('data-rating') === gRatingField.value) {
-                button.classList.add('active');
-                const ratingField = button.parentElement.querySelector('.rating-field');
-                ratingField.value = gRatingField.value;
+        const quiz = ratingButtons.length === 4
+        const letters = [gRatingField, rRatingField, bRatingField, aRatingField, sRatingField]
+        const range = [0, 4, 8, 12, 16, 20]
+        for (let i = 0; i < ratingButtons.length; i++) {
+            const button = ratingButtons[i];
+            if (!quiz){
+                index = 0;
+                for (let j = 0; j < range.length - 1; j++) {
+                    if (i >= range[j] && i < range[j + 1]) {
+                        index = j;
+                        break;
+                    }
+                }
+                if (letters[index].value && button.getAttribute('data-rating') === letters[index].value) {
+                    button.classList.add('active');
+                    const ratingField = button.parentElement.querySelector('.rating-field');
+                    ratingField.value = letters[index].value;
+                    letters[index].value = '';
+                }
+            } else {
+                for (let j = 0; j < letters.length; j++) {
+                    if (letters[j].value && button.getAttribute('data-rating') === letters[j].value) {
+                        button.classList.add('active');
+                        const ratingField = button.parentElement.querySelector('.rating-field');
+                        ratingField.value = letters[j].value;
+                    }
+                }
             }
-            if (rRatingField.value && button.getAttribute('data-rating') === rRatingField.value) {
-                button.classList.add('active');
-                const ratingField = button.parentElement.querySelector('.rating-field');
-                ratingField.value = rRatingField.value;
-            }
-            if (bRatingField.value && button.getAttribute('data-rating') === bRatingField.value) {
-                button.classList.add('active');
-                const ratingField = button.parentElement.querySelector('.rating-field');
-                ratingField.value = bRatingField.value;
-            }
-            if (aRatingField.value && button.getAttribute('data-rating') === aRatingField.value) {
-                button.classList.add('active');
-                const ratingField = button.parentElement.querySelector('.rating-field');
-                ratingField.value = aRatingField.value;
-            }
-            if (sRatingField.value && button.getAttribute('data-rating') === sRatingField.value) {
-                button.classList.add('active');
-                const ratingField = button.parentElement.querySelector('.rating-field');
-                ratingField.value = sRatingField.value;
-            }
-        });
+        }
 
         // Fill in the reasoning
         if (reasoningField.value) {

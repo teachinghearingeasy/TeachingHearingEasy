@@ -7,20 +7,38 @@
     <details>
       <summary><%= date.strftime("%B %d, %Y") %></summary>
       <% tests.each do |test| %>
-        <div>
+        <% completion_class = test.completed ? 'quiz-completed' : 'quiz-incomplete' %>
+        <style>
+            .<%= completion_class %> {
+                background-color: <%= test.completed ? 'lightgreen' : 'lightcoral' %>;
+                border-radius: 10px;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ddd;
+                margin-left: 20px;
+            }
+        </style>
+
+        <div class="<%= completion_class %>">
           <p>Difficulty: <%= test.difficulty %></p>
           <p>Number of Questions: <%= test.num_questions %></p>
           <p>Taken On: <%= test.created_at.in_time_zone("Central Time (US & Canada)").strftime("%I:%M%p") %></p>
-          <% test.responses.each do |response| %>
-            <div class="response-box">
-              <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
-              <% ["g", "r", "b", "a", "s"].each do |letter| %>
-                <p><strong><%= letter.upcase %> Rating:</strong> <%= response["#{letter}_rating".to_sym] %></p>
-              <% end %>
-              <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
-              <p><strong>Expert Feedback:</strong> <%= simple_format(response.feedback) %></p>
-            </div>
+          <% if !test.completed %>
+            (Incomplete)
+            <%= link_to 'Resume', quiz_path(test), class: 'btn btn-primary', style: 'margin-left: 20px;' %>
+          <% else %>
+            <% test.responses.each do |response| %>
+              <div class="response-box">
+                <p><strong>Sound:</strong> <%= Sound.find_by_id(response.sound_id).db_file_name %></p>
+                <% ["g", "r", "b", "a", "s"].each do |letter| %>
+                  <p><strong><%= letter.upcase %> Rating:</strong> <%= response["#{letter}_rating".to_sym] %></p>
+                <% end %>
+                <p><strong>Your Reasoning:</strong> <%= response.reasoning %></p>
+                <p><strong>Expert Feedback:</strong> <%= simple_format(response.feedback) %></p>
+              </div>
+            <% end %>
           <% end %>
+
         </div>
       <% end %>
     </details>
