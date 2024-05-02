@@ -1,8 +1,18 @@
 class Response < ActiveRecord::Base
+  # allows responses to track which sound is associated to a particular response
   belongs_to :sound
+  # allows quizzes to track and load which responses are associated to a particular quiz
   has_and_belongs_to_many :quizzes, :join_table => "quizzes_responses"
+  # allows responses to associate which response is associated to which user
   belongs_to :user
 
+
+  # Function: create_feedback takes in the letter of the quiz/test that the response
+  # is associated to and returns the feedback that is associated to the user's answer.
+  # Specifically, if a user's answer is the same as the GRBAS rating for that sound
+  # then the function returns a string containing positive feedback otherwise it will return
+  # negative feedback based on the user's answer.
+  # Return type: [string containing feedback, bool determining if the answer was correct]
   def create_feedback(grbas_letter)
     quiz_letter = grbas_letter.downcase
     rating_sym = "#{quiz_letter}_rating".to_sym
@@ -46,6 +56,11 @@ class Response < ActiveRecord::Base
     [response, expert_score.eql?(self[rating_sym].to_f)]
   end
 
+  # Function: get_num_responses determines how many responses there were for a quiz/test
+  # which determines the basic number of questions the user answered for all quizzes/tests
+  # and the answers the user made for each of those questions; lets users
+  # see the history of their answers when viewing the sounds search
+  # Return type: responses[] containing all the responses associated to a particular sound and user id
   def self.get_num_responses(sounds, uid)
     responses = []
     sounds.each do |sound|
@@ -55,6 +70,9 @@ class Response < ActiveRecord::Base
     responses
   end
 
+  # Function: find_and_split_responses finds all responses from user that are complete and returns
+  # an array of quiz responses then test responses
+  # Return type: [quiz responses, test responses]
   def self.find_and_split_responses(user, sound)
     responses = where(user: user, sound: sound).where.not(feedback: nil)
     quiz_responses = []
@@ -76,6 +94,10 @@ class Response < ActiveRecord::Base
     [quiz_responses, test_responses]
   end
 
+  # Function: get_quiz_info returns the score rating and letter for a quiz based on the
+  # quiz responses given to the function (ie for every response given to the function,
+  # it will return the letter and scale number associated to that response)
+  # Return type: [quiz ratings, quiz letters]
   def self.get_quiz_info(quiz_responses)
     # Return the score rating & letter for each quiz based on #letter_rating values
     quiz_ratings = []
