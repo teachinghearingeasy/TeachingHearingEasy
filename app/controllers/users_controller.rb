@@ -1,3 +1,7 @@
+/
+Allows users to access their own information. Also allows for admins & devs to search for users and
+change their access levels.
+/
 class UsersController < ApplicationController
   before_action :set_current_user, except: [:new, :create]
   before_action :verify_admin_or_dev, only: [:search_users, :change_access]

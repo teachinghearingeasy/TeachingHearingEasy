@@ -1,3 +1,6 @@
+/
+Allows for users to see varying amounts of statistics based on their level and number of groups owned.
+/
 class StatisticsController < ApplicationController
   before_action :verify_admin, only: [:site_statistics]
   before_action :verify_teacher, only: [:group_statistics]

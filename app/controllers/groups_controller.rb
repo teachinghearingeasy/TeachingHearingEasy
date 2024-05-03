@@ -1,3 +1,6 @@
+/
+This handles interactions required for creating groups.
+/
 class GroupsController < ApplicationController
   before_action :set_current_user
 

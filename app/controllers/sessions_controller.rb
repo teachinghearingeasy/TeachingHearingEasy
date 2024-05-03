@@ -1,3 +1,7 @@
+/
+Most of this is fairly standard with b-crypt, with some extra functionality to require a user to take a
+tutorial if they are new.
+/
 class SessionsController < ApplicationController
   skip_before_action :set_current_user, only: [:new, :create]
   def new

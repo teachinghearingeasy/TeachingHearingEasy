@@ -1,3 +1,7 @@
+/
+This is used for when a user searches a sound. There are links that allow the user to see past responses
+to a particular sound. This controller serves that information.
+/
 class ResponsesController < ApplicationController
   before_action :set_current_user
 
