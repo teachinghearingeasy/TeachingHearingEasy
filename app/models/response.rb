@@ -17,11 +17,14 @@ class Response < ActiveRecord::Base
     quiz_letter = grbas_letter.downcase
     rating_sym = "#{quiz_letter}_rating".to_sym
     expert_score = Sound.find_by_id(self.sound_id).find_score(quiz_letter)
+
+    #if the user's answer and the expert score are the same!
     if expert_score.eql? self[rating_sym].to_f
       correct_answers = ["That’s it! #{self[rating_sym]}!", "Good listening!", "You got it!", "Spectacular!",
                          "Golden!", "The ears have it!","That's speechy!","Super Duper!", "Super Laryngeal Perceptor!"]
       ran_ind = Random.rand(correct_answers.length)
       response = correct_answers[ran_ind] + " The experts scored this sample at " + quiz_letter.upcase + expert_score.to_i.to_s
+    # If the user guessed higher than 0, but the correct answer is 0
     elsif expert_score.eql? 0.0
       case quiz_letter
       when "g"
@@ -37,6 +40,7 @@ class Response < ActiveRecord::Base
       else
         response = "Oops! Something went wrong on our end... Contact the developers for help."
       end
+    # If the user guessed 0, but the correct answer higher than 0
     else
       case quiz_letter
       when "g"
@@ -63,7 +67,7 @@ class Response < ActiveRecord::Base
   # Return type: responses[] containing all the responses associated to a particular sound and user id
   def self.get_num_responses(sounds, uid)
     responses = []
-    sounds.each do |sound|
+    sounds.each do |sound| # for each sound, check if the response feedback is nil; if not add it to list of responses
       temp = Response.where(user_id: uid, sound_id: sound.id).where.not(feedback: nil)
       responses.push(temp.length)
       end
@@ -80,12 +84,12 @@ class Response < ActiveRecord::Base
     responses.each do |response|
       is_test = true
       %w[g r b a s].each do |letter|
-        if response["#{letter}_rating".to_sym].nil?
+        if response["#{letter}_rating".to_sym].nil? # check if the model is a quiz or a test
           is_test = false
           break
         end
       end
-      if is_test
+      if is_test # separates response types to be either quiz or test responses
         test_responses.push(response)
       else
         quiz_responses.push(response)
