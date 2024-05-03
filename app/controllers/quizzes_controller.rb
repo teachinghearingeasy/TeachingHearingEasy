@@ -1,8 +1,9 @@
+/
+This page is very important handling tests and quizzes.
+/
 class QuizzesController < ApplicationController
   before_action :set_quiz, only: [:show, :edit, :update, :destroy]
 
-  # GET /quizzes
-  # GET /quizzes.json
   def index
     render file: "#{Rails.root}/public/404.html", status: :not_found
   end
@@ -28,6 +29,7 @@ class QuizzesController < ApplicationController
 
   # POST /quizzes
   # POST /quizzes.json
+  # Serves a quiz if you can create a test with the given parameters.
   def create
     @quiz, error = Quiz.build_quiz params[:quiz][:which_grbas_letter],
                             params[:quiz][:difficulty].to_i,
@@ -46,6 +48,7 @@ class QuizzesController < ApplicationController
     end
   end
 
+  # Serves a test if you can create a test with the given parameters.
   def create_test
     if request.post?
       stat = Stat.find_by_user_id(@current_user.id)
@@ -78,6 +81,7 @@ class QuizzesController < ApplicationController
   # PATCH/PUT /quizzes/1
   # PATCH/PUT /quizzes/1.json
   # app/controllers/quizzes_controller.rb
+  # Grades/saves quiz or test. The grbas loop hits once for quizzes and every time for tests.
 def update
   @quiz = Quiz.find(params[:id])
   num_right = 0
