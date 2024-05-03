@@ -33,28 +33,30 @@ class Quiz < ActiveRecord::Base
       question_answers = []
       sounds = []
       responses = []
-      0.upto(num_questions - 1) do |i|
+      0.upto(num_questions - 1) do |i| # generate scale level based on "difficulty" and sound based on difficulty
         question_answers << (generate_random_number(difficulty, 1)).round.to_i % 4
         sound = Sound.get_sound(grbas_letter, question_answers[i])
 
-        count = 0
+        count = 0 # check to make sure quizzes do not repeat sounds
         while sounds.include?(sound) && count < 100
           count += 1
           question_answers << (generate_random_number(difficulty, 1)).round.to_i % 4
           sound = Sound.get_sound(grbas_letter, question_answers[i])
         end
-        if count == 100 or sound.nil?
+        if count == 100 or sound.nil? # warns user if not enough unique sounds could be found for that instance of a quiz
           error_message = "Could not find enough unique sounds for the quiz. Try another difficulty setting."
           return nil, error_message
         end
         sounds << sound
-        quiz.sounds << sound
+        quiz.sounds << sound # save sound to the list of quiz sounds
 
+        # create and save a response for the quiz sound just generated
         response = Response.new(sound_id: sound.id, quiz_id: quiz.id, user_id: user_id)
         response.save
         responses << response
       end
 
+      # link all responses, sounds, answers etc. back to the quiz
       quiz.responses = responses
       quiz.quiz_answers = question_answers
       quiz.user_id = user_id
@@ -84,27 +86,31 @@ class Quiz < ActiveRecord::Base
         #Functionality for increasing test complexity, excluded due to limit in sounds
         # grbas_letter2 = ["g", "r", "b", "a", "s"].sample
         # sound = Sound.get_sound2(grbas_letter, grbas_letter2, question_answers[i])
+
+        # generate scale level based on "difficulty" and sound based on difficulty
         question_answers << (generate_random_number(difficulty, 1)).round.to_i % 4
         sound = Sound.get_sound(grbas_letter, question_answers[i])
         count = 0
-        while sounds.include?(sound) && count < 100
+        while sounds.include?(sound) && count < 100 # check to make sure tests do not repeat sounds
           count += 1
           sound = Sound.get_sound(grbas_letter, question_answers[i])
           grbas_letter = ["g", "r", "b", "a", "s"].sample
           question_answers[i] = (generate_random_number(difficulty, 1)).round.to_i % 4
         end
-        if count == 100 or sound.nil?
+        if count == 100 or sound.nil? # warns user if not enough unique sounds could be found for that instance of a test
           error_message = "Could not find enough unique sounds for the test. Try another difficulty setting or less sounds."
           return nil, error_message
         end
         sounds << sound
-        quiz.sounds << sound
+        quiz.sounds << sound  # save sound to the list of test sounds
 
+        # create and save a response for the test sound just generated
         response = Response.new(sound_id: sound.id, quiz_id: quiz.id, user_id: user_id)
         response.save
         responses << response
       end
 
+      # link all responses, sounds, answers etc. back to the test
       quiz.which_grbas_letter = ""
       quiz.responses = responses
       quiz.quiz_answers = question_answers
