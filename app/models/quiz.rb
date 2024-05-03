@@ -1,13 +1,26 @@
 class Quiz < ActiveRecord::Base
   has_many :responses
+  # allows quizzes to track and load which songs are associated to a particular quiz
   has_and_belongs_to_many :sounds, :join_table => "quiz_sounds"
+  # allows quizzes to track and load which responses are associated to a particular quiz
   has_and_belongs_to_many :responses, :join_table => "quizzes_responses"
+  # allows quizzes to associate which quiz is associated to which user
   has_and_belongs_to_many :users
+  # creates an Array for the quiz_answers property
   serialize :quiz_answers, Array, :coder => JSON
 
+  #Validations:
+  # Difficulty - validates presence
+  # Num questions - validates presence
   validates :difficulty, presence: true
   validates :num_questions, presence: true
 
+  # Function: build_quiz creates a quiz based off of the inputs given by the user
+  # and the user id. Takes in the letter of the scale, the "difficulty" (scale level)
+  # selected by the user and the number of questions for that quiz. Then saves the quizzes
+  # and creates all the empty Response objects to be saved and used during the quiz. Uses
+  # the get_sound method and does require users to select what scale level they are looking to practice.
+  # Return type: None; saves the quiz, selects sounds and responses associated to that quiz
   def self.build_quiz(grbas_letter, difficulty, num_questions, user_id)
     # Assert that the grbas_letter is valid
     quiz = Quiz.new
@@ -52,6 +65,12 @@ class Quiz < ActiveRecord::Base
     quiz
   end
 
+  # Function: build_test creates a test based off of the inputs given by the user
+  # and the user id. Takes in the "difficulty" (scale level)
+  # assigned by the controller and the number of questions for that test. Then saves the test
+  # and creates all the empty Response objects to be saved and used during the test. Uses
+  # the get_sound method and does NOT require users to select what scale level they are looking to practice.
+  # Return type: None; saves the test, selects sounds and responses associated to that test
   def self.build_test(difficulty, num_questions, user_id)
     quiz = Quiz.new
     if difficulty >= 0 && num_questions > 0
@@ -97,6 +116,10 @@ class Quiz < ActiveRecord::Base
     quiz
   end
 
+  # Function: translate_letter takes in a GRBAS letter and returns the string
+  # for the voice characteristic associated to that letter. I.E. Given "B" the
+  # function returns "Breathiness"
+  # Return type: String for voice characteristic
   def self.translate_letter(grbas_letter)
     case grbas_letter
     when "g"
@@ -115,9 +138,10 @@ class Quiz < ActiveRecord::Base
   end
 
 
-
+  # Private Function: generate_random_number takes in a mean value and
+  # standard deviation and returns a random value centered on the mean
+  # and within the range of a single standard deviation of the mean.
   private
-
   def self.generate_random_number(mean, std)
     gauss_rand = Random.new
     mean + gauss_rand.rand * std
