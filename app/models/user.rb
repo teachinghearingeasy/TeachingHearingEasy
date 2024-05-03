@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
     grades = []
     quizzes.each do |quiz_letter|
       letter_grades = [0,0]
-      quiz_letter.each do |quiz|
+      quiz_letter.each do |quiz| # saves the quiz data in format [num_right, num_questions]
         letter_grades[0] += quiz.num_right
         letter_grades[1] += quiz.num_questions
       end
@@ -98,12 +98,13 @@ class User < ActiveRecord::Base
   def self.get_site_quiz_grades
     users = User.all
     total_quiz_hash = {}
-    for user in users
-      quiz_hash = user.get_individual_quiz_grades
+    for user in users  # get all users in group
+      # Keys: GRBAS, Values: [num_correct, total_questions]
+      quiz_hash = user.get_individual_quiz_grades # see user documentation for this method
       quiz_hash.each do |key, value|
-        if total_quiz_hash[key]
+        if total_quiz_hash[key] # if key already has some value stored, add the next value
           total_quiz_hash[key] += value
-        else
+        else # otherwise store the value for that key
           total_quiz_hash[key] = value
         end
       end
@@ -119,8 +120,8 @@ class User < ActiveRecord::Base
   def self.get_site_test_grades
     users = User.all
     total_test_scores = [0,0]
-    for user in users
-      test = user.get_test_grades
+    for user in users # get all users in group
+      test = user.get_test_grades # see earlier documentation
       unless test[0].nil? || test[1].nil?
         total_test_scores[0] += test[0]
         total_test_scores[1] += test[1]
